@@ -7,6 +7,11 @@ import java.util.*;
 import main.java.mapper.ComputerMapper;
 import main.java.model.*;
 
+/**
+ * ComputerDAO est une couche de persistance permettant la liaison entre la classe Computer et la base de données.
+ * @author excilys
+ *
+ */
 public class ComputerDAO {
 	
 	static String tableName = "computer";
@@ -57,10 +62,20 @@ public class ComputerDAO {
 		return false;
 	}
 	
+	/**
+	 * Suppression d'un computer en bdd.
+	 * @param computer
+	 * @return
+	 */
 	public static boolean deleteComputer(Computer computer) {
 		return deleteComputer(computer.getId());
 	}
 	
+	/**
+	 * Suppression d'un computer en bdd
+	 * @param id
+	 * @return
+	 */
 	public static boolean deleteComputer(int id) {
 		if(id < 1) return false;
 		
@@ -85,6 +100,11 @@ public class ComputerDAO {
 		return false;
 	}
 	
+	/**
+	 * Modification d'un computer en base de donnée
+	 * @param computer
+	 * @return
+	 */
 	public static boolean updateComputer(Computer computer) {
 		
 		try {
@@ -95,7 +115,6 @@ public class ComputerDAO {
 			String name = computer.getName();
 			Date intr = computer.getIntroduced();
 			Date disc = computer.getDiscontinued();
-			int idCompany = computer.getCompany_id();
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 
@@ -120,6 +139,10 @@ public class ComputerDAO {
 	}
 	
 	
+	/**
+	 * Retourne la liste de tous les ordinateurs.
+	 * @return
+	 */
 	public static List<Computer> getComputers(){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
@@ -151,6 +174,12 @@ public class ComputerDAO {
 		return computers;
 	}
 	
+	
+	/**
+	 * Retourne l'ordinateur portant l'id précisée en paramètre d'appel de la fonction.
+	 * @param id
+	 * @return
+	 */
 	public static Computer findComputerById(int id) {
 		
 		try {
@@ -159,6 +188,7 @@ public class ComputerDAO {
 			
 			String req = "SELECT * FROM " + tableName +
 						" WHERE id = "+id;
+			
 			
 			Statement stmt = conn.createStatement();
 			

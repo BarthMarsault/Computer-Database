@@ -15,6 +15,7 @@ public class ComputerManagement {
 		while(!res.equals("q")) {
 			System.out.println("~~~~~~~~~~Computer~~~~~~~~~~");
 			System.out.println("1 : Liste  / 2 : Detail by id  / 3 : Update / 4 : Delete / q : Quit ");
+			
 			res = sc.nextLine();
 			
 			switch(res) {
@@ -65,6 +66,7 @@ public class ComputerManagement {
 		}else {
 			System.out.println("L'ordinateur n'existe pas");
 		}
+
 	}
 	
 	public static void delete() {

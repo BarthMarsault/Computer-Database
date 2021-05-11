@@ -10,11 +10,20 @@ import java.util.List;
 import main.java.mapper.CompanyMapper;
 import main.java.model.Company;
 
+/**
+ * CompanyDAO est une couche de persistance permettant la liaison entre la classe Company et la base de données.
+ * @author excilys
+ *
+ */
 public class CompanyDAO {
 	
 	static String tableName = "company";
 	
 
+	/**
+	 * Retourne la liste de toutes les "Company" présente en base de données.
+	 * @return
+	 */
 	public static List<Company> getCompanies(){
 		List<Company> companies = new ArrayList<>();
 		ResultSet rs;
@@ -30,7 +39,6 @@ public class CompanyDAO {
 			rs = stmt.executeQuery(req);
 			
 			while(rs.next()) {
-				Company company = new Company(rs.getInt(1), rs.getString(2));
 				companies.add(CompanyMapper.resultSetToCompany(rs));
 			}
 		} catch (SQLException e) {

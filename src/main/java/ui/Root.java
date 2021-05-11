@@ -3,12 +3,16 @@ package main.java.ui;
 import java.util.Scanner;
 
 public class Root {
+	
+	/**
+	 * Affiche la vue racine du programme.
+	 */
 	public static void printRoot() {
 		String res = "";
 		Scanner sc = new Scanner(System.in);
 		
 		while(!res.equals("q")) {
-			System.out.println("1 : Companies / 2 : Computers");
+			System.out.println("1 : Companies / 2 : Computers / q : Quit");
 			
 			res = sc.nextLine();
 			
@@ -24,6 +28,7 @@ public class Root {
 			
 			}
 		}
+		sc.close();
 		
 		
 	}
