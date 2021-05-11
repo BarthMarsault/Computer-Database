@@ -1,7 +1,9 @@
 package main.java.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
+import main.java.persistence.CompanyDAO;
 import main.java.persistence.ComputerDAO;
 
 public class Computer {
@@ -95,7 +97,7 @@ public class Computer {
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company_id=" + company_id + "]";
+				+ ", company=" + CompanyDAO.finCompanyById(company_id).getName() + "]";
 	}
 
 

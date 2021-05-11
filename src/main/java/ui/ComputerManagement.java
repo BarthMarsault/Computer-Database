@@ -7,6 +7,9 @@ import main.java.persistence.ComputerDAO;
 
 public class ComputerManagement {
 	
+	/**
+	 * CLI racine des actions possibles sur les Computers
+	 */
 	public static void showRoot() {
 		
 		String res = "";
@@ -41,23 +44,25 @@ public class ComputerManagement {
 		}
 	}
 	
+	/**
+	 * Affiche la liste des ordinateurs "id : nom"
+	 */
 	public static void showList() {
 		for(Computer computer : ComputerDAO.getComputers()) {
 			System.out.println(computer.getId() + " : " + computer.getName());
 		}
 	}
 	
+	/**
+	 * Affichage de la CLI pour consulter les détails à propos d'un ordinateur
+	 * Demande l'id de l'ordinateur pour lequel on souhaite les details et affiche les details s'il existe
+	 */
 	public static void detail() {
-		int id = 0;
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Id de l'ordinateur pour lequel vous souhaité des détails :");
-		try {
-			id = sc.nextInt();
-		}catch(Exception e) {
-			System.out.println("Votre entrée n'est pas une id valide");
-		}
+		//Récupération de l'id
+		int id = UiUtils.askId();
 		
-		
+		//Verification de l'id valide
+		if(id == 0) return; 
 		
 		Computer computer = ComputerDAO.findComputerById(id);
 		
@@ -69,21 +74,19 @@ public class ComputerManagement {
 
 	}
 	
+	/**
+	 * Affichage de la CLI pour supprimer un ordinateur
+	 */
 	public static void delete() {
-		int id = 0;
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Id de l'ordinateur pour lequel vous souhaité des détails :");
+		//Récupération de l'id
+		int id = UiUtils.askId();
 		
-		try {
-			id = sc.nextInt();
-		}catch(Exception e) {
-			System.out.println("Votre entrée n'est pas une id valide");
-		}
-		
+		//Verification de l'id valide
+		if(id == 0) return; 
 		
 		
 		if(ComputerDAO.deleteComputer(id)) {
-			System.out.println("Ordinateur supprimé");
+			System.out.println("Ordinateur supprimé"); //Suppression en BDD
 		}else {
 			System.out.println("Echec");
 		}

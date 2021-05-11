@@ -23,7 +23,10 @@ public class Root {
 				case "2":
 					ComputerManagement.showRoot();
 					break;
+				case "q":
+					break;
 				default :
+					System.out.println("Entrée invalide");
 					break;
 			
 			}

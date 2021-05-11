@@ -13,7 +13,7 @@ import main.java.model.Computer;
 public class ComputerMapper {
 	
 	/**
-	 * Retourne un objet Computer obtenu à partir du contenu d'un ResultSet
+	 * Retourne un objet Computer obtenu à partir d'un ResultSet
 	 * @param rs ResultSet
 	 * @return Une instance de la classe Computer
 	 */
