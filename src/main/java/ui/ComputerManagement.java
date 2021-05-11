@@ -17,7 +17,7 @@ public class ComputerManagement {
 		
 		while(!res.equals("q")) {
 			System.out.println("~~~~~~~~~~Computer~~~~~~~~~~");
-			System.out.println("1 : Liste  / 2 : Detail by id  / 3 : Update / 4 : Delete / q : Quit ");
+			System.out.println("1 : Liste  / 2 : Detail by id / 3 : Create / 4 : Update / 5 : Delete / q : Quit ");
 			
 			res = sc.nextLine();
 			
@@ -29,9 +29,12 @@ public class ComputerManagement {
 				detail();
 				break;
 			case "3":
-				update();
+				
 				break;
 			case "4":
+				update();
+				break;
+			case "5":
 				delete();
 				break;
 			case "q":
@@ -49,7 +52,8 @@ public class ComputerManagement {
 	 */
 	public static void showList() {
 		for(Computer computer : ComputerDAO.getComputers()) {
-			System.out.println(computer.getId() + " : " + computer.getName());
+			//System.out.println(computer.getId() + " : " + computer.getName());
+			System.out.println(computer.toString());
 		}
 	}
 	
@@ -92,6 +96,17 @@ public class ComputerManagement {
 		}
 	}
 	
+	public static void create() {
+		String entry;
+		Computer computer = new Computer();
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Entrez le nom de l'ordinateur : ");
+		entry = sc.nextLine();
+		System.out.print("Entrez la date d'introduction (AAAA-MM-DD) : ");
+		entry = sc.nextLine();
+		
+	}
 	
 	public static void update() {
 		

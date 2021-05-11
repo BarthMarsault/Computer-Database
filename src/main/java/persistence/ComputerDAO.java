@@ -33,8 +33,8 @@ public class ComputerDAO {
 			
 			//Recupération des attributs
 			String name = c.getName();
-			Date intr = c.getIntroduced();
-			Date disc = c.getDiscontinued();
+			Date intr = Date.valueOf(c.getIntroduced());
+			Date disc = Date.valueOf(c.getDiscontinued());
 			int idCompany = c.getCompany_id();
 			
 			//Création de la requête
@@ -114,8 +114,8 @@ public class ComputerDAO {
 			
 			//Recupération des attributs
 			String name = computer.getName();
-			Date intr = computer.getIntroduced();
-			Date disc = computer.getDiscontinued();
+			Date intr = Date.valueOf(computer.getIntroduced());
+			Date disc = Date.valueOf(computer.getDiscontinued());
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 

@@ -10,12 +10,15 @@ public class Computer {
 	
 	private int id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
+	private LocalDate introduced;
+	private LocalDate discontinued;
 	private int company_id;
 	
+	public Computer() {
+		super();
+	}
 	
-	public Computer(int id, String name, Date introduced, Date discontinued, int company_id) {
+	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, int company_id) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -27,7 +30,7 @@ public class Computer {
 	
 
 
-	public Computer(String name, Date introduced, Date discontinued, int company_id) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, int company_id) {
 		super();
 		this.name = name;
 		this.introduced = introduced;
@@ -62,22 +65,22 @@ public class Computer {
 	}
 
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
 
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 
@@ -96,8 +99,13 @@ public class Computer {
 	
 	@Override
 	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + CompanyDAO.finCompanyById(company_id).getName() + "]";
+		String str = "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued;
+		if(company_id > 0) {
+			str +=  ", company=" + CompanyDAO.finCompanyById(company_id).getName();
+		}
+
+		str += "]";
+		return str;
 	}
 
 

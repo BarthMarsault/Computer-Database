@@ -1,7 +1,9 @@
 package main.java.mapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import main.java.model.Computer;
 
@@ -19,7 +21,14 @@ public class ComputerMapper {
 	 */
 	public static Computer resultSetToComputer(ResultSet rs) {
 		try {
-			return new Computer(rs.getInt(1), rs.getString(2), rs.getDate(3) , rs.getDate(4), rs.getInt(5));
+			
+			Date dIntr = rs.getDate(3);
+			Date dDisc = rs.getDate(4);
+			
+			LocalDate ldIntr =  dIntr != null ? dIntr.toLocalDate() : null;
+			LocalDate ldDisc = dDisc != null ? dDisc.toLocalDate() : null;
+			
+			return new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, rs.getInt(5));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
