@@ -29,28 +29,41 @@ public class ComputerDAO {
 		
 		try {
 			Connection conn = new DB().getConnection();
-			Statement stmt = conn.createStatement();
 			//Recupération des attributs
 			String name = c.getName();
 			LocalDate intr = c.getIntroduced();
 			LocalDate disc = c.getDiscontinued();
 			int idCompany = c.getCompany_id();
 			
-			//Création de la requête
+			
 			String req = "INSERT INTO " + tableName +
 						" (name, introduced, discontinued, company_id)" +
-						" VALUE (" ;
+						" VALUE (?,?,?,? )" ;
 			
-			req +=  name != null ? "'" + name + "'" : "," + "null";
-			req +=  intr != null ? ",'" +  intr + "'" : "," +  "null";
-			req += disc != null ?  ",'" + disc + "'" : "," + "null";
-			req += idCompany > 0 ?  "," + idCompany : "," + "null";
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			req += ");";
-			//Execution
-			stmt.executeUpdate(req);
+			ps.setString(1, c.getName());	
 			
-			stmt.close();
+			if(intr != null)
+				ps.setDate(2, Date.valueOf(intr));
+			else
+				ps.setDate(2, null);
+			
+			if(disc != null)
+				ps.setDate(3, Date.valueOf(disc));
+			else
+				ps.setDate(3, null);
+			
+			
+			if(idCompany > 0)
+				ps.setInt(4, idCompany);
+			else
+				ps.setNull(4, java.sql.Types.INTEGER);
+			
+			
+			ps.executeUpdate();
+			
+			ps.close();
 			conn.close();
 			return true;
 			
@@ -60,6 +73,8 @@ public class ComputerDAO {
 		
 		return false;
 	}
+	
+	
 	
 	/**
 	 * Suppression d'un computer en bdd.
@@ -80,17 +95,20 @@ public class ComputerDAO {
 		
 		try {
 			Connection conn = new DB().getConnection();
-			Statement stmt = conn.createStatement();
+			
 			
 			//Préparation de la requête
 			String req = "DELETE FROM " + tableName +
-						" WHERE  id = " + id;
+						" WHERE  id = ?";
 			
-
+			PreparedStatement ps = conn.prepareStatement(req);
+			
+			ps.setInt(1, id);
+			
 			//Execution
-			stmt.executeUpdate(req);
+			ps.executeUpdate();
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 			return true;
 		}catch(SQLException e) {
@@ -108,28 +126,44 @@ public class ComputerDAO {
 		
 		try {
 			Connection conn = new DB().getConnection();
-			Statement stmt = conn.createStatement();
 			
 			//Recupération des attributs
 			String name = computer.getName();
 			LocalDate intr = computer.getIntroduced();
 			LocalDate disc = computer.getDiscontinued();
-			int companyId = computer.getCompany_id();
+			int idCompany = computer.getCompany_id();
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 
-						" SET id = " + computer.getId();
-			req += name != null ? ", name = '" + computer.getName() + "'" : ", name = null";
-			req += intr != null ? ", introduced = '" + computer.getIntroduced() + "'" : ", introduced = null";
-			req += disc != null ? ", discontinued = '" + computer.getDiscontinued() + "'" : ", discontinued = null";			
-			req += companyId > 0 ? ", company_id = " + computer.getCompany_id() : "";
-			req += " WHERE id = " + computer.getId();
+						" SET name = ?, introduced = ?, discontinued = ?, company_id = ?" + 
+						" WHERE id = ?";
+
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			System.out.println(req);
+			ps.setString(1, name);	
+			
+			if(intr != null)
+				ps.setDate(2, Date.valueOf(intr));
+			else
+				ps.setDate(2, null);
+			
+			if(disc != null)
+				ps.setDate(3, Date.valueOf(disc));
+			else
+				ps.setDate(3, null);
+			
+			
+			if(idCompany > 0)
+				ps.setInt(4, idCompany);
+			else
+				ps.setNull(4, java.sql.Types.INTEGER);
+			
+			ps.setInt(5, computer.getId());
+			
 			//Execution
-			stmt.executeUpdate(req);
+			ps.executeUpdate();
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 			return true;
 		}catch(SQLException e) {
@@ -144,6 +178,12 @@ public class ComputerDAO {
 	 * @return
 	 */
 	public static List<Computer> getComputers(){
+		return getComputerWithLimit(-1,-1);
+	}
+	
+	
+	
+	public static List<Computer> getComputerWithLimit(int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
 				
@@ -152,17 +192,21 @@ public class ComputerDAO {
 			
 			String req = "SELECT * FROM " + tableName;
 			
-			Statement stmt = conn.createStatement();
+			if(limit >= 0) { req += " LIMIT ?";}
+			if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 			
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			rs = stmt.executeQuery(req);
+			if(limit >= 0) { ps.setInt(1, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
 			
+			rs = ps.executeQuery();
 		
 			while(rs.next()) {
 				computers.add(ComputerMapper.resultSetToComputer(rs));
 			}
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 			
 		} catch (SQLException e) {
@@ -187,18 +231,19 @@ public class ComputerDAO {
 			Connection conn = new DB().getConnection();
 			
 			String req = "SELECT * FROM " + tableName +
-						" WHERE id = "+id;
+						" WHERE id = ?";
 			
 			
-			Statement stmt = conn.createStatement();
+			PreparedStatement ps = conn.prepareStatement(req);
+			ps.setInt(1, id);
 			
-			ResultSet rs = stmt.executeQuery(req);
+			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				computer = ComputerMapper.resultSetToComputer(rs);
 			}
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 			return computer;
 		} catch (SQLException e) {

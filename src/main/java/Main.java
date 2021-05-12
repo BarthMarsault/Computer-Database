@@ -23,8 +23,6 @@ public class Main {
 		Root.printRoot();
 		
 		
-		
-		
 		System.out.println("FIN");
 	}
 

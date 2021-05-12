@@ -1,6 +1,7 @@
 package main.java.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,6 +28,11 @@ public class CompanyDAO {
 	 * @return
 	 */
 	public static List<Company> getCompanies(){
+		return getCompaniesWithLimit(-1,-1);
+	}
+	
+	
+	public static List<Company> getCompaniesWithLimit(int limit, int offset){
 		List<Company> companies = new ArrayList<>();
 		ResultSet rs;
 				
@@ -35,10 +41,15 @@ public class CompanyDAO {
 			
 			String req = "SELECT * FROM " + tableName;
 			
-			Statement stmt = conn.createStatement();
+			if(limit >= 0) { req += " LIMIT ?";}
+			if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 			
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			rs = stmt.executeQuery(req);
+			if(limit >= 0) { ps.setInt(1, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
+			
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				companies.add(CompanyMapper.resultSetToCompany(rs));
@@ -65,18 +76,19 @@ public class CompanyDAO {
 			Connection conn = new DB().getConnection();
 			
 			String req = "SELECT * FROM " + tableName +
-						" WHERE id = "+id;
+						" WHERE id = ?";
 			
 			
-			Statement stmt = conn.createStatement();
+			PreparedStatement ps = conn.prepareStatement(req);
+			ps.setInt(1, id);
 			
-			ResultSet rs = stmt.executeQuery(req);
+			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				company = CompanyMapper.resultSetToCompany(rs);
 			}
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

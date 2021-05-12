@@ -23,7 +23,7 @@ public class UiUtils {
 		System.out.print(msg + " (y/n) ");
 		String entry = "";
 		entry = sc.nextLine();
-		entry = entry.trim();
+		entry = entry.trim().toLowerCase();
 		while(!entry.equals("y") && !entry.equals("n")) {
 			System.out.println("Entrée invalide - " + msg);
 			entry = sc.nextLine();
@@ -42,7 +42,15 @@ public class UiUtils {
 		System.out.print(msg + " ");
 		entry = sc.nextLine();
 		String[] parts = entry.split("-");
-		return LocalDate.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+		
+		
+		LocalDate date = LocalDate.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+		
+		if(!date.isAfter(LocalDate.of(1969,12,31))) {
+			date = null;
+		}
+		
+		return date;
 	}
 
 }

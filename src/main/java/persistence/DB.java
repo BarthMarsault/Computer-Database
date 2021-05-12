@@ -4,6 +4,7 @@ import java.sql.*;
 
 public class DB {
 	
+
 	
 	Connection conn = null;
 	
@@ -15,15 +16,16 @@ public class DB {
 	private String password = "qwerty1234";
 	
 	
+	
+	
 	public Connection getConnection() {
 		try {
-				        
-	        String connString = protocole +  "//" + ip +  ":" + port +  "/" + dbName ;
-			
-		    conn =
-		       DriverManager.getConnection(connString, user, password);
+			if(conn == null) {       
+		        String connString = protocole +  "//" + ip +  ":" + port +  "/" + dbName ;
+				
+			    conn = DriverManager.getConnection(connString, user, password);
+			}
 		    
-		   return conn;
 		} catch (SQLException ex) {
 		    // handle any errors
 		    System.out.println("SQLException: " + ex.getMessage());
@@ -31,10 +33,10 @@ public class DB {
 		    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		
-		return null;
+		return conn;
 	}
 	
-	/*
+	
 	public boolean closeConnection() {
 		try {
 			conn.close();
@@ -46,7 +48,7 @@ public class DB {
 		}
 		return false;
 	}
-	*/
+	
 	
 	
 	
