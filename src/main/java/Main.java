@@ -1,5 +1,9 @@
 package main.java;
 
+import java.time.LocalDate;
+
+import main.java.model.Computer;
+import main.java.persistence.ComputerDAO;
 import main.java.ui.Root;
 
 public class Main {
@@ -17,6 +21,9 @@ public class Main {
 		*/
 		
 		Root.printRoot();
+		LocalDate d = LocalDate.of(2000, 10, 20);
+		Computer c = new Computer("test",d,null,0);
+		
 		
 		
 		System.out.println("FIN");

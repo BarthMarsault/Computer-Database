@@ -30,11 +30,10 @@ public class ComputerDAO {
 		try {
 			Connection conn = new DB().getConnection();
 			Statement stmt = conn.createStatement();
-			
 			//Recupération des attributs
 			String name = c.getName();
-			Date intr = Date.valueOf(c.getIntroduced());
-			Date disc = Date.valueOf(c.getDiscontinued());
+			LocalDate intr = c.getIntroduced();
+			LocalDate disc = c.getDiscontinued();
 			int idCompany = c.getCompany_id();
 			
 			//Création de la requête
@@ -48,7 +47,6 @@ public class ComputerDAO {
 			req += idCompany > 0 ?  "," + idCompany : "," + "null";
 			
 			req += ");";
-			
 			//Execution
 			stmt.executeUpdate(req);
 			
@@ -114,8 +112,8 @@ public class ComputerDAO {
 			
 			//Recupération des attributs
 			String name = computer.getName();
-			Date intr = Date.valueOf(computer.getIntroduced());
-			Date disc = Date.valueOf(computer.getDiscontinued());
+			LocalDate intr = computer.getIntroduced();
+			LocalDate disc = computer.getDiscontinued();
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 

@@ -134,30 +134,28 @@ public class ComputerManagement {
 			int id;
 			while(!valid) {
 				
-				try {
-					sc = new Scanner(System.in);				
-					id = sc.nextInt();
-					if(CompanyDAO.finCompanyById(id) == null) {
-						System.out.println("l'id : " + id + " n'est pas valide");
-					}else {
-						computer.setCompany_id(id);
-						valid = true;
-					}
-					
-				}catch(Exception e) {
-					System.out.println("Entrée invalide - l'id doit etre un entier");
+				id = UiUtils.askId();
+				if(CompanyDAO.finCompanyById(id) == null) {
+					System.out.println("l'id : " + id + " n'est pas valide");
+				}else {
+					computer.setCompany_id(id);
+					valid = true;
 				}
+				
 			}
 			
 		}else {
 			computer.setCompany_id(0);
 		}
 		
-		
+		ComputerDAO.createComputer(computer);
 		System.out.println(computer.toString());
+		System.out.println("Ordinateur créé");
+		
 	}
 	
 	public static void update() {
+		
 		
 	}
 
