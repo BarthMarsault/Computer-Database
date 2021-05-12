@@ -3,6 +3,7 @@ package main.java.ui;
 import java.time.*;
 import java.util.Scanner;
 
+import main.java.model.Company;
 import main.java.model.Computer;
 import main.java.persistence.CompanyDAO;
 import main.java.persistence.ComputerDAO;
@@ -65,7 +66,7 @@ public class ComputerManagement {
 	 */
 	public static void detail() {
 		//Récupération de l'id
-		int id = UiUtils.askId();
+		int id = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité des détails :");
 		
 		//Verification de l'id valide
 		if(id == 0) return; 
@@ -85,7 +86,7 @@ public class ComputerManagement {
 	 */
 	public static void delete() {
 		//Récupération de l'id
-		int id = UiUtils.askId();
+		int id = UiUtils.askId("Id de l'ordinateur que vous souhaitez supprimer :");
 		
 		//Verification de l'id valide
 		if(id == 0) return; 
@@ -109,32 +110,26 @@ public class ComputerManagement {
 		computer.setName(entry);
 		
 		
-		if(UiUtils.askYesNo("Voulez vous ajouter une date d'introduction (y/n) :")) {
+		if(UiUtils.askYesNo("Voulez vous ajouter une date d'introduction :")) { //Yes/No
 			System.out.print("Entrez la date d'introduction (AAAA-MM-DD) : ");
-			entry = sc.nextLine();
-			String[] parts = entry.split("-");
-			date =  LocalDate.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-			
+			date = UiUtils.askDate("Entrez la date d'introduction (AAAA-MM-DD) :");	
 		}
 		computer.setIntroduced(date);
 		date = null;
-		if(UiUtils.askYesNo("Voulez vous ajouter une date de discontinuité (y/n) : ")) {
+		if(UiUtils.askYesNo("Voulez vous ajouter une date de discontinuité : ")) { //Yes/No
 			date = null;
-			System.out.print("Entrez la date de discountinuité (AAAA-MM-DD) : ");
-			entry = sc.nextLine();
-			String[] parts = entry.split("-");
-			date =  LocalDate.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+			date = UiUtils.askDate("Entrez la date de discontinuité (AAAA-MM-DD) :");
 		}
 		computer.setDiscontinued(date);
 		
 		
-		if(UiUtils.askYesNo("Voulez vous ajouter constructeur (y/n) :")) {
+		if(UiUtils.askYesNo("Voulez vous ajouter constructeur :")) { //Yes/No
 			boolean valid = false;
 			System.out.println("Entrez l'id d'un constructeur : ");
 			int id;
 			while(!valid) {
 				
-				id = UiUtils.askId();
+				id = UiUtils.askId("Id du fabricant :");
 				if(CompanyDAO.finCompanyById(id) == null) {
 					System.out.println("l'id : " + id + " n'est pas valide");
 				}else {
@@ -155,6 +150,53 @@ public class ComputerManagement {
 	}
 	
 	public static void update() {
+		int idComputer = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité modifier:");
+		Computer computer = ComputerDAO.findComputerById(idComputer);
+		if(computer == null) {
+			System.out.println("L'ordinateur avec l'id " + idComputer + " n'éxiste pas");
+		}else {
+			System.out.println(computer.toString());
+			Scanner sc = new Scanner(System.in);
+			
+			
+			//Update du nom
+			if(UiUtils.askYesNo("Voulez vous modifier le nom de l'ordinateur ? :")) {
+				System.out.print("Entrez le nouveau nom : ");
+				computer.setName(sc.nextLine());
+			}
+			
+			//Update de la date d'introduction
+			if(UiUtils.askYesNo("Voulez vous modifier la date d'introduction ? :")) {
+				LocalDate dateIntr = UiUtils.askDate("Entrez la date d'introduction (AAAA-MM-DD) :");
+				computer.setIntroduced(dateIntr);
+			}
+			
+			//Update de la date de discontinuité
+			if(UiUtils.askYesNo("Voulez vous modifier la date de discontinuité ? :")) {
+				LocalDate dateDisc = UiUtils.askDate("Entrez la date de discontinuité (AAAA-MM-DD) :");
+				computer.setDiscontinued(dateDisc);
+			}
+			
+			//Update du fabricant
+			if(UiUtils.askYesNo("Voulez vous modifier le fabricant :")) {
+				int idCompany = UiUtils.askId("Entrez l'id du fabricant :");
+				Company company = CompanyDAO.finCompanyById(idCompany);
+				if(company != null) {
+					computer.setCompany_id(idCompany);
+				}else{
+					System.out.println("Ce Fabricant n'existe pas");
+				}
+			}
+			
+			//Validation
+			if(UiUtils.askYesNo("Voulez vous enregistrer les changements sur : " + computer.toString())) {
+				ComputerDAO.updateComputer(computer);
+				System.out.println("Changements enregistrer");
+			}else {
+				System.out.println("Annulation");
+			}
+			
+		}
 		
 		
 	}

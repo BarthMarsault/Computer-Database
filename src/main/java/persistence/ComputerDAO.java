@@ -114,6 +114,7 @@ public class ComputerDAO {
 			String name = computer.getName();
 			LocalDate intr = computer.getIntroduced();
 			LocalDate disc = computer.getDiscontinued();
+			int companyId = computer.getCompany_id();
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 
@@ -121,10 +122,10 @@ public class ComputerDAO {
 			req += name != null ? ", name = '" + computer.getName() + "'" : ", name = null";
 			req += intr != null ? ", introduced = '" + computer.getIntroduced() + "'" : ", introduced = null";
 			req += disc != null ? ", discontinued = '" + computer.getDiscontinued() + "'" : ", discontinued = null";			
-			req += ", company_id = " + computer.getCompany_id();
+			req += companyId > 0 ? ", company_id = " + computer.getCompany_id() : "";
 			req += " WHERE id = " + computer.getId();
 			
-			
+			System.out.println(req);
 			//Execution
 			stmt.executeUpdate(req);
 			

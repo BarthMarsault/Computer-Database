@@ -21,8 +21,7 @@ public class Main {
 		*/
 		
 		Root.printRoot();
-		LocalDate d = LocalDate.of(2000, 10, 20);
-		Computer c = new Computer("test",d,null,0);
+		
 		
 		
 		
