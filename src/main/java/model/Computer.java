@@ -32,6 +32,7 @@ public class Computer {
 
 	public Computer(String name, LocalDate introduced, LocalDate discontinued, int company_id) {
 		super();
+		this.id = 0;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;

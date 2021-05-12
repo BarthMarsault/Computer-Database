@@ -1,8 +1,10 @@
 package main.java.ui;
 
+import java.time.*;
 import java.util.Scanner;
 
 import main.java.model.Computer;
+import main.java.persistence.CompanyDAO;
 import main.java.persistence.ComputerDAO;
 
 public class ComputerManagement {
@@ -29,7 +31,7 @@ public class ComputerManagement {
 				detail();
 				break;
 			case "3":
-				
+				create();
 				break;
 			case "4":
 				update();
@@ -52,8 +54,8 @@ public class ComputerManagement {
 	 */
 	public static void showList() {
 		for(Computer computer : ComputerDAO.getComputers()) {
-			//System.out.println(computer.getId() + " : " + computer.getName());
-			System.out.println(computer.toString());
+			System.out.println(computer.getId() + " : " + computer.getName());
+			//System.out.println(computer.toString());
 		}
 	}
 	
@@ -100,12 +102,59 @@ public class ComputerManagement {
 		String entry;
 		Computer computer = new Computer();
 		Scanner sc = new Scanner(System.in);
+		LocalDate date = null;
 		
 		System.out.print("Entrez le nom de l'ordinateur : ");
 		entry = sc.nextLine();
-		System.out.print("Entrez la date d'introduction (AAAA-MM-DD) : ");
-		entry = sc.nextLine();
+		computer.setName(entry);
 		
+		
+		if(UiUtils.askYesNo("Voulez vous ajouter une date d'introduction (y/n) :")) {
+			System.out.print("Entrez la date d'introduction (AAAA-MM-DD) : ");
+			entry = sc.nextLine();
+			String[] parts = entry.split("-");
+			date =  LocalDate.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+			
+		}
+		computer.setIntroduced(date);
+		date = null;
+		if(UiUtils.askYesNo("Voulez vous ajouter une date de discontinuité (y/n) : ")) {
+			date = null;
+			System.out.print("Entrez la date de discountinuité (AAAA-MM-DD) : ");
+			entry = sc.nextLine();
+			String[] parts = entry.split("-");
+			date =  LocalDate.of(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+		}
+		computer.setDiscontinued(date);
+		
+		
+		if(UiUtils.askYesNo("Voulez vous ajouter constructeur (y/n) :")) {
+			boolean valid = false;
+			System.out.println("Entrez l'id d'un constructeur : ");
+			int id;
+			while(!valid) {
+				
+				try {
+					sc = new Scanner(System.in);				
+					id = sc.nextInt();
+					if(CompanyDAO.finCompanyById(id) == null) {
+						System.out.println("l'id : " + id + " n'est pas valide");
+					}else {
+						computer.setCompany_id(id);
+						valid = true;
+					}
+					
+				}catch(Exception e) {
+					System.out.println("Entrée invalide - l'id doit etre un entier");
+				}
+			}
+			
+		}else {
+			computer.setCompany_id(0);
+		}
+		
+		
+		System.out.println(computer.toString());
 	}
 	
 	public static void update() {

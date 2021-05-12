@@ -16,5 +16,22 @@ public class UiUtils {
 		}
 		return id;
 	}
+	
+	public static boolean askYesNo(String msg) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print(msg + " ");
+		String entry = "";
+		entry = sc.nextLine();
+		entry = entry.trim();
+		while(!entry.equals("y") && !entry.equals("n")) {
+			System.out.println("Entrée invalide - " + msg);
+			entry = sc.nextLine();
+		}
+		if(entry.equals("y"))
+			return true;
+		else
+			return false;
+		
+	}
 
 }
