@@ -32,7 +32,7 @@ public class ComputerMapper {
 			LocalDate ldIntr =  dIntr != null ? dIntr.toLocalDate() : null;
 			LocalDate ldDisc = dDisc != null ? dDisc.toLocalDate() : null;
 			
-			Company company = CompanyDAO.getInstance().findCompanyById(rs.getInt(5));
+			Company company = new Company(rs.getInt(5), rs.getString(6));
 			
 			return new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, company);
 		} catch (SQLException e) {

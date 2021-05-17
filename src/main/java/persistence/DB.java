@@ -5,8 +5,8 @@ import java.sql.*;
 public class DB {
 	
 
-	
-	Connection conn = null;
+	private static DB db = null;
+	private Connection conn = null;
 	
 	private String protocole = "jdbc:mysql:";
 	private String ip =  "localhost" ; 
@@ -16,11 +16,16 @@ public class DB {
 	private String password = "qwerty1234";
 	
 	
-	
+	public static DB getInstance() {
+		if(db == null) {
+			db = new DB();
+		}
+		return db;
+	}
 	
 	public Connection getConnection() {
 		try {
-			if(conn == null) {       
+			if(conn == null || conn.isClosed()) {       
 		        String connString = protocole +  "//" + ip +  ":" + port +  "/" + dbName ;
 				
 			    conn = DriverManager.getConnection(connString, user, password);

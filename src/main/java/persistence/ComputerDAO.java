@@ -43,7 +43,7 @@ public class ComputerDAO {
 		}
 		
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn =  DB.getInstance().getConnection();
 			//Recupération des attributs
 			String name = c.getName();
 			LocalDate intr = c.getIntroduced();
@@ -77,7 +77,7 @@ public class ComputerDAO {
 			
 			
 			ps.executeUpdate();
-			
+		
 			ps.close();
 			conn.close();
 			return true;
@@ -109,7 +109,7 @@ public class ComputerDAO {
 		if(id < 1) return false;
 		
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
 			
 			//Préparation de la requête
@@ -140,7 +140,7 @@ public class ComputerDAO {
 	public boolean updateComputer(Computer computer) {
 		
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
 			//Recupération des attributs
 			String name = computer.getName();
@@ -210,13 +210,17 @@ public class ComputerDAO {
 		ResultSet rs;
 				
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
-			String req = "SELECT * FROM " + tableName;
+			String req = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+					 	" FROM " + tableName + " C" +
+						" LEFT JOIN company Y" +
+						" ON C.company_id = Y.id";
 			
 			if(limit >= 0) { req += " LIMIT ?";}
 			if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 			
+
 			PreparedStatement ps = conn.prepareStatement(req);
 			
 			if(limit >= 0) { ps.setInt(1, limit);}
@@ -224,10 +228,10 @@ public class ComputerDAO {
 			
 			rs = ps.executeQuery();
 		
-			while(rs.next()) {
-				computers.add(ComputerMapper.resultSetToComputer(rs));
-			}
 			
+			computers = ComputerMapper.resultSetToListComputer(rs);
+			
+			rs.close();
 			ps.close();
 			conn.close();
 			
@@ -250,21 +254,25 @@ public class ComputerDAO {
 		
 		try {
 			Computer computer = null;
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
-			String req = "SELECT * FROM " + tableName +
-						" WHERE id = ?";
+			String req = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+						" FROM " + tableName + " C" +
+						" LEFT JOIN company Y" +
+						" ON C.company_id = Y.id" +
+						" WHERE C.id = ?";
+			
 			
 			
 			PreparedStatement ps = conn.prepareStatement(req);
 			ps.setInt(1, id);
-			
 			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
-				computer = ComputerMapper.resultSetToComputer(rs);
-			}
+			rs.next();
+			computer = ComputerMapper.resultSetToComputer(rs);
 			
+			
+			rs.close();
 			ps.close();
 			conn.close();
 			return computer;

@@ -50,7 +50,7 @@ public class CompanyDAO {
 		ResultSet rs;
 				
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
 			String req = "SELECT * FROM " + tableName;
 			
@@ -63,10 +63,12 @@ public class CompanyDAO {
 			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
 			
 			rs = ps.executeQuery();
+						
+			companies = CompanyMapper.resultSetToListCompany(rs);
 			
-			while(rs.next()) {
-				companies.add(CompanyMapper.resultSetToCompany(rs));
-			}
+			rs.close();
+			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,7 +88,7 @@ public class CompanyDAO {
 		Company company = null;
 		
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
 			String req = "SELECT * FROM " + tableName +
 						" WHERE id = ?";
@@ -97,10 +99,11 @@ public class CompanyDAO {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
-				company = CompanyMapper.resultSetToCompany(rs);
-			}
+		
+			company = CompanyMapper.resultSetToCompany(rs);
 			
+									
+			rs.close();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
