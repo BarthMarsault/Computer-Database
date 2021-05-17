@@ -1,11 +1,13 @@
 package main.java.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import main.java.mapper.CompanyMapper;
 import main.java.mapper.ComputerMapper;
@@ -21,28 +23,54 @@ public class CompanyDAO {
 	
 	static String tableName = "company";
 	
+	private static CompanyDAO companyDAO = null;
+	CompanyMapper mapper;
+	
+	
+	private CompanyDAO() {
+		mapper = CompanyMapper.getInstance();
+	}
+	
+	public static CompanyDAO getInstance() {
+		if(companyDAO == null) {
+			companyDAO = new CompanyDAO();
+		}
+		return companyDAO;
+	}
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.
 	 * @return
 	 */
-	public static List<Company> getCompanies(){
+	public List<Company> getCompanies(){
+		return getCompaniesWithLimit(-1,-1);
+	}
+	
+	
+	public List<Company> getCompaniesWithLimit(int limit, int offset){
 		List<Company> companies = new ArrayList<>();
 		ResultSet rs;
 				
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
 			String req = "SELECT * FROM " + tableName;
 			
-			Statement stmt = conn.createStatement();
+			if(limit >= 0) { req += " LIMIT ?";}
+			if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 			
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			rs = stmt.executeQuery(req);
+			if(limit >= 0) { ps.setInt(1, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
 			
-			while(rs.next()) {
-				companies.add(CompanyMapper.resultSetToCompany(rs));
-			}
+			rs = ps.executeQuery();
+						
+			companies = mapper.resultSetToListCompany(rs);
+			
+			rs.close();
+			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,25 +86,29 @@ public class CompanyDAO {
 	 * @param id
 	 * @return Company
 	 */
-	public static Company finCompanyById(int id) {
-		Company company = null;
+	public Optional<Company> findCompanyById(int id) {
+		Optional<Company> company = Optional.empty();
 		
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
 			String req = "SELECT * FROM " + tableName +
-						" WHERE id = "+id;
+						" WHERE id = ?";
 			
 			
-			Statement stmt = conn.createStatement();
+			PreparedStatement ps = conn.prepareStatement(req);
+			ps.setInt(1, id);
 			
-			ResultSet rs = stmt.executeQuery(req);
+			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
-				company = CompanyMapper.resultSetToCompany(rs);
+			if(rs.next()) {
+				company = Optional.ofNullable(mapper.resultSetToCompany(rs));
 			}
 			
-			stmt.close();
+			
+									
+			rs.close();
+			ps.close();
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -15,44 +15,71 @@ import main.java.model.*;
  */
 public class ComputerDAO {
 	
+	
 	static String tableName = "computer";
+	
+	private static ComputerDAO computerDAO = null;
+	ComputerMapper mapper;
+	
+	private ComputerDAO() {
+		mapper = ComputerMapper.getInstance();
+	}
+	
+	public static ComputerDAO getInstance() {
+		if(computerDAO == null) {
+			computerDAO = new ComputerDAO();
+		}
+		return computerDAO;
+	}
+	
 	
 	/**
 	 * Fonction de création d'un nouvel ordinateur en base de donnée.
 	 * @param c Computer
 	 * @return Boolean - true si l'orinateur est créer, false sinon.
 	 */
-	public static boolean createComputer(Computer c) {
+	public boolean createComputer(Computer c) {
 		if(c.getId() > 0) {
 			if(c.alreadyExistInDB()) return false;
 		}
 		
 		try {
-			Connection conn = new DB().getConnection();
-			Statement stmt = conn.createStatement();
-			
+			Connection conn =  DB.getInstance().getConnection();
 			//Recupération des attributs
 			String name = c.getName();
-			Date intr = c.getIntroduced();
-			Date disc = c.getDiscontinued();
-			int idCompany = c.getCompany_id();
+			LocalDate intr = c.getIntroduced();
+			LocalDate disc = c.getDiscontinued();
+			int idCompany = c.getCompany().getId();
 			
-			//Création de la requête
+			
 			String req = "INSERT INTO " + tableName +
 						" (name, introduced, discontinued, company_id)" +
-						" VALUE (" ;
+						" VALUE (?,?,?,? )" ;
 			
-			req +=  name != null ? "'" + name + "'" : "," + "null";
-			req +=  intr != null ? ",'" +  intr + "'" : "," +  "null";
-			req += disc != null ?  ",'" + disc + "'" : "," + "null";
-			req += idCompany > 0 ?  "," + idCompany : "," + "null";
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			req += ");";
+			ps.setString(1, c.getName());	
 			
-			//Execution
-			stmt.executeUpdate(req);
+			if(intr != null)
+				ps.setDate(2, Date.valueOf(intr));
+			else
+				ps.setDate(2, null);
 			
-			stmt.close();
+			if(disc != null)
+				ps.setDate(3, Date.valueOf(disc));
+			else
+				ps.setDate(3, null);
+			
+			
+			if(idCompany > 0)
+				ps.setInt(4, idCompany);
+			else
+				ps.setNull(4, java.sql.Types.INTEGER);
+			
+			
+			ps.executeUpdate();
+		
+			ps.close();
 			conn.close();
 			return true;
 			
@@ -63,12 +90,14 @@ public class ComputerDAO {
 		return false;
 	}
 	
+	
+	
 	/**
 	 * Suppression d'un computer en bdd.
 	 * @param computer
 	 * @return
 	 */
-	public static boolean deleteComputer(Computer computer) {
+	public boolean deleteComputer(Computer computer) {
 		return deleteComputer(computer.getId());
 	}
 	
@@ -77,22 +106,25 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public static boolean deleteComputer(int id) {
+	public boolean deleteComputer(int id) {
 		if(id < 1) return false;
 		
 		try {
-			Connection conn = new DB().getConnection();
-			Statement stmt = conn.createStatement();
+			Connection conn = DB.getInstance().getConnection();
+			
 			
 			//Préparation de la requête
 			String req = "DELETE FROM " + tableName +
-						" WHERE  id = " + id;
+						" WHERE  id = ?";
 			
-
+			PreparedStatement ps = conn.prepareStatement(req);
+			
+			ps.setInt(1, id);
+			
 			//Execution
-			stmt.executeUpdate(req);
+			ps.executeUpdate();
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 			return true;
 		}catch(SQLException e) {
@@ -106,31 +138,55 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public static boolean updateComputer(Computer computer) {
+	public boolean updateComputer(Computer computer) {
 		
 		try {
-			Connection conn = new DB().getConnection();
-			Statement stmt = conn.createStatement();
+			Connection conn = DB.getInstance().getConnection();
 			
 			//Recupération des attributs
 			String name = computer.getName();
-			Date intr = computer.getIntroduced();
-			Date disc = computer.getDiscontinued();
+			LocalDate intr = computer.getIntroduced();
+			LocalDate disc = computer.getDiscontinued();
+			int idCompany = computer.getCompany().getId();
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 
-						" SET id = " + computer.getId();
-			req += name != null ? ", name = '" + computer.getName() + "'" : ", name = null";
-			req += intr != null ? ", introduced = '" + computer.getIntroduced() + "'" : ", introduced = null";
-			req += disc != null ? ", discontinued = '" + computer.getDiscontinued() + "'" : ", discontinued = null";			
-			req += ", company_id = " + computer.getCompany_id();
-			req += " WHERE id = " + computer.getId();
+						" SET name = ?, introduced = ?, discontinued = ?, company_id = ?" + 
+						" WHERE id = ?";
+
+			PreparedStatement ps = conn.prepareStatement(req);
 			
+			ps.setString(1, name);	
+			
+			if(intr != null) {
+				ps.setDate(2, Date.valueOf(intr));
+			}
+			else {
+				ps.setDate(2, null);
+			}
+			
+			if(disc != null) {
+				ps.setDate(3, Date.valueOf(disc));
+			}
+			else {
+				ps.setDate(3, null);
+			}
+			
+			
+			if(idCompany > 0) {
+				ps.setInt(4, idCompany);
+			}				
+			else {
+				ps.setNull(4, java.sql.Types.INTEGER);
+			}
+				
+			
+			ps.setInt(5, computer.getId());
 			
 			//Execution
-			stmt.executeUpdate(req);
+			ps.executeUpdate();
 			
-			stmt.close();
+			ps.close();
 			conn.close();
 			return true;
 		}catch(SQLException e) {
@@ -144,26 +200,40 @@ public class ComputerDAO {
 	 * Retourne la liste de tous les ordinateurs.
 	 * @return
 	 */
-	public static List<Computer> getComputers(){
+	public List<Computer> getComputers(){
+		return getComputerWithLimit(-1,-1);
+	}
+	
+	
+	
+	public List<Computer> getComputerWithLimit(int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
 				
 		try {
-			Connection conn = new DB().getConnection();
+			Connection conn = DB.getInstance().getConnection();
 			
-			String req = "SELECT * FROM " + tableName;
+			String req = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+					 	" FROM " + tableName + " C" +
+						" LEFT JOIN company Y" +
+						" ON C.company_id = Y.id";
 			
-			Statement stmt = conn.createStatement();
+			if(limit >= 0) { req += " LIMIT ?";}
+			if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 			
+
+			PreparedStatement ps = conn.prepareStatement(req);
 			
-			rs = stmt.executeQuery(req);
+			if(limit >= 0) { ps.setInt(1, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
 			
+			rs = ps.executeQuery();
 		
-			while(rs.next()) {
-				computers.add(ComputerMapper.resultSetToComputer(rs));
-			}
 			
-			stmt.close();
+			computers = mapper.resultSetToListComputer(rs);
+			
+			rs.close();
+			ps.close();
 			conn.close();
 			
 		} catch (SQLException e) {
@@ -181,33 +251,39 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public static Computer findComputerById(int id) {
-		
+	public Optional<Computer> findComputerById(int id) {
+		Optional<Computer>computer = Optional.empty();
 		try {
-			Computer computer = null;
-			Connection conn = new DB().getConnection();
 			
-			String req = "SELECT * FROM " + tableName +
-						" WHERE id = "+id;
+			Connection conn = DB.getInstance().getConnection();
+			
+			String req = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+						" FROM " + tableName + " C" +
+						" LEFT JOIN company Y" +
+						" ON C.company_id = Y.id" +
+						" WHERE C.id = ?";
 			
 			
-			Statement stmt = conn.createStatement();
 			
-			ResultSet rs = stmt.executeQuery(req);
+			PreparedStatement ps = conn.prepareStatement(req);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
-				computer = ComputerMapper.resultSetToComputer(rs);
+			if(rs.next()) {
+				computer = mapper.resultSetToComputer(rs);
 			}
 			
-			stmt.close();
+			
+			
+			
+			rs.close();
+			ps.close();
 			conn.close();
-			return computer;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-		
+		return computer;
 		
 	}
 }

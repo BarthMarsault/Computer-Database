@@ -1,5 +1,9 @@
 package main.java;
 
+import java.time.LocalDate;
+
+import main.java.model.Computer;
+import main.java.persistence.ComputerDAO;
 import main.java.ui.Root;
 
 public class Main {

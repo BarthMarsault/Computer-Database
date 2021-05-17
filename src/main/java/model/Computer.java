@@ -10,33 +10,37 @@ public class Computer {
 	
 	private int id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
-	private int company_id;
+	private LocalDate introduced;
+	private LocalDate discontinued;
+	private Company company;
 	
+	public Computer() {
+		super();
+	}
 	
-	public Computer(int id, String name, Date introduced, Date discontinued, int company_id) {
+	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.company_id = company_id;
+		this.company = company;
 	}
 	
 	
 
 
-	public Computer(String name, Date introduced, Date discontinued, int company_id) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, Company company) {
 		super();
+		this.id = 0;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.company_id = company_id;
+		this.company = company;
 	}
 	
 	public boolean alreadyExistInDB() {
-		return this.equals(ComputerDAO.findComputerById(id));
+		return this.equals(ComputerDAO.getInstance().findComputerById(id));
 	}
 
 
@@ -62,42 +66,46 @@ public class Computer {
 	}
 
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
 
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 
-
-	public int getCompany_id() {
-		return company_id;
-	}
-
-
-	public void setCompany_id(int company_id) {
-		this.company_id = company_id;
-	}
-
-
 	
 	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	
+
 	@Override
 	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + CompanyDAO.finCompanyById(company_id).getName() + "]";
+		String str = "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued;
+		if(company != null) {
+			str +=  " Company = " + company.getName();
+		}
+
+		str += "]";
+		return str;
 	}
 
 
@@ -111,7 +119,7 @@ public class Computer {
 		Computer c = (Computer) obj;
 		
 		return id == c.id && name.equals(c.name) && introduced.equals(c.introduced)
-				&& discontinued.equals(c.discontinued) && company_id == c.company_id;
+				&& discontinued.equals(c.discontinued) && company == c.company;
 	}
 	
 	

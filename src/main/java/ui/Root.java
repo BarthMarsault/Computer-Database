@@ -2,6 +2,8 @@ package main.java.ui;
 
 import java.util.Scanner;
 
+import main.java.controller.ControllerCompany;
+
 public class Root {
 	
 	/**
@@ -18,7 +20,7 @@ public class Root {
 			
 			switch(res) {			
 				case "1":
-					CompaniesList.showList();
+					ControllerCompany.showAllCompanies();
 					break;
 				case "2":
 					ComputerManagement.showRoot();
