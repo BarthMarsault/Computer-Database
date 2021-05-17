@@ -2,6 +2,7 @@ package main.java.ui;
 
 import java.time.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import main.java.controller.ControllerComputer;
@@ -100,10 +101,10 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		Computer computer = ComputerDAO.getInstance().findComputerById(id);
+		Optional<Computer> computer = ComputerDAO.getInstance().findComputerById(id);
 
-		if (computer != null) {
-			System.out.println(computer.toString());
+		if (computer.isPresent()) {
+			System.out.println(computer.get().toString());
 		} else {
 			System.out.println("L'ordinateur n'existe pas");
 		}
@@ -164,11 +165,11 @@ public class ComputerManagement {
 			while (!valid) {
 
 				id = UiUtils.askId("Id du fabricant :");
-				Company company = CompanyDAO.getInstance().findCompanyById(id);
-				if (company == null) {
+				Optional<Company> company = CompanyDAO.getInstance().findCompanyById(id);
+				if (!company.isPresent()) {
 					System.out.println("l'id : " + id + " n'est pas valide");
 				} else {					
-					computer.setCompany(company);
+					computer.setCompany(company.get());
 					valid = true;
 				}
 
@@ -189,8 +190,8 @@ public class ComputerManagement {
 	 */
 	public static void update() {
 		int idComputer = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité modifier:");
-		Computer computer = ComputerDAO.getInstance().findComputerById(idComputer);
-		if (computer == null) {
+		Optional<Computer> computer = ComputerDAO.getInstance().findComputerById(idComputer);
+		if (!computer.isPresent()) {
 			System.out.println("L'ordinateur avec l'id " + idComputer + " n'éxiste pas");
 		} else {
 			System.out.println(computer.toString());
@@ -199,27 +200,27 @@ public class ComputerManagement {
 			// Update du nom
 			if (UiUtils.askYesNo("Voulez vous modifier le nom de l'ordinateur ? :")) {
 				System.out.print("Entrez le nouveau nom : ");
-				computer.setName(sc.nextLine());
+				computer.get().setName(sc.nextLine());
 			}
 
 			// Update de la date d'introduction
 			if (UiUtils.askYesNo("Voulez vous modifier la date d'introduction ? :")) {
 				LocalDate dateIntr = UiUtils.askDate("Entrez la date d'introduction (AAAA-MM-DD) :");
-				computer.setIntroduced(dateIntr);
+				computer.get().setIntroduced(dateIntr);
 			}
 
 			// Update de la date de discontinuité
 			if (UiUtils.askYesNo("Voulez vous modifier la date de discontinuité ? :")) {
 				LocalDate dateDisc = UiUtils.askDate("Entrez la date de discontinuité (AAAA-MM-DD) :");
-				computer.setDiscontinued(dateDisc);
+				computer.get().setDiscontinued(dateDisc);
 			}
 
 			// Update du fabricant
 			if (UiUtils.askYesNo("Voulez vous modifier le fabricant :")) {
 				int idCompany = UiUtils.askId("Entrez l'id du fabricant :");
-				Company company = CompanyDAO.getInstance().findCompanyById(idCompany);
-				if (company != null) {
-					computer.setCompany(company);
+				Optional<Company> company = CompanyDAO.getInstance().findCompanyById(idCompany);
+				if (company.isPresent()) {
+					computer.get().setCompany(company.get());
 				} else {
 					System.out.println("Ce Fabricant n'existe pas");
 				}
@@ -227,7 +228,7 @@ public class ComputerManagement {
 
 			// Validation
 			if (UiUtils.askYesNo("Voulez vous enregistrer les changements sur : " + computer.toString())) {
-				ComputerDAO.getInstance().updateComputer(computer);
+				ComputerDAO.getInstance().updateComputer(computer.get());
 				System.out.println("Changements enregistrer");
 			} else {
 				System.out.println("Annulation");

@@ -251,10 +251,10 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public Computer findComputerById(int id) {
-		
+	public Optional<Computer> findComputerById(int id) {
+		Optional<Computer>computer = Optional.empty();
 		try {
-			Computer computer = null;
+			
 			Connection conn = DB.getInstance().getConnection();
 			
 			String req = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
@@ -269,20 +269,21 @@ public class ComputerDAO {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			
-			rs.next();
-			computer = mapper.resultSetToComputer(rs);
+			if(rs.next()) {
+				computer = mapper.resultSetToComputer(rs);
+			}
+			
+			
 			
 			
 			rs.close();
 			ps.close();
 			conn.close();
-			return computer;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-		
+		return computer;
 		
 	}
 }

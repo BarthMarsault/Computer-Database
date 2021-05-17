@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import main.java.mapper.CompanyMapper;
 import main.java.mapper.ComputerMapper;
@@ -85,8 +86,8 @@ public class CompanyDAO {
 	 * @param id
 	 * @return Company
 	 */
-	public Company findCompanyById(int id) {
-		Company company = null;
+	public Optional<Company> findCompanyById(int id) {
+		Optional<Company> company = Optional.empty();
 		
 		try {
 			Connection conn = DB.getInstance().getConnection();
@@ -100,8 +101,10 @@ public class CompanyDAO {
 			
 			ResultSet rs = ps.executeQuery();
 			
-		
-			company = mapper.resultSetToCompany(rs);
+			if(rs.next()) {
+				company = Optional.ofNullable(mapper.resultSetToCompany(rs));
+			}
+			
 			
 									
 			rs.close();

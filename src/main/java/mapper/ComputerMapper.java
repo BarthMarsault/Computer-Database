@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import main.java.model.Company;
 import main.java.model.Computer;
@@ -36,7 +37,7 @@ public class ComputerMapper {
 	 * @param rs ResultSet
 	 * @return Une instance de la classe Computer
 	 */
-	public Computer resultSetToComputer(ResultSet rs) {
+	public Optional<Computer> resultSetToComputer(ResultSet rs) {
 		try {
 			
 			Date dIntr = rs.getDate(3);
@@ -47,12 +48,12 @@ public class ComputerMapper {
 			
 			Company company = new Company(rs.getInt(5), rs.getString(6));
 			
-			return new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, company);
+			return Optional.ofNullable(new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, company));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return Optional.empty();
 	}
 	
 	public List<Computer> resultSetToListComputer(ResultSet rs) {
@@ -60,7 +61,11 @@ public class ComputerMapper {
 		
 		try {
 			while(rs.next()) {
-				computers.add(resultSetToComputer(rs));
+				Optional<Computer> computer = resultSetToComputer(rs);
+				if(computer.isPresent()) {
+					computers.add(computer.get());
+				}
+				
 			}
 		} catch (SQLException e) {
 
