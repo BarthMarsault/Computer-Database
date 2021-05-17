@@ -12,35 +12,35 @@ public class Computer {
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private int company_id;
+	private Company company;
 	
 	public Computer() {
 		super();
 	}
 	
-	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, int company_id) {
+	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.company_id = company_id;
+		this.company = company;
 	}
 	
 	
 
 
-	public Computer(String name, LocalDate introduced, LocalDate discontinued, int company_id) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, Company company) {
 		super();
 		this.id = 0;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.company_id = company_id;
+		this.company = company;
 	}
 	
 	public boolean alreadyExistInDB() {
-		return this.equals(ComputerDAO.findComputerById(id));
+		return this.equals(ComputerDAO.getInstance().findComputerById(id));
 	}
 
 
@@ -85,24 +85,23 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 
-
-	public int getCompany_id() {
-		return company_id;
-	}
-
-
-	public void setCompany_id(int company_id) {
-		this.company_id = company_id;
-	}
-
-
 	
 	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	
+
 	@Override
 	public String toString() {
 		String str = "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued;
-		if(company_id > 0) {
-			str +=  ", company=" + CompanyDAO.finCompanyById(company_id).getName();
+		if(company != null) {
+			str +=  " Company = " + company.getName();
 		}
 
 		str += "]";
@@ -120,7 +119,7 @@ public class Computer {
 		Computer c = (Computer) obj;
 		
 		return id == c.id && name.equals(c.name) && introduced.equals(c.introduced)
-				&& discontinued.equals(c.discontinued) && company_id == c.company_id;
+				&& discontinued.equals(c.discontinued) && company == c.company;
 	}
 	
 	

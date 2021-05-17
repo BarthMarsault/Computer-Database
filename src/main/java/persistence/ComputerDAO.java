@@ -15,14 +15,29 @@ import main.java.model.*;
  */
 public class ComputerDAO {
 	
+	
 	static String tableName = "computer";
+	
+	private static ComputerDAO computerDAO = null;
+	
+	private ComputerDAO() {
+		
+	}
+	
+	public static ComputerDAO getInstance() {
+		if(computerDAO == null) {
+			computerDAO = new ComputerDAO();
+		}
+		return computerDAO;
+	}
+	
 	
 	/**
 	 * Fonction de création d'un nouvel ordinateur en base de donnée.
 	 * @param c Computer
 	 * @return Boolean - true si l'orinateur est créer, false sinon.
 	 */
-	public static boolean createComputer(Computer c) {
+	public boolean createComputer(Computer c) {
 		if(c.getId() > 0) {
 			if(c.alreadyExistInDB()) return false;
 		}
@@ -33,7 +48,7 @@ public class ComputerDAO {
 			String name = c.getName();
 			LocalDate intr = c.getIntroduced();
 			LocalDate disc = c.getDiscontinued();
-			int idCompany = c.getCompany_id();
+			int idCompany = c.getCompany().getId();
 			
 			
 			String req = "INSERT INTO " + tableName +
@@ -81,7 +96,7 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public static boolean deleteComputer(Computer computer) {
+	public boolean deleteComputer(Computer computer) {
 		return deleteComputer(computer.getId());
 	}
 	
@@ -90,7 +105,7 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public static boolean deleteComputer(int id) {
+	public boolean deleteComputer(int id) {
 		if(id < 1) return false;
 		
 		try {
@@ -122,7 +137,7 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public static boolean updateComputer(Computer computer) {
+	public boolean updateComputer(Computer computer) {
 		
 		try {
 			Connection conn = new DB().getConnection();
@@ -131,7 +146,7 @@ public class ComputerDAO {
 			String name = computer.getName();
 			LocalDate intr = computer.getIntroduced();
 			LocalDate disc = computer.getDiscontinued();
-			int idCompany = computer.getCompany_id();
+			int idCompany = computer.getCompany().getId();
 			
 			//Création de la requête
 			String req = "UPDATE " + tableName + 
@@ -142,21 +157,28 @@ public class ComputerDAO {
 			
 			ps.setString(1, name);	
 			
-			if(intr != null)
+			if(intr != null) {
 				ps.setDate(2, Date.valueOf(intr));
-			else
+			}
+			else {
 				ps.setDate(2, null);
+			}
 			
-			if(disc != null)
+			if(disc != null) {
 				ps.setDate(3, Date.valueOf(disc));
-			else
+			}
+			else {
 				ps.setDate(3, null);
+			}
 			
 			
-			if(idCompany > 0)
+			if(idCompany > 0) {
 				ps.setInt(4, idCompany);
-			else
+			}				
+			else {
 				ps.setNull(4, java.sql.Types.INTEGER);
+			}
+				
 			
 			ps.setInt(5, computer.getId());
 			
@@ -177,13 +199,13 @@ public class ComputerDAO {
 	 * Retourne la liste de tous les ordinateurs.
 	 * @return
 	 */
-	public static List<Computer> getComputers(){
+	public List<Computer> getComputers(){
 		return getComputerWithLimit(-1,-1);
 	}
 	
 	
 	
-	public static List<Computer> getComputerWithLimit(int limit, int offset){
+	public List<Computer> getComputerWithLimit(int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
 				
@@ -224,7 +246,7 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public static Computer findComputerById(int id) {
+	public Computer findComputerById(int id) {
 		
 		try {
 			Computer computer = null;

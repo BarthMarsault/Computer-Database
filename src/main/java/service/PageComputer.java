@@ -14,12 +14,14 @@ import main.java.persistence.ComputerDAO;
 public class PageComputer {
 	private int nbLine;
 	private int currentLine;
+	private ComputerDAO computerDAO;
 	
 	private static PageComputer page = null;
 	
 	private PageComputer() {
 		this.nbLine = 10;
 		this.currentLine = 0;
+		computerDAO = ComputerDAO.getInstance();
 	}
 	
 	public static PageComputer getPageComputer() {
@@ -34,7 +36,7 @@ public class PageComputer {
 	}
 	
 	public List<Computer> initPage(){
-		return ComputerDAO.getComputerWithLimit(nbLine, currentLine);
+		return computerDAO.getComputerWithLimit(nbLine, currentLine);
 	}
 	
 	/**
@@ -43,7 +45,7 @@ public class PageComputer {
 	 */
 	public List<Computer> nextPage(){
 		currentLine += nbLine;
-		List<Computer> computers = ComputerDAO.getComputerWithLimit(nbLine, currentLine);
+		List<Computer> computers = computerDAO.getComputerWithLimit(nbLine, currentLine);
 		
 		if(computers.size() == 0) {
 			currentLine -= nbLine;			
@@ -63,7 +65,7 @@ public class PageComputer {
 		}else {
 			currentLine = 0;
 		}
-		List<Computer> computers = ComputerDAO.getComputerWithLimit(nbLine, currentLine);
+		List<Computer> computers = computerDAO.getComputerWithLimit(nbLine, currentLine);
 		return computers;
 	}
 	

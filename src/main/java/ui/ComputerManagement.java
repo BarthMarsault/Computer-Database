@@ -100,7 +100,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		Computer computer = ComputerDAO.findComputerById(id);
+		Computer computer = ComputerDAO.getInstance().findComputerById(id);
 
 		if (computer != null) {
 			System.out.println(computer.toString());
@@ -121,7 +121,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		if (ComputerDAO.deleteComputer(id)) {
+		if (ComputerDAO.getInstance().deleteComputer(id)) {
 			System.out.println("Ordinateur supprimé"); // Suppression en BDD
 		} else {
 			System.out.println("Echec");
@@ -164,20 +164,21 @@ public class ComputerManagement {
 			while (!valid) {
 
 				id = UiUtils.askId("Id du fabricant :");
-				if (CompanyDAO.finCompanyById(id) == null) {
+				Company company = CompanyDAO.getInstance().findCompanyById(id);
+				if (company == null) {
 					System.out.println("l'id : " + id + " n'est pas valide");
-				} else {
-					computer.setCompany_id(id);
+				} else {					
+					computer.setCompany(company);
 					valid = true;
 				}
 
 			}
 
 		} else {
-			computer.setCompany_id(0);
+			computer.setCompany(null);
 		}
 		//Ajout en BDD
-		ComputerDAO.createComputer(computer);
+		ComputerDAO.getInstance().createComputer(computer);
 		System.out.println(computer.toString());
 		System.out.println("Ordinateur créé");
 
@@ -188,7 +189,7 @@ public class ComputerManagement {
 	 */
 	public static void update() {
 		int idComputer = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité modifier:");
-		Computer computer = ComputerDAO.findComputerById(idComputer);
+		Computer computer = ComputerDAO.getInstance().findComputerById(idComputer);
 		if (computer == null) {
 			System.out.println("L'ordinateur avec l'id " + idComputer + " n'éxiste pas");
 		} else {
@@ -216,9 +217,9 @@ public class ComputerManagement {
 			// Update du fabricant
 			if (UiUtils.askYesNo("Voulez vous modifier le fabricant :")) {
 				int idCompany = UiUtils.askId("Entrez l'id du fabricant :");
-				Company company = CompanyDAO.finCompanyById(idCompany);
+				Company company = CompanyDAO.getInstance().findCompanyById(idCompany);
 				if (company != null) {
-					computer.setCompany_id(idCompany);
+					computer.setCompany(company);
 				} else {
 					System.out.println("Ce Fabricant n'existe pas");
 				}
@@ -226,7 +227,7 @@ public class ComputerManagement {
 
 			// Validation
 			if (UiUtils.askYesNo("Voulez vous enregistrer les changements sur : " + computer.toString())) {
-				ComputerDAO.updateComputer(computer);
+				ComputerDAO.getInstance().updateComputer(computer);
 				System.out.println("Changements enregistrer");
 			} else {
 				System.out.println("Annulation");

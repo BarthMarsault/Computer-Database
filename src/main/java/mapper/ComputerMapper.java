@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import main.java.model.Company;
 import main.java.model.Computer;
+import main.java.persistence.CompanyDAO;
 
 /**
  * Classe de Mapping de la classe Computer
@@ -28,7 +30,9 @@ public class ComputerMapper {
 			LocalDate ldIntr =  dIntr != null ? dIntr.toLocalDate() : null;
 			LocalDate ldDisc = dDisc != null ? dDisc.toLocalDate() : null;
 			
-			return new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, rs.getInt(5));
+			Company company = CompanyDAO.getInstance().findCompanyById(rs.getInt(5));
+			
+			return new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, company);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

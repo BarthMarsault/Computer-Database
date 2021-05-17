@@ -22,17 +22,30 @@ public class CompanyDAO {
 	
 	static String tableName = "company";
 	
+	private static CompanyDAO companyDAO = null;
+	
+	
+	private CompanyDAO() {
+		
+	}
+	
+	public static CompanyDAO getInstance() {
+		if(companyDAO == null) {
+			companyDAO = new CompanyDAO();
+		}
+		return companyDAO;
+	}
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.
 	 * @return
 	 */
-	public static List<Company> getCompanies(){
+	public List<Company> getCompanies(){
 		return getCompaniesWithLimit(-1,-1);
 	}
 	
 	
-	public static List<Company> getCompaniesWithLimit(int limit, int offset){
+	public List<Company> getCompaniesWithLimit(int limit, int offset){
 		List<Company> companies = new ArrayList<>();
 		ResultSet rs;
 				
@@ -69,7 +82,7 @@ public class CompanyDAO {
 	 * @param id
 	 * @return Company
 	 */
-	public static Company finCompanyById(int id) {
+	public Company findCompanyById(int id) {
 		Company company = null;
 		
 		try {
