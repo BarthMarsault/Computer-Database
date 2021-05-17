@@ -14,12 +14,25 @@ import main.java.model.Company;
  */
 public class CompanyMapper {
 	
+	private static CompanyMapper companyMapper = null;
+	
+	private CompanyMapper() {
+		
+	}
+	
+	public static CompanyMapper getInstance() {
+		if(companyMapper == null) {
+			companyMapper = new CompanyMapper();
+		}
+		return companyMapper;
+	}
+	
 	/**
 	 * Permet de transformer le contenu d'un ResultSet en objet Comapny
 	 * @param rs ResultSet
 	 * @return une instance de la classe Company
 	 */
-	public static Company resultSetToCompany(ResultSet rs) {
+	public Company resultSetToCompany(ResultSet rs) {
 		try {
 			return new Company(rs.getInt(1), rs.getString(2));
 		} catch (SQLException e) {
@@ -29,7 +42,7 @@ public class CompanyMapper {
 		return null;
 	}
 	
-	public static List<Company> resultSetToListCompany(ResultSet rs){
+	public List<Company> resultSetToListCompany(ResultSet rs){
 		ArrayList<Company> companies = new ArrayList<>();
 		
 		try {

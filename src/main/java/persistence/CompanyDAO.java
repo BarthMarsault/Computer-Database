@@ -23,10 +23,11 @@ public class CompanyDAO {
 	static String tableName = "company";
 	
 	private static CompanyDAO companyDAO = null;
+	CompanyMapper mapper;
 	
 	
 	private CompanyDAO() {
-		
+		mapper = CompanyMapper.getInstance();
 	}
 	
 	public static CompanyDAO getInstance() {
@@ -64,7 +65,7 @@ public class CompanyDAO {
 			
 			rs = ps.executeQuery();
 						
-			companies = CompanyMapper.resultSetToListCompany(rs);
+			companies = mapper.resultSetToListCompany(rs);
 			
 			rs.close();
 			ps.close();
@@ -100,7 +101,7 @@ public class CompanyDAO {
 			ResultSet rs = ps.executeQuery();
 			
 		
-			company = CompanyMapper.resultSetToCompany(rs);
+			company = mapper.resultSetToCompany(rs);
 			
 									
 			rs.close();

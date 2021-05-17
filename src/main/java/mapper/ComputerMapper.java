@@ -18,12 +18,25 @@ import main.java.persistence.CompanyDAO;
  */
 public class ComputerMapper {
 	
+	private static ComputerMapper computerMapper = null;
+	
+	private ComputerMapper() {
+		
+	}
+	
+	public static ComputerMapper getInstance() {
+		if(computerMapper == null) {
+			computerMapper = new ComputerMapper();
+		}
+		return computerMapper;
+	}
+	
 	/**
 	 * Retourne un objet Computer obtenu à partir d'un ResultSet
 	 * @param rs ResultSet
 	 * @return Une instance de la classe Computer
 	 */
-	public static Computer resultSetToComputer(ResultSet rs) {
+	public Computer resultSetToComputer(ResultSet rs) {
 		try {
 			
 			Date dIntr = rs.getDate(3);
@@ -42,7 +55,7 @@ public class ComputerMapper {
 		return null;
 	}
 	
-	public static List<Computer> resultSetToListComputer(ResultSet rs) {
+	public List<Computer> resultSetToListComputer(ResultSet rs) {
 		ArrayList<Computer> computers = new ArrayList<>();
 		
 		try {

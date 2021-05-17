@@ -19,9 +19,10 @@ public class ComputerDAO {
 	static String tableName = "computer";
 	
 	private static ComputerDAO computerDAO = null;
+	ComputerMapper mapper;
 	
 	private ComputerDAO() {
-		
+		mapper = ComputerMapper.getInstance();
 	}
 	
 	public static ComputerDAO getInstance() {
@@ -229,7 +230,7 @@ public class ComputerDAO {
 			rs = ps.executeQuery();
 		
 			
-			computers = ComputerMapper.resultSetToListComputer(rs);
+			computers = mapper.resultSetToListComputer(rs);
 			
 			rs.close();
 			ps.close();
@@ -269,7 +270,7 @@ public class ComputerDAO {
 			ResultSet rs = ps.executeQuery();
 			
 			rs.next();
-			computer = ComputerMapper.resultSetToComputer(rs);
+			computer = mapper.resultSetToComputer(rs);
 			
 			
 			rs.close();
