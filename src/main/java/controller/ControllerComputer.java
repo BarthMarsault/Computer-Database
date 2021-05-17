@@ -1,5 +1,7 @@
 package main.java.controller;
 
+import main.java.model.Computer;
+import main.java.persistence.ComputerDAO;
 import main.java.service.PageComputer;
 import main.java.ui.ComputerManagement;
 
@@ -16,5 +18,12 @@ public class ControllerComputer {
 	
 	public static void showComputerPriviousPage() {
 		ComputerManagement.showList(page.priviousPage());
+	}
+	
+	public static void createComputer() {
+		Computer computer = ComputerManagement.create();
+		ComputerDAO.getInstance().createComputer(computer);
+		System.out.println(computer);
+		System.out.println("Ordinateur créé");
 	}
 }

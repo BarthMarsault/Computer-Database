@@ -35,7 +35,7 @@ public class ComputerManagement {
 				detail();
 				break;
 			case "3":
-				create();
+				ControllerComputer.createComputer();
 				break;
 			case "4":
 				update();
@@ -132,7 +132,7 @@ public class ComputerManagement {
 	/**
 	 * CLI de création d'un ordinateur
 	 */
-	public static void create() {
+	public static Computer create() {
 		String entry;
 		Computer computer = new Computer();
 		Scanner sc = new Scanner(System.in);
@@ -178,10 +178,7 @@ public class ComputerManagement {
 		} else {
 			computer.setCompany(null);
 		}
-		//Ajout en BDD
-		ComputerDAO.getInstance().createComputer(computer);
-		System.out.println(computer.toString());
-		System.out.println("Ordinateur créé");
+		return computer;
 
 	}
 
