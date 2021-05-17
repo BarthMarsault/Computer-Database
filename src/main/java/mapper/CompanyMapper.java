@@ -2,6 +2,8 @@ package main.java.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.java.model.Company;
 
@@ -25,5 +27,19 @@ public class CompanyMapper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static List<Company> resultSetToListCompany(ResultSet rs){
+		ArrayList<Company> companies = new ArrayList<>();
+		
+		try {
+			while(rs.next()) {
+				companies.add(resultSetToCompany(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return companies;
 	}
 }

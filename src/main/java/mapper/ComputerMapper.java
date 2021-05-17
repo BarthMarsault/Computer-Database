@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.java.model.Company;
 import main.java.model.Computer;
@@ -38,6 +40,21 @@ public class ComputerMapper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static List<Computer> resultSetToListComputer(ResultSet rs) {
+		ArrayList<Computer> computers = new ArrayList<>();
+		
+		try {
+			while(rs.next()) {
+				computers.add(resultSetToComputer(rs));
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		return computers;
 	}
 
 }
