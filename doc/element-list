@@ -1,5 +1,7 @@
 main.java
+main.java.controller
 main.java.mapper
 main.java.model
 main.java.persistence
+main.java.service
 main.java.ui
