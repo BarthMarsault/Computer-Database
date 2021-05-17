@@ -1,4 +1,4 @@
-package main.java.controller;
+package main.java.service;
 
 
 import java.util.List;
@@ -6,6 +6,11 @@ import java.util.List;
 import main.java.model.Computer;
 import main.java.persistence.ComputerDAO;
 
+/**
+ * Classe permettant la gestion de la pagination dans l'affichage des "Computers"
+ * @author excilys
+ *
+ */
 public class PageComputer {
 	private int nbLine;
 	private int currentLine;
@@ -32,6 +37,10 @@ public class PageComputer {
 		return ComputerDAO.getComputerWithLimit(nbLine, currentLine);
 	}
 	
+	/**
+	 * Modifie les paramètres fonction de la page actuelle et retourne les ordinateurs de la page suivante.
+	 * @return Une liste d'ordinateur
+	 */
 	public List<Computer> nextPage(){
 		currentLine += nbLine;
 		List<Computer> computers = ComputerDAO.getComputerWithLimit(nbLine, currentLine);
@@ -42,6 +51,10 @@ public class PageComputer {
 		return computers;
 	}
 	
+	/**
+	 * Modifie les paramètres fonction de la page actuelle et retourne les ordinateurs de la page précédente.
+	 * @return Une liste d'ordinateur
+	 */
 	public List<Computer> priviousPage(){
 		
 		

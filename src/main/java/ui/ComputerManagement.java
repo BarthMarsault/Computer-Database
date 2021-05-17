@@ -53,7 +53,7 @@ public class ComputerManagement {
 	}
 
 	/**
-	 * Affiche la liste des ordinateurs "id : nom"
+	 * Affiche la liste de tous les ordinateurs "id : nom"
 	 */
 	public static void showList(List<Computer> computers) {
 		for (Computer computer : computers) {
@@ -62,18 +62,22 @@ public class ComputerManagement {
 		}
 	}
 
+
+	/**
+	 * Affiche la liste des ordinateurs par page 
+	 */
 	public static void useList() {
 		String entry = "";
 		Scanner sc = new Scanner(System.in);
 		ControllerComputer.init();
-		while (!entry.equals("q")) {
+		while (!entry.trim().toLowerCase().equals("q")) {
 			System.out.println("~~~ N : next / P : privious / Q : Quit");
 			entry = sc.nextLine();
 			switch (entry.trim().toLowerCase()) {
-			case "n":
+			case "n": //Page Suivante
 				ControllerComputer.showComputerNextPage();
 				break;
-			case "p":
+			case "p": //Page Précédente
 				ControllerComputer.showComputerPriviousPage();
 				break;
 			default:
@@ -124,28 +128,35 @@ public class ComputerManagement {
 		}
 	}
 
+	/**
+	 * CLI de création d'un ordinateur
+	 */
 	public static void create() {
 		String entry;
 		Computer computer = new Computer();
 		Scanner sc = new Scanner(System.in);
 		LocalDate date = null;
 
+		//Nom
 		System.out.print("Entrez le nom de l'ordinateur : ");
 		entry = sc.nextLine();
 		computer.setName(entry);
 
+		//Date d'introduction
 		if (UiUtils.askYesNo("Voulez vous ajouter une date d'introduction :")) { // Yes/No
 			System.out.print("Entrez la date d'introduction (AAAA-MM-DD) : ");
 			date = UiUtils.askDate("Entrez la date d'introduction (AAAA-MM-DD) :");
 		}
 		computer.setIntroduced(date);
 		date = null;
+		//Date de discontinuité
 		if (UiUtils.askYesNo("Voulez vous ajouter une date de discontinuité : ")) { // Yes/No
 			date = null;
 			date = UiUtils.askDate("Entrez la date de discontinuité (AAAA-MM-DD) :");
 		}
 		computer.setDiscontinued(date);
-
+		
+		//Constructeur
 		if (UiUtils.askYesNo("Voulez vous ajouter constructeur :")) { // Yes/No
 			boolean valid = false;
 			System.out.println("Entrez l'id d'un constructeur : ");
@@ -165,13 +176,16 @@ public class ComputerManagement {
 		} else {
 			computer.setCompany_id(0);
 		}
-
+		//Ajout en BDD
 		ComputerDAO.createComputer(computer);
 		System.out.println(computer.toString());
 		System.out.println("Ordinateur créé");
 
 	}
 
+	/**
+	 * Mise à jour d'un ou plusieurs attribut d'un ordinateur
+	 */
 	public static void update() {
 		int idComputer = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité modifier:");
 		Computer computer = ComputerDAO.findComputerById(idComputer);

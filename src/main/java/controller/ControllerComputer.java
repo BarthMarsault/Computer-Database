@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import main.java.service.PageComputer;
 import main.java.ui.ComputerManagement;
 
 public class ControllerComputer {
