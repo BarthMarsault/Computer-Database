@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
 
@@ -19,7 +22,7 @@ import com.excilys.cdb.model.Company;
 public class CompanyDAO {
 	
 	static String tableName = "company";
-	
+	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	private static CompanyDAO companyDAO = null;
 	CompanyMapper mapper;
 	
@@ -69,8 +72,8 @@ public class CompanyDAO {
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		
 		
@@ -108,8 +111,8 @@ public class CompanyDAO {
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		
 		return company;

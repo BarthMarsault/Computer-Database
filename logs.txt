@@ -1,0 +1,7 @@
+14:47:27.714 [main] ERROR com.excilys.cdb.Main - Premier message de log
+14:48:22.677 [main] INFO  com.excilys.cdb.Main - Test info
+14:56:02.242 [main] INFO  com.excilys.cdb.Main - Test info
+14:58:22.809 [main] INFO  com.excilys.cdb.Main - Test info
+14:58:22.814 [main] WARN  com.excilys.cdb.Main - Warn test
+15:04:38.437 [main] ERROR com.excilys.cdb.Main - ERROR
+15:05:16.648 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECTT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name FROM computer C' at line 1

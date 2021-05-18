@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.*;
 
@@ -17,7 +20,7 @@ public class ComputerDAO {
 	
 	
 	static String tableName = "computer";
-	
+	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private static ComputerDAO computerDAO = null;
 	ComputerMapper mapper;
 	
@@ -84,7 +87,8 @@ public class ComputerDAO {
 			return true;
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();		
 		}
 		
 		return false;
@@ -128,7 +132,8 @@ public class ComputerDAO {
 			conn.close();
 			return true;
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		return false;
 	}
@@ -190,7 +195,8 @@ public class ComputerDAO {
 			conn.close();
 			return true;
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		return false;
 	}
@@ -237,8 +243,8 @@ public class ComputerDAO {
 			conn.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		
 		
@@ -280,8 +286,8 @@ public class ComputerDAO {
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		return computer;
 		

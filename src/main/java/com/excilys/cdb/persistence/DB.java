@@ -2,9 +2,13 @@ package com.excilys.cdb.persistence;
 
 import java.sql.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DB {
 	
-
+	private static final Logger logger = LoggerFactory.getLogger(DB.class);
+	
 	private static DB db = null;
 	private Connection conn = null;
 	
@@ -48,8 +52,8 @@ public class DB {
 			conn = null;
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			//e.printStackTrace();
 		}
 		return false;
 	}
