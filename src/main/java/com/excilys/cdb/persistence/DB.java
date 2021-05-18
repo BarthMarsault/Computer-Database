@@ -35,11 +35,8 @@ public class DB {
 			    conn = DriverManager.getConnection(connString, user, password);
 			}
 		    
-		} catch (SQLException ex) {
-		    // handle any errors
-		    System.out.println("SQLException: " + ex.getMessage());
-		    System.out.println("SQLState: " + ex.getSQLState());
-		    System.out.println("VendorError: " + ex.getErrorCode());
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
 		}
 		
 		return conn;
