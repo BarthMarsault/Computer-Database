@@ -1,10 +1,6 @@
-package main.java;
+package com.excilys.cdb;
 
-import java.time.LocalDate;
-
-import main.java.model.Computer;
-import main.java.persistence.ComputerDAO;
-import main.java.ui.Root;
+import com.excilys.cdb.ui.Root;
 
 public class Main {
 

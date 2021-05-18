@@ -1,4 +1,4 @@
-package main.java.mapper;
+package com.excilys.cdb.mapper;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import main.java.model.Company;
-import main.java.model.Computer;
-import main.java.persistence.CompanyDAO;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 
 /**
  * Classe de Mapping de la classe Computer

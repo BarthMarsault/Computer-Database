@@ -1,4 +1,4 @@
-package main.java.ui;
+package com.excilys.cdb.ui;
 
 import java.time.LocalDate;
 import java.util.Scanner;

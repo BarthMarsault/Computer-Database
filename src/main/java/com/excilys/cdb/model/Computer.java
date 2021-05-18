@@ -1,10 +1,10 @@
-package main.java.model;
+package com.excilys.cdb.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
-import main.java.persistence.CompanyDAO;
-import main.java.persistence.ComputerDAO;
+import com.excilys.cdb.persistence.CompanyDAO;
+import com.excilys.cdb.persistence.ComputerDAO;
 
 public class Computer {
 	

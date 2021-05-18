@@ -1,9 +1,8 @@
-package main.java.ui;
+package com.excilys.cdb.ui;
 
 import java.util.List;
 
-import main.java.model.Company;
-import main.java.persistence.CompanyDAO;
+import com.excilys.cdb.model.Company;
 
 
 public class CompaniesList {

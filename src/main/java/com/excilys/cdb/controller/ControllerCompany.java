@@ -1,10 +1,10 @@
-package main.java.controller;
+package com.excilys.cdb.controller;
 
 import java.util.List;
 
-import main.java.model.Company;
-import main.java.persistence.CompanyDAO;
-import main.java.ui.CompaniesList;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.persistence.CompanyDAO;
+import com.excilys.cdb.ui.CompaniesList;
 
 public class ControllerCompany {
 	

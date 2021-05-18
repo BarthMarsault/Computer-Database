@@ -1,15 +1,15 @@
-package main.java.ui;
+package com.excilys.cdb.ui;
 
 import java.time.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import main.java.controller.ControllerComputer;
-import main.java.model.Company;
-import main.java.model.Computer;
-import main.java.persistence.CompanyDAO;
-import main.java.persistence.ComputerDAO;
+import com.excilys.cdb.controller.ControllerComputer;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.CompanyDAO;
+import com.excilys.cdb.persistence.ComputerDAO;
 
 public class ComputerManagement {
 

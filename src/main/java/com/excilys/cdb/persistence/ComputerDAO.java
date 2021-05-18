@@ -1,12 +1,12 @@
-package main.java.persistence;
+package com.excilys.cdb.persistence;
 
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
-import main.java.mapper.ComputerMapper;
-import main.java.model.*;
+import com.excilys.cdb.mapper.ComputerMapper;
+import com.excilys.cdb.model.*;
 
 /**
  * ComputerDAO est une couche de persistance permettant la liaison entre la classe Computer et la base de données.

@@ -1,10 +1,10 @@
-package main.java.service;
+package com.excilys.cdb.service;
 
 
 import java.util.List;
 
-import main.java.model.Computer;
-import main.java.persistence.ComputerDAO;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.ComputerDAO;
 
 /**
  * Classe permettant la gestion de la pagination dans l'affichage des "Computers"

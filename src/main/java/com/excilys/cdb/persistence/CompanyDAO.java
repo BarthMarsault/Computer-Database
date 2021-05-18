@@ -1,18 +1,15 @@
-package main.java.persistence;
+package com.excilys.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import main.java.mapper.CompanyMapper;
-import main.java.mapper.ComputerMapper;
-import main.java.model.Company;
-import main.java.model.Computer;
+import com.excilys.cdb.mapper.CompanyMapper;
+import com.excilys.cdb.model.Company;
 
 /**
  * CompanyDAO est une couche de persistance permettant la liaison entre la classe Company et la base de données.

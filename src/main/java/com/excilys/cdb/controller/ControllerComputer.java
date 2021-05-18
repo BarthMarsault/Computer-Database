@@ -1,9 +1,9 @@
-package main.java.controller;
+package com.excilys.cdb.controller;
 
-import main.java.model.Computer;
-import main.java.persistence.ComputerDAO;
-import main.java.service.PageComputer;
-import main.java.ui.ComputerManagement;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.ComputerDAO;
+import com.excilys.cdb.service.PageComputer;
+import com.excilys.cdb.ui.ComputerManagement;
 
 public class ControllerComputer {
 	private static PageComputer page = PageComputer.getPageComputer();

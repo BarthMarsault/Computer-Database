@@ -1,8 +1,8 @@
-package main.java.ui;
+package com.excilys.cdb.ui;
 
 import java.util.Scanner;
 
-import main.java.controller.ControllerCompany;
+import com.excilys.cdb.controller.ControllerCompany;
 
 public class Root {
 	
