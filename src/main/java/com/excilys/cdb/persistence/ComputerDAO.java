@@ -111,7 +111,10 @@ public class ComputerDAO {
 	 * @return
 	 */
 	public boolean deleteComputer(int id) {
-		if(id < 1) return false;
+		if(id < 1) {
+			logger.trace("Tentative de suppression d'un ordinateur sans id");
+			return false;
+		}
 		
 		try {
 			Connection conn = DB.getInstance().getConnection();
@@ -247,6 +250,10 @@ public class ComputerDAO {
 			//e.printStackTrace();
 		}
 		
+		if(computers.size() == 0) {
+			logger.trace("Retour d'une liste de Computer vide");
+		}
+		
 		
 		return computers;
 	}
@@ -288,6 +295,10 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			//e.printStackTrace();
+		}
+		
+		if(!computer.isPresent()) {
+			logger.trace("Retour d'un Optional<Computer> vide");
 		}
 		return computer;
 		

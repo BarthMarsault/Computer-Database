@@ -5,3 +5,4 @@
 14:58:22.814 [main] WARN  com.excilys.cdb.Main - Warn test
 15:04:38.437 [main] ERROR com.excilys.cdb.Main - ERROR
 15:05:16.648 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECTT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name FROM computer C' at line 1
+10:15:57.134 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'un Optional<Computer> vide

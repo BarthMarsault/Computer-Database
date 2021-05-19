@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,15 @@ public class CompanyMapper {
 	 * @param rs ResultSet
 	 * @return une instance de la classe Company
 	 */
-	public Company resultSetToCompany(ResultSet rs) {
+	public Optional<Company> resultSetToCompany(ResultSet rs) {
+		Optional<Company> company = Optional.empty();
 		try {
-			return new Company(rs.getInt(1), rs.getString(2));
+			company = Optional.ofNullable(new Company(rs.getInt(1), rs.getString(2)));
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}
-		return null;
+		
+		return company;
 	}
 	
 	public List<Company> resultSetToListCompany(ResultSet rs){
@@ -50,11 +53,16 @@ public class CompanyMapper {
 		
 		try {
 			while(rs.next()) {
-				companies.add(resultSetToCompany(rs));
+				Optional<Company> company = resultSetToCompany(rs);
+				if(company.isPresent()) {
+					companies.add(company.get());
+				}
+				
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}
+		
 		
 		return companies;
 	}

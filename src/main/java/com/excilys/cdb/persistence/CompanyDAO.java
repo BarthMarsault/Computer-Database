@@ -75,7 +75,9 @@ public class CompanyDAO {
 			logger.error(e.getMessage());
 			//e.printStackTrace();
 		}
-		
+		if(companies.size() == 0) {
+			logger.trace("Retour d'un liste de Company vide");
+		}
 		
 		return companies;
 	}
@@ -102,7 +104,7 @@ public class CompanyDAO {
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				company = Optional.ofNullable(mapper.resultSetToCompany(rs));
+				company = mapper.resultSetToCompany(rs);
 			}
 			
 			
@@ -113,6 +115,10 @@ public class CompanyDAO {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			//e.printStackTrace();
+		}
+		
+		if(!company.isPresent()) {
+			logger.trace("Retour d'un Optional<Company> vide");
 		}
 		
 		return company;
