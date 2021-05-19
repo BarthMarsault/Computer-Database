@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
@@ -18,6 +21,7 @@ import com.excilys.cdb.model.Computer;
  */
 public class ComputerMapper {
 	
+	private static final Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 	private static ComputerMapper computerMapper = null;
 	
 	private ComputerMapper() {
@@ -49,8 +53,7 @@ public class ComputerMapper {
 			
 			return Optional.ofNullable(new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, company));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return Optional.empty();
 	}
@@ -67,8 +70,7 @@ public class ComputerMapper {
 				
 			}
 		} catch (SQLException e) {
-
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return computers;
