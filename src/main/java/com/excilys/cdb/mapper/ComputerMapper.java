@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Computer.ComputerBuilder;
 
 /**
  * Classe de Mapping de la classe Computer
@@ -51,7 +52,8 @@ public class ComputerMapper {
 			
 			Company company = new Company(rs.getInt(5), rs.getString(6));
 			
-			return Optional.ofNullable(new Computer(rs.getInt(1), rs.getString(2), ldIntr, ldDisc, company));
+			return Optional.ofNullable(new ComputerBuilder().withId(rs.getInt(1)).withName(rs.getString(2))
+					.withIntroduced(ldIntr).withDiscontinued(ldDisc).withCompany(company).build());
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}

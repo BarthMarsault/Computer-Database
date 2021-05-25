@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.excilys.cdb.controller.ControllerComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Computer.ComputerBuilder;
 import com.excilys.cdb.persistence.CompanyDAO;
 import com.excilys.cdb.persistence.ComputerDAO;
 
@@ -134,28 +135,28 @@ public class ComputerManagement {
 	 */
 	public static Computer create() {
 		String entry;
-		Computer computer = new Computer();
+		ComputerBuilder computer = new ComputerBuilder();
 		Scanner sc = new Scanner(System.in);
 		LocalDate date = null;
 
 		//Nom
 		System.out.print("Entrez le nom de l'ordinateur : ");
 		entry = sc.nextLine();
-		computer.setName(entry);
+		computer.withName(entry);
 
 		//Date d'introduction
 		if (UiUtils.askYesNo("Voulez vous ajouter une date d'introduction :")) { // Yes/No
 			System.out.print("Entrez la date d'introduction (AAAA-MM-DD) : ");
 			date = UiUtils.askDate("Entrez la date d'introduction (AAAA-MM-DD) :");
 		}
-		computer.setIntroduced(date);
+		computer.withIntroduced(date);
 		date = null;
 		//Date de discontinuité
 		if (UiUtils.askYesNo("Voulez vous ajouter une date de discontinuité : ")) { // Yes/No
 			date = null;
 			date = UiUtils.askDate("Entrez la date de discontinuité (AAAA-MM-DD) :");
 		}
-		computer.setDiscontinued(date);
+		computer.withDiscontinued(date);
 		
 		//Constructeur
 		if (UiUtils.askYesNo("Voulez vous ajouter constructeur :")) { // Yes/No
@@ -169,16 +170,15 @@ public class ComputerManagement {
 				if (!company.isPresent()) {
 					System.out.println("l'id : " + id + " n'est pas valide");
 				} else {					
-					computer.setCompany(company.get());
+					computer.withCompany(company.get());
 					valid = true;
 				}
 
 			}
 
-		} else {
-			computer.setCompany(null);
 		}
-		return computer;
+		
+		return computer.build();
 
 	}
 

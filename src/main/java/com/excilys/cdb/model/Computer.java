@@ -3,7 +3,6 @@ package com.excilys.cdb.model;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import com.excilys.cdb.persistence.CompanyDAO;
 import com.excilys.cdb.persistence.ComputerDAO;
 
 public class Computer {
@@ -14,30 +13,64 @@ public class Computer {
 	private LocalDate discontinued;
 	private Company company;
 	
-	public Computer() {
-		super();
+	
+	private Computer(ComputerBuilder builder) {
+		id = builder.id;
+		name = builder.name;
+		introduced = builder.introduced;
+		discontinued = builder.discontinued;
+		company = builder.company;
 	}
 	
-	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.company = company;
-	}
 	
+	public static class ComputerBuilder {
+		private int id = 0;
+		private String name = null;
+		private LocalDate introduced = null;
+		private LocalDate discontinued = null;
+		private Company company = null;
+		
+		public ComputerBuilder() {
+			
+		}
+		
+				
+		public ComputerBuilder withId(int id) {
+			this.id = id;
+			return this;
+		}
+		
+		public ComputerBuilder withName(String name) {
+			this.name = name;
+			return this;
+		}
+		
+		public ComputerBuilder withIntroduced(LocalDate introduced) {
+			this.introduced = introduced;
+			return this;
+		}
+		
+		public ComputerBuilder withDiscontinued(LocalDate discontinued) {
+			this.discontinued = discontinued;
+			return this;
+		}
+		
+		public ComputerBuilder withCompany(Company company) {
+			this.company = company;
+			return this;
+		}
+		
+		public Computer build() {
+			return new Computer(this);
+		}
+	}
+		
+		
+		
 	
 
-
-	public Computer(String name, LocalDate introduced, LocalDate discontinued, Company company) {
-		super();
-		this.id = 0;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.company = company;
-	}
+	
+	
 	
 	public boolean alreadyExistInDB() {
 		return this.equals(ComputerDAO.getInstance().findComputerById(id));
