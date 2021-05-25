@@ -24,6 +24,8 @@ public class ComputerDAO {
 	private static ComputerDAO computerDAO = null;
 	ComputerMapper mapper;
 	
+	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
+	
 	private ComputerDAO() {
 		mapper = ComputerMapper.getInstance();
 	}
@@ -112,7 +114,7 @@ public class ComputerDAO {
 	 */
 	public boolean deleteComputer(int id) {
 		if(id < 1) {
-			logger.trace("Tentative de suppression d'un ordinateur sans id");
+			//logger.trace("Tentative de suppression d'un ordinateur sans id");
 			return false;
 		}
 		
@@ -267,7 +269,6 @@ public class ComputerDAO {
 	public Optional<Computer> findComputerById(int id) {
 		Optional<Computer>computer = Optional.empty();
 		try {
-			
 			Connection conn = DB.getInstance().getConnection();
 			
 			String req = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
@@ -277,15 +278,12 @@ public class ComputerDAO {
 						" WHERE C.id = ?";
 			
 			
-			
 			PreparedStatement ps = conn.prepareStatement(req);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			
 			if(rs.next()) {
 				computer = mapper.resultSetToComputer(rs);
 			}
-			
 			
 			
 			
@@ -303,4 +301,24 @@ public class ComputerDAO {
 		return computer;
 		
 	}
+	
+	public int getComputerCount() {
+		int nbComputer = 0;
+		
+		try (Connection conn = DB.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement(sqlGetCountComputer);
+				ResultSet rs = ps.executeQuery();){
+			if(rs.next()) {
+				nbComputer = rs.getInt(1);
+			}
+			
+		}catch(SQLException e) {
+			logger.error(e.getMessage());
+		}
+		
+		
+		
+		return nbComputer;
+	}
+	
 }

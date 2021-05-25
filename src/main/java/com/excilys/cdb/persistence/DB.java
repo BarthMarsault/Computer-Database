@@ -29,15 +29,16 @@ public class DB {
 	
 	public Connection getConnection() {
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			if(conn == null || conn.isClosed()) {       
 		        String connString = protocole +  "//" + ip +  ":" + port +  "/" + dbName ;
-				
 			    conn = DriverManager.getConnection(connString, user, password);
 			}
-		    
-		} catch (SQLException e) {
+					    
+		} catch (SQLException | ClassNotFoundException e) {
 			logger.error(e.getMessage());
 		}
+		
 		
 		return conn;
 	}
