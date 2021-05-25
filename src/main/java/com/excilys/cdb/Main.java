@@ -3,6 +3,8 @@ package com.excilys.cdb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.ComputerDAO;
 import com.excilys.cdb.ui.Root;
 
 
@@ -15,12 +17,11 @@ public class Main {
 		System.out.println("Hello");
 		
 		
-		/*
-		for(Computer c : ComputerDAO.getComputers()) {
+		
+		/*for(Computer c : ComputerDAO.getInstance().findComputersByNameWithLimit("Mac",10,0)) {
 			System.out.println(c.toString());
 			
-		}
-		*/
+		}*/
 		
 		
 		Root.printRoot();

@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,java-web,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,java-web,eclipse
 
+logs.txt
+*.properties
+
 ### Maven ###
 target/
 pom.xml.tag

@@ -31,6 +31,12 @@ public class ComputerDAO {
 			" ON C.company_id = Y.id" +
 			" WHERE C.id = ?";
 	
+	private final String sqlFindComputerByName = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+			" FROM " + tableName + " C" +
+			" LEFT JOIN company Y" +
+			" ON C.company_id = Y.id" +
+			" WHERE C.name LIKE ?";
+	
 	
 	private final String sqlGetComputers= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
 		 	" FROM " + tableName + " C" +
@@ -260,6 +266,46 @@ public class ComputerDAO {
 		return computer;
 		
 	}
+	
+	public List<Computer> findComputersByName(String name){
+		return findComputersByNameWithLimit(name,-1,-1);
+	}
+	
+	
+	public List<Computer> findComputersByNameWithLimit(String name, int limit, int offset){
+		List<Computer> computers = new ArrayList<>();
+		ResultSet rs;
+		String req = sqlFindComputerByName;
+		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
+		if(limit >= 0) { req += " LIMIT ?";}
+		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
+				
+		try (Connection conn = DB.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement(req)){
+			ps.setString(1, "%" + name + "%");
+			
+			if(limit >= 0) { ps.setInt(2, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(3, offset);}
+			rs = ps.executeQuery();
+		
+			
+			computers = mapper.resultSetToListComputer(rs);
+			
+			rs.close();			
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			//e.printStackTrace();
+		}
+		
+		if(computers.size() == 0) {
+			logger.trace("Retour d'une liste de Computer vide");
+		}
+		
+		
+		return computers;
+	}
+	
+
 	
 	
 	/**
