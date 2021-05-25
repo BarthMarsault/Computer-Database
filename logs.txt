@@ -10,3 +10,13 @@
 10:48:36.474 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un liste de Company vide
 10:49:52.948 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - No value specified for parameter 1
 10:49:52.954 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un liste de Company vide
+11:07:37.023 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:07:37.029 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:08:30.959 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:08:30.966 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:10:00.548 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:10:00.555 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:10:21.871 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:10:21.878 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:11:16.229 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:11:16.236 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide

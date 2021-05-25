@@ -13,9 +13,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../static/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="../static/css/main.css" rel="stylesheet" media="screen">
+<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="static/css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="static/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -125,15 +125,17 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+	        <form action="" method="options">
+	        	<button type="submit" class="btn btn-default" value="10" name="nbComputerByPage">10</button>
+	            <button type="submit" class="btn btn-default" value="50" name="nbComputerByPage">50</button>
+	            <button type="submit" class="btn btn-default" value="100" name="nbComputerByPage">100</button>  
+	        </form>          
         </div>
 
     </footer>
-<script src="../static/js/jquery.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
-<script src="../static/js/dashboard.js"></script>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/dashboard.js"></script>
 
 </body>
 </html>

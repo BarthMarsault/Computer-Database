@@ -21,7 +21,7 @@ public class Test extends HttpServlet {
 
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		
-		List<Computer> computers = (List<Computer>) ComputerDAO.getInstance().getComputerWithLimit(50,0);
+		List<Computer> computers = (List<Computer>) ComputerDAO.getInstance().getComputersWithLimit(50,0);
 
 
 		
