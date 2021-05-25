@@ -36,7 +36,7 @@ public class PageComputer {
 	}
 	
 	public List<Computer> initPage(){
-		return computerDAO.getComputerWithLimit(nbLine, currentLine);
+		return computerDAO.getComputersWithLimit(nbLine, currentLine);
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class PageComputer {
 	 */
 	public List<Computer> nextPage(){
 		currentLine += nbLine;
-		List<Computer> computers = computerDAO.getComputerWithLimit(nbLine, currentLine);
+		List<Computer> computers = computerDAO.getComputersWithLimit(nbLine, currentLine);
 		
 		if(computers.size() == 0) {
 			currentLine -= nbLine;			
@@ -65,7 +65,7 @@ public class PageComputer {
 		}else {
 			currentLine = 0;
 		}
-		List<Computer> computers = computerDAO.getComputerWithLimit(nbLine, currentLine);
+		List<Computer> computers = computerDAO.getComputersWithLimit(nbLine, currentLine);
 		return computers;
 	}
 	
