@@ -26,6 +26,11 @@ public class CompanyDAO {
 	private static CompanyDAO companyDAO = null;
 	CompanyMapper mapper;
 	
+	private final String sqlFindCompanyById = "SELECT * FROM " + tableName +
+			" WHERE id = ?";
+	
+	private final String sqlGetCompanies = "SELECT * FROM " + tableName;
+	
 	
 	private CompanyDAO() {
 		mapper = CompanyMapper.getInstance();
@@ -50,16 +55,15 @@ public class CompanyDAO {
 	public List<Company> getCompaniesWithLimit(int limit, int offset){
 		List<Company> companies = new ArrayList<>();
 		ResultSet rs;
+		
+		String req = sqlGetCompanies;
+		
+		
+		if(limit >= 0) { req += " LIMIT ?";}
+		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 				
-		try {
-			Connection conn = DB.getInstance().getConnection();
-			
-			String req = "SELECT * FROM " + tableName;
-			
-			if(limit >= 0) { req += " LIMIT ?";}
-			if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
-			
-			PreparedStatement ps = conn.prepareStatement(req);
+		try (Connection conn = DB.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement(req);){
 			
 			if(limit >= 0) { ps.setInt(1, limit);}
 			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
@@ -69,8 +73,6 @@ public class CompanyDAO {
 			companies = mapper.resultSetToListCompany(rs);
 			
 			rs.close();
-			ps.close();
-			conn.close();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			//e.printStackTrace();
@@ -91,14 +93,9 @@ public class CompanyDAO {
 	public Optional<Company> findCompanyById(int id) {
 		Optional<Company> company = Optional.empty();
 		
-		try {
-			Connection conn = DB.getInstance().getConnection();
-			
-			String req = "SELECT * FROM " + tableName +
-						" WHERE id = ?";
-			
-			
-			PreparedStatement ps = conn.prepareStatement(req);
+		try (Connection conn = DB.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement(sqlFindCompanyById);){
+
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
@@ -110,8 +107,6 @@ public class CompanyDAO {
 			
 									
 			rs.close();
-			ps.close();
-			conn.close();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			//e.printStackTrace();

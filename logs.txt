@@ -6,3 +6,7 @@
 15:04:38.437 [main] ERROR com.excilys.cdb.Main - ERROR
 15:05:16.648 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECTT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name FROM computer C' at line 1
 10:15:57.134 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'un Optional<Computer> vide
+10:48:36.469 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - No value specified for parameter 1
+10:48:36.474 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un liste de Company vide
+10:49:52.948 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - No value specified for parameter 1
+10:49:52.954 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un liste de Company vide
