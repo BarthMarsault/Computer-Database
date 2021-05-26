@@ -15,12 +15,17 @@ import com.excilys.cdb.persistence.ComputerDAO;
 @WebServlet( name="Dashboard", urlPatterns = "/dashboard" )
 public class Dashboard extends HttpServlet{
 	
-	private int nbComputerByPage = 10;
+	
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+		int nbComputerByPage = 10;
+		if(request.getParameter("nbComputerByPage") != null) {
+			nbComputerByPage = Integer.parseInt(request.getParameter("nbComputerByPage"));
+		}
+		ArrayList<Computer> computers = (ArrayList<Computer>) ComputerDAO.getInstance().getComputersWithLimit(nbComputerByPage, 0);
 		
-		ArrayList<Computer> computers = (ArrayList<Computer>) ComputerDAO.getInstance().getComputersWithLimit(10, 0);
-		System.out.println(ComputerDAO.getInstance().getComputerCount());
+		
+		//System.out.println("nbByDefault : " + Integer.parseInt(request.getParameter("nbComputerByPage")));
 		
 		request.setAttribute("nbComputer", ComputerDAO.getInstance().getComputerCount());
 		request.setAttribute("computers", computers );
@@ -30,7 +35,7 @@ public class Dashboard extends HttpServlet{
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		//int nbComputerByPage = Integer.parseInt(request.getParameter("nbComputerByPage"));
-		ArrayList<Computer> computers = (ArrayList<Computer>) ComputerDAO.getInstance().getComputersWithLimit(nbComputerByPage, 0);
+		ArrayList<Computer> computers = (ArrayList<Computer>) ComputerDAO.getInstance().getComputersWithLimit(10, 0);
 		System.out.println("PASSAGE POST : " + request.getParameter("nbComputerByPage"));
 		
 		request.setAttribute("nbComputer", ComputerDAO.getInstance().getComputerCount());
@@ -38,11 +43,5 @@ public class Dashboard extends HttpServlet{
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 	}
-	
-	public void doOptions(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-		String tmp = request.getParameter("nbComputerByPage");
-		
-		nbComputerByPage = Integer.parseInt(tmp);
-		
-	}
+
 }

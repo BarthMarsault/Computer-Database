@@ -11,9 +11,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.dto.ComputerDTO;
+import com.excilys.cdb.dto.ComputerDTO.ComputerDTOBuilder;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Computer.ComputerBuilder;
+import com.excilys.cdb.persistence.CompanyDAO;
 
 /**
  * Classe de Mapping de la classe Computer
@@ -76,6 +79,65 @@ public class ComputerMapper {
 		}
 		
 		return computers;
+	}
+	
+	
+	public Optional<ComputerDTO> resultSetToComputerDTO(ResultSet rs){
+		Optional<ComputerDTO> computerDTO = Optional.empty();
+		try {
+			Date dIntr = rs.getDate(3);
+			Date dDisc = rs.getDate(4);
+			
+			String intr =  dIntr != null ? dIntr.toString() : null;
+			String disc = dDisc != null ? dDisc.toString() : null;
+					
+			computerDTO = Optional.ofNullable(new ComputerDTOBuilder().withId(rs.getInt(1)).withName(rs.getString(2))
+					.withIntroduced(intr).withDiscontinued(disc).withIdCompany(rs.getInt(5)).build());
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			//e.printStackTrace();
+		}
+		
+		return computerDTO;
+	}
+	
+	public List<ComputerDTO> resultSetToListComputerDTO(ResultSet rs) {
+		ArrayList<ComputerDTO> computers = new ArrayList<>();
+		
+		try {
+			while(rs.next()) {
+				Optional<ComputerDTO> computer = resultSetToComputerDTO(rs);
+				if(computer.isPresent()) {
+					computers.add(computer.get());
+				}
+				
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return computers;
+	}
+	
+	
+	public Optional<Computer> computerDtoToComputer(ComputerDTO dto){
+		Optional<Computer> computer = Optional.empty();
+		String intr = dto.getIntroduced();
+		String disc = dto.getDiscontinued();
+		
+		LocalDate ldIntr = intr != null ? LocalDate.parse(intr) : null;
+		LocalDate ldDisc = disc != null ? LocalDate.parse(disc) : null;
+		
+		//WIP A faire comme ça ????
+		Optional<Company> company = CompanyDAO.getInstance().findCompanyById(dto.getIdCompany());
+		
+		
+		computer = Optional.ofNullable(new ComputerBuilder().withId(dto.getId()).withName(dto.getName())
+				.withIntroduced(ldIntr).withDiscontinued(ldDisc)
+				.withCompany(company.isPresent() ? company.get() : null).build());
+
+		
+		return computer;
 	}
 
 }

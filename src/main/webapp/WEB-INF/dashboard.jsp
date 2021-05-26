@@ -42,7 +42,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -125,7 +125,7 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-	        <form action="" method="options">
+	        <form action="" method="get">
 	        	<button type="submit" class="btn btn-default" value="10" name="nbComputerByPage">10</button>
 	            <button type="submit" class="btn btn-default" value="50" name="nbComputerByPage">50</button>
 	            <button type="submit" class="btn btn-default" value="100" name="nbComputerByPage">100</button>  

@@ -112,7 +112,7 @@ public class CompanyDAO {
 			//e.printStackTrace();
 		}
 		
-		if(!company.isPresent()) {
+		if(!company.isPresent() && id > 0) {
 			logger.trace("Retour d'un Optional<Company> vide");
 		}
 		
