@@ -23,17 +23,10 @@ drop schema if exists `computer-database-db-test`;
   alter table computer add constraint fk_computer_company_1 foreign key (company_id) references company (id) on delete restrict on update restrict;
   create index ix_computer_company_1 on computer (company_id);
 
-  #-----------------------------------
-  #USER RIGHTS MANAGEMENT
-  #-----------------------------------
-  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa';
-
-  GRANT ALL PRIVILEGES ON `computer-database-db`.* TO 'sa'@'localhost' WITH GRANT OPTION;
-
-
-  FLUSH PRIVILEGES;
   
-  insert into company (id,name) values (  1,'Apple Inc.');
+
+  
+insert into company (id,name) values (  1,'Apple Inc.');
 insert into company (id,name) values (  2,'Thinking Machines');
 insert into company (id,name) values (  3,'RCA');
 insert into company (id,name) values (  4,'Netronics');

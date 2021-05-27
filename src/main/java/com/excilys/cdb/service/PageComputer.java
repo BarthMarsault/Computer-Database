@@ -12,9 +12,14 @@ import com.excilys.cdb.persistence.ComputerDAO;
  *
  */
 public class PageComputer {
-	private int nbLine;
+	private int nbLine;	
 	private int currentLine;
 	private ComputerDAO computerDAO;
+	
+	private int nbLineTotal;
+	private int nbLineOnPage;
+	private int nbPage;
+	private int currentPage;
 	
 	private static PageComputer page = null;
 	
@@ -23,6 +28,8 @@ public class PageComputer {
 		this.currentLine = 0;
 		computerDAO = ComputerDAO.getInstance();
 	}
+	
+	
 	
 	public static PageComputer getPageComputer() {
 		if(page == null) {

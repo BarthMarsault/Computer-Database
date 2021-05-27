@@ -106,32 +106,41 @@
 
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
-            <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+        	<ul class="pagination">
+           		<li>
+	               	<!-- <a href="p-${pageNumber > 1 ? pageNumber - 1 : 1}" aria-label="Previous"> -->
+	               	<a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${pageNumber > 1 ? pageNumber - 1 : 1}"/></c:url>" aria-label="Previous">
+	                	<span aria-hidden="true">&laquo;</span>
+	                </a>
+	              </li>
+	              <!-- <li><a href="p-1"><c:out value = "1" /></a></li> -->
+	              <li><a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${1}"/></c:url>">${1}</a></li>
+	              <li><a >...</a></li>
+	              <c:forEach items="${pageProposition}" var="var">
+					    <!--<li><a href="p-${ var }">${ var }</a></li> -->
+					    <li><a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${var}"/></c:url>">${var}</a></li>
+				  </c:forEach> 
+	              <li><a >...</a></li>
+	              <!-- <li><a href="p-${numberOfPage}"><c:out value = "${numberOfPage}" /></a></li> -->
+	              <li><a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${numberOfPage}"/></c:url>">${numberOfPage}</a></li>
+	              <li>
+	                <!-- <a href="p-${pageNumber < numberOfPage ? pageNumber+1 : pageNumber }" aria-label="Next"> -->
+	                <a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${pageNumber < numberOfPage ? pageNumber+1 : pageNumber}"/></c:url>" aria-label="Previous">
+	                    <span aria-hidden="true">&raquo;</span>
+	                </a>
+      			</li>
+        	</ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
 	        <form action="" method="get">
 	        	<button type="submit" class="btn btn-default" value="10" name="nbComputerByPage">10</button>
 	            <button type="submit" class="btn btn-default" value="50" name="nbComputerByPage">50</button>
-	            <button type="submit" class="btn btn-default" value="100" name="nbComputerByPage">100</button>  
+	            <button type="submit" class="btn btn-default" value="100" name="nbComputerByPage">100</button>
+	            <button type="submit" class="btn btn-default" value="<c:out value = "${nbComputer}" />" name="nbComputerByPage"><c:out value = "${nbComputer}" /></button>  
+	       		
 	        </form>          
         </div>
-
+		</div>
     </footer>
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>

@@ -54,6 +54,11 @@ public class AddComputer extends HttpServlet {
 		
 		if(ComputerService.getInstance().addComputerToDatabase(computerDTO)) {
 			//WIP - Redirection ?
+			//System.out.println("Ordi créé");
+			//response.sendRedirect("dashboard");
+			
+			//request.setAttribute(PAGE_REQUEST, "last");                          
+			//request.getRequestDispatcher("/dashboard/p-1").forward(request,response);
 		}
 		
 		
