@@ -84,7 +84,7 @@ public class ComputerDAO {
 			String name = c.getName();
 			LocalDate intr = c.getIntroduced();
 			LocalDate disc = c.getDiscontinued();
-			int idCompany = c.getCompany().getId();
+			int idCompany = c.getCompany() != null ? c.getCompany().getId() : 0;
 			
 
 			
@@ -93,10 +93,13 @@ public class ComputerDAO {
 			ps.setDate(2, intr != null ? Date.valueOf(intr) : null);
 			ps.setDate(3, disc != null ? Date.valueOf(disc) : null);			
 			
-			if(idCompany > 0)
+			
+			if(idCompany > 0) {
 				ps.setInt(4, idCompany);
-			else
+			} else {
 				ps.setNull(4, java.sql.Types.INTEGER);
+			}
+				
 			
 			
 			ps.executeUpdate();

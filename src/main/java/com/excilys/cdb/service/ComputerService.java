@@ -1,5 +1,7 @@
 package com.excilys.cdb.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.excilys.cdb.dto.ComputerDTO;
@@ -38,6 +40,16 @@ public class ComputerService {
 		return false;
 	}
 	
+	public List<ComputerDTO> getComputerDTOWithLimit(int limit, int offset){
+		ArrayList<ComputerDTO> computers = new ArrayList<>();
+		ComputerMapper mapper = ComputerMapper.getInstance();
+		
+		for(Computer computer : ComputerDAO.getInstance().getComputersWithLimit(limit, offset)) {
+			computers.add(mapper.computerToComputerDTO(computer).get());
+		}
+		
+		return computers;
+	}
 
 	
 	

@@ -17,22 +17,19 @@ import junit.framework.TestCase;
 
 public class TestCompanyDAO {
 	
+	
+	
+	private static CompanyDAO companyDAO = CompanyDAO.getInstance();
+	
+	
+	//@Before
+	/*public void setup() throws SQLException, IOException {
 
-	
-	private CompanyDAO companyDAO;
-	
-	
-	@Before
-	public void setup() throws SQLException, IOException {
-
-		companyDAO = CompanyDAO.getInstance();
+		//companyDAO = CompanyDAO.getInstance();
 		
-    }
+    }*/
 	
-	@After
-	public void close() {
-		
-	}
+	
 	
 	@Test
 	public void testFindCompanyByIdOK() {
@@ -40,13 +37,19 @@ public class TestCompanyDAO {
 		Optional<Company> company = companyDAO.findCompanyById(1);
 		assertTrue(company.isPresent());
 		assertEquals("Apple Inc.", company.get().getName());
+		
+		company = companyDAO.findCompanyById(0);
+		assertFalse(company.isPresent());
 	}
 	
 	/*@Test
-	public void test() {
+	public void testFindByIdReturnOptionnalEmpty() {
 		assertFalse(false);
 		Optional<Company> company = companyDAO.findCompanyById(0);
+		assertFalse(company.isPresent());
 	}*/
+	
+	
 	
 	
 

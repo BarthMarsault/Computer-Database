@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.excilys.cdb.dto.ComputerDTO;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDAO;
+import com.excilys.cdb.service.ComputerService;
 import com.excilys.cdb.service.PageComputer;
 
-@WebServlet( name="Dashboard", urlPatterns = { "/dashboard", "/dashboard/*"})
+@WebServlet( name="Dashboard", urlPatterns = { "/dashboard" })
 public class Dashboard extends HttpServlet{
 	
 	
@@ -27,6 +29,8 @@ public class Dashboard extends HttpServlet{
 		int currentPageNumber = 1;
 		int numberOfPage;
 		int nbComputer;
+		
+		
 		if(request.getParameter("pageRequest") != null){
 			currentPageNumber = Integer.parseInt(request.getParameter("pageRequest"));
 		}
@@ -40,15 +44,11 @@ public class Dashboard extends HttpServlet{
 				session.setAttribute("nbComputerByPage", "10");
 			}
 		}
-		
+
 		
 		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
 		
 		
-		
-		if(request.getParameter("pageNumber") != null) {
-			currentPageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}
 		
 		nbComputer = ComputerDAO.getInstance().getComputerCount();
 		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
@@ -63,10 +63,7 @@ public class Dashboard extends HttpServlet{
 		}
 		
 		
-		
-		
-		ArrayList<Computer> computers = (ArrayList<Computer>) ComputerDAO.getInstance().getComputersWithLimit(nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
-
+		ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) ComputerService.getInstance().getComputerDTOWithLimit(numberOfPage, (currentPageNumber-1)*nbComputerByPage);
 		
 		request.setAttribute("nbComputer", nbComputer);
 		request.setAttribute("computers", computers );

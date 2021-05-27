@@ -92,7 +92,7 @@ public class ComputerMapper {
 			String disc = dDisc != null ? dDisc.toString() : null;
 					
 			computerDTO = Optional.ofNullable(new ComputerDTOBuilder().withId(rs.getInt(1)).withName(rs.getString(2))
-					.withIntroduced(intr).withDiscontinued(disc).withIdCompany(rs.getInt(5)).build());
+					.withIntroduced(intr).withDiscontinued(disc).withIdCompany(rs.getInt(5)).withNameCompany(rs.getString(6)).build());
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			//e.printStackTrace();
@@ -119,23 +119,43 @@ public class ComputerMapper {
 		return computers;
 	}
 	
+	public Optional<ComputerDTO> computerToComputerDTO(Computer c) {
+		Optional<ComputerDTO> computerDTO = Optional.empty();
+		
+		LocalDate dIntr = c.getIntroduced();
+		LocalDate dDisc = c.getDiscontinued();
+		
+		String intr =  dIntr != null ? dIntr.toString() : null;
+		String disc = dDisc != null ? dDisc.toString() : null;
+		
+		computerDTO = Optional.ofNullable(new ComputerDTOBuilder().withId(c.getId()).withName(c.getName())
+				.withIntroduced(intr).withDiscontinued(disc)
+				.withIdCompany(c.getCompany().getId()).withNameCompany(c.getCompany().getName()).build());
+		
+		return computerDTO;
+	}
+	
 	
 	public Optional<Computer> computerDtoToComputer(ComputerDTO dto){
 		Optional<Computer> computer = Optional.empty();
+		Optional<Company> company = Optional.empty();
 		String intr = dto.getIntroduced();
 		String disc = dto.getDiscontinued();
 		
 		LocalDate ldIntr = intr != null ? LocalDate.parse(intr) : null;
 		LocalDate ldDisc = disc != null ? LocalDate.parse(disc) : null;
 		
+		
 		//WIP A faire comme ça ????
-		Optional<Company> company = CompanyDAO.getInstance().findCompanyById(dto.getIdCompany());
+		if(dto.getIdCompany() > 0) {
+			company = CompanyDAO.getInstance().findCompanyById(dto.getIdCompany());
+		}
 		
 		
 		computer = Optional.ofNullable(new ComputerBuilder().withId(dto.getId()).withName(dto.getName())
 				.withIntroduced(ldIntr).withDiscontinued(ldDisc)
 				.withCompany(company.isPresent() ? company.get() : null).build());
-
+		
 		
 		return computer;
 	}

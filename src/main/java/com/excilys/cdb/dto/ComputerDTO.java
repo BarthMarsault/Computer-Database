@@ -3,11 +3,15 @@ package com.excilys.cdb.dto;
 import java.time.LocalDate;
 
 public class ComputerDTO {
+	
+	private final int NAME_MIN_SIZE = 2;
+	
 	private int id;
 	private String name;
 	private String introduced;
 	private String discontinued;
 	private int idCompany;
+	private String nameCompany;
 	
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		id = builder.id;
@@ -15,12 +19,13 @@ public class ComputerDTO {
 		introduced = builder.introduced;
 		discontinued = builder.discontinued;
 		idCompany = builder.idCompany;
+		nameCompany = builder.nameCompany;
 	}
 	
 	
 	public boolean isValid() {
 		
-		if (name == null || name.equals("")) {
+		if (name == null || name.equals("") || name.length() <= NAME_MIN_SIZE) {
 			return false;
 		}
 		if(discontinued != null && introduced == null) {
@@ -50,6 +55,7 @@ public class ComputerDTO {
 		private String introduced = null;
 		private String discontinued = null;
 		private int idCompany = 0;
+		private String nameCompany = null;
 		
 		public ComputerDTOBuilder() {
 			
@@ -67,12 +73,12 @@ public class ComputerDTO {
 		}
 		
 		public ComputerDTOBuilder withIntroduced(String introduced) {
-			this.introduced = introduced.equals("") ? null : introduced;
+			this.introduced = introduced == null || introduced.equals("") ? null : introduced;
 			return this;
 		}
 		
 		public ComputerDTOBuilder withDiscontinued(String discontinued) {
-			this.discontinued = discontinued.equals("") ? null : discontinued;
+			this.discontinued = discontinued == null || discontinued.equals("") ? null : discontinued;
 			return this;
 		}
 		
@@ -81,11 +87,26 @@ public class ComputerDTO {
 			return this;
 		}
 		
+		public ComputerDTOBuilder withNameCompany(String nameCompany) {
+			this.nameCompany = nameCompany;
+			return this;
+		}
+		
 		public ComputerDTO build() {
 			return new ComputerDTO(this);
 		}
 	}
 
+
+
+	public String getNameCompany() {
+		return nameCompany;
+	}
+
+
+	public void setNameCompany(String nameCompany) {
+		this.nameCompany = nameCompany;
+	}
 
 
 	public int getId() {
