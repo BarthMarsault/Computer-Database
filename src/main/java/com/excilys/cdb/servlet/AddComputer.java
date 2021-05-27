@@ -43,26 +43,16 @@ public class AddComputer extends HttpServlet {
 		String intr = request.getParameter("introducedValue");
 		String disc = request.getParameter("discontinuedValue");
 		int idCompany = Integer.parseInt(request.getParameter("companyIdValue"));
-		
-		System.out.println("JUI LA");
-
-		
+	
 		ComputerDTO computerDTO = new ComputerDTOBuilder().withName(name).withIntroduced(intr)
 				.withDiscontinued(disc).withIdCompany(idCompany).build();
 		
-		
-		
 		if(ComputerService.getInstance().addComputerToDatabase(computerDTO)) {
-			//WIP - Redirection ?
-			System.out.println("Ordi créé");
-			//response.sendRedirect("dashboard");
-			
-			//request.setAttribute(PAGE_REQUEST, "last");                          
-			//request.getRequestDispatcher("/dashboard/p-1").forward(request,response);
+			response.sendRedirect("dashboard");
+		}else {
+			doGet(request, response);
 		}
 		
-		
-		doGet(request, response);
 	}
 
 }
