@@ -43,10 +43,11 @@ public class Dashboard extends HttpServlet{
 			if((String) session.getAttribute("nbComputerByPage") == null) {
 				session.setAttribute("nbComputerByPage", "10");
 			}
+			nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
 		}
 
 		
-		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
+		
 		
 		
 		
@@ -62,8 +63,7 @@ public class Dashboard extends HttpServlet{
 			}
 		}
 		
-		
-		ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) ComputerService.getInstance().getComputerDTOWithLimit(numberOfPage, (currentPageNumber-1)*nbComputerByPage);
+		ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) ComputerService.getInstance().getComputerDTOWithLimit(nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
 		
 		request.setAttribute("nbComputer", nbComputer);
 		request.setAttribute("computers", computers );
