@@ -25,14 +25,7 @@ public class ComputerService {
 	}
 	
 	
-	public boolean addComputerToDatabase(ComputerDTO dto) {
-		if(!dto.isValid()) {
-			return false;
-		}
-		
-		
-		Optional<Computer>computer = ComputerMapper.getInstance().computerDtoToComputer(dto);
-
+	public boolean addComputerToDatabase(Optional<Computer> computer) {
 		if(computer.isPresent()) {
 			return ComputerDAO.getInstance().create(computer.get());
 		}	
@@ -40,15 +33,8 @@ public class ComputerService {
 		return false;
 	}
 	
-	public List<ComputerDTO> getComputerDTOWithLimit(int limit, int offset){
-		ArrayList<ComputerDTO> computers = new ArrayList<>();
-		ComputerMapper mapper = ComputerMapper.getInstance();
-		
-		for(Computer computer : ComputerDAO.getInstance().getWithLimit(limit, offset)) {
-			computers.add(mapper.computerToComputerDTO(computer).get());
-		}
-		
-		return computers;
+	public List<Computer> getComputersWithLimit(int limit, int offset){		
+		return ComputerDAO.getInstance().getWithLimit(limit, offset);
 	}
 
 	

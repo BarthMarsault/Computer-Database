@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.excilys.cdb.dto.ComputerDTO;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDAO;
 import com.excilys.cdb.service.ComputerService;
@@ -63,7 +64,11 @@ public class Dashboard extends HttpServlet{
 			}
 		}
 		
-		ArrayList<ComputerDTO> computers = (ArrayList<ComputerDTO>) ComputerService.getInstance().getComputerDTOWithLimit(nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
+		ArrayList<ComputerDTO> computers =  new ArrayList<>();
+		ComputerMapper mapper = ComputerMapper.getInstance();
+		for(Computer computer : ComputerService.getInstance().getComputersWithLimit(nbComputerByPage, (currentPageNumber-1)*nbComputerByPage)) {
+			computers.add(mapper.computerToComputerDTO(computer).get());
+		}
 		
 		request.setAttribute("nbComputer", nbComputer);
 		request.setAttribute("computers", computers );

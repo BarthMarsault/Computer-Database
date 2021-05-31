@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.cdb.dto.CompanyDTO;
+import com.excilys.cdb.dto.CompanyDTO.CompanyDTOBuilder;
 import com.excilys.cdb.model.Company;
 
 /**
@@ -65,5 +67,11 @@ public class CompanyMapper {
 		
 		
 		return companies;
+	}
+	
+	
+	public Optional<CompanyDTO> companyToCompayDTO(Company c) {
+		return Optional.ofNullable(new CompanyDTOBuilder().withId(c.getId())
+				.withName(c.getName()).build());
 	}
 }
