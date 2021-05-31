@@ -21,6 +21,7 @@ import com.excilys.cdb.model.Company;
  */
 public class CompanyDAO {
 	
+	private DB db = null;
 	static String tableName = "company";
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	private static CompanyDAO companyDAO = null;
@@ -33,6 +34,7 @@ public class CompanyDAO {
 	
 	
 	private CompanyDAO() {
+		db = DB.getInstance();
 		mapper = CompanyMapper.getInstance();
 	}
 	
@@ -47,12 +49,12 @@ public class CompanyDAO {
 	 * Retourne la liste de toutes les "Company" présente en base de données.
 	 * @return
 	 */
-	public List<Company> getCompanies(){
-		return getCompaniesWithLimit(-1,-1);
+	public List<Company> getAll(){
+		return getWithLimit(-1,-1);
 	}
 	
 	
-	public List<Company> getCompaniesWithLimit(int limit, int offset){
+	public List<Company> getWithLimit(int limit, int offset){
 		List<Company> companies = new ArrayList<>();
 		ResultSet rs;
 		
@@ -62,7 +64,7 @@ public class CompanyDAO {
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 				
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(req);){
 			
 			if(limit >= 0) { ps.setInt(1, limit);}
@@ -90,10 +92,10 @@ public class CompanyDAO {
 	 * @param id
 	 * @return Company
 	 */
-	public Optional<Company> findCompanyById(int id) {
+	public Optional<Company> findById(int id) {
 		Optional<Company> company = Optional.empty();
 		
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlFindCompanyById);){
 
 			ps.setInt(1, id);

@@ -73,7 +73,7 @@ public class Computer {
 	
 	
 	public boolean alreadyExistInDB() {
-		return this.equals(ComputerDAO.getInstance().findComputerById(id));
+		return this.equals(ComputerDAO.getInstance().findById(id));
 	}
 
 
@@ -154,6 +154,23 @@ public class Computer {
 		return id == c.id && name.equals(c.name) && introduced.equals(c.introduced)
 				&& discontinued.equals(c.discontinued) && company == c.company;
 	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+	
+	
 	
 	
 	

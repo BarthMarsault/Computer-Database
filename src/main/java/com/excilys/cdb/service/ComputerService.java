@@ -34,7 +34,7 @@ public class ComputerService {
 		Optional<Computer>computer = ComputerMapper.getInstance().computerDtoToComputer(dto);
 
 		if(computer.isPresent()) {
-			return ComputerDAO.getInstance().createComputer(computer.get());
+			return ComputerDAO.getInstance().create(computer.get());
 		}	
 			
 		return false;
@@ -44,7 +44,7 @@ public class ComputerService {
 		ArrayList<ComputerDTO> computers = new ArrayList<>();
 		ComputerMapper mapper = ComputerMapper.getInstance();
 		
-		for(Computer computer : ComputerDAO.getInstance().getComputersWithLimit(limit, offset)) {
+		for(Computer computer : ComputerDAO.getInstance().getWithLimit(limit, offset)) {
 			computers.add(mapper.computerToComputerDTO(computer).get());
 		}
 		

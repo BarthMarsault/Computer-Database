@@ -21,7 +21,7 @@ class TestComputerDAO {
 
 	@Test
 	void test() {
-		Optional<Computer> company = dao.findComputerById(1);
+		Optional<Computer> company = dao.findById(1);
 		assertTrue(company.isPresent());
 		assertEquals("MacBook Pro 15.4 inch", company.get().getName());
 	}

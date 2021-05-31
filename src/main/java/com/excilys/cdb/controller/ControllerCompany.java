@@ -12,7 +12,7 @@ public class ControllerCompany {
 	 * Appel l'affichage de toutes les Companies
 	 */
 	public static void showAllCompanies() {
-		CompaniesList.showList(CompanyDAO.getInstance().getCompanies());
+		CompaniesList.showList(CompanyDAO.getInstance().getAll());
 	}
 	
 	

@@ -51,7 +51,7 @@ public class Dashboard extends HttpServlet{
 		
 		
 		
-		nbComputer = ComputerDAO.getInstance().getComputerCount();
+		nbComputer = ComputerDAO.getInstance().getCount();
 		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
 
 		

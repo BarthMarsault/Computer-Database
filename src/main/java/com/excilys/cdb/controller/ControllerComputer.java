@@ -22,7 +22,7 @@ public class ControllerComputer {
 	
 	public static void createComputer() {
 		Computer computer = ComputerManagement.create();
-		ComputerDAO.getInstance().createComputer(computer);
+		ComputerDAO.getInstance().create(computer);
 		System.out.println(computer);
 		System.out.println("Ordinateur créé");
 	}

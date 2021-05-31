@@ -18,7 +18,7 @@ import com.excilys.cdb.model.*;
  */
 public class ComputerDAO {
 	
-	
+	private DB db = null;
 	static String tableName = "computer";
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private static ComputerDAO computerDAO = null;
@@ -56,6 +56,7 @@ public class ComputerDAO {
 			" VALUE (?,?,?,? )" ;
 	
 	private ComputerDAO() {
+		db = DB.getInstance();
 		mapper = ComputerMapper.getInstance();
 	}
 	
@@ -72,12 +73,12 @@ public class ComputerDAO {
 	 * @param c Computer
 	 * @return Boolean - true si l'orinateur est créer, false sinon.
 	 */
-	public boolean createComputer(Computer c) {
+	public boolean create(Computer c) {
 		if(c.getId() > 0) {
 			if(c.alreadyExistInDB()) return false;
 		}
 		
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlCreateComputer)){
 			
 			//Recupération des attributs
@@ -121,8 +122,8 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public boolean deleteComputer(Computer computer) {
-		return deleteComputer(computer.getId());
+	public boolean delete(Computer computer) {
+		return delete(computer.getId());
 	}
 	
 	/**
@@ -130,13 +131,13 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public boolean deleteComputer(int id) {
+	public boolean delete(int id) {
 		if(id < 1) {
 			//logger.trace("Tentative de suppression d'un ordinateur sans id");
 			return false;
 		}
 		
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlDeleteComputer)){
 			
 			ps.setInt(1, id);
@@ -157,9 +158,9 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public boolean updateComputer(Computer computer) {
+	public boolean update(Computer computer) {
 		
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlUpdateComputer)){
 			
 			//Recupération des attributs
@@ -200,13 +201,13 @@ public class ComputerDAO {
 	 * Retourne la liste de tous les ordinateurs.
 	 * @return
 	 */
-	public List<Computer> getComputers(){
-		return getComputersWithLimit(-1,-1);
+	public List<Computer> getAll(){
+		return getWithLimit(-1,-1);
 	}
 	
 	
 	
-	public List<Computer> getComputersWithLimit(int limit, int offset){
+	public List<Computer> getWithLimit(int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
 		String req = sqlGetComputers;
@@ -214,7 +215,7 @@ public class ComputerDAO {
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 				
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(req)){
 
 			if(limit >= 0) { ps.setInt(1, limit);}
@@ -245,10 +246,10 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public Optional<Computer> findComputerById(int id) {
+	public Optional<Computer> findById(int id) {
 		Optional<Computer>computer = Optional.empty();
 		ResultSet rs;
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlFindComputerByIdWithLimit);){
 			
 			ps.setInt(1, id);
@@ -270,12 +271,12 @@ public class ComputerDAO {
 		
 	}
 	
-	public List<Computer> findComputersByName(String name){
-		return findComputersByNameWithLimit(name,-1,-1);
+	public List<Computer> findByName(String name){
+		return findByNameWithLimit(name,-1,-1);
 	}
 	
 	
-	public List<Computer> findComputersByNameWithLimit(String name, int limit, int offset){
+	public List<Computer> findByNameWithLimit(String name, int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
 		String req = sqlFindComputerByName;
@@ -283,7 +284,7 @@ public class ComputerDAO {
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 				
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(req)){
 			ps.setString(1, "%" + name + "%");
 			
@@ -315,10 +316,10 @@ public class ComputerDAO {
 	 * Retourne le nombre de computer présent dans la table 
 	 * @return int
 	 */
-	public int getComputerCount() {
+	public int getCount() {
 		int nbComputer = 0;
 		
-		try (Connection conn = DB.getInstance().getConnection();
+		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlGetCountComputer);
 				ResultSet rs = ps.executeQuery();){
 			if(rs.next()) {

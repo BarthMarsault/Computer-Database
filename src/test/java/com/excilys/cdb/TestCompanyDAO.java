@@ -35,11 +35,11 @@ public class TestCompanyDAO {
 	@Test
 	public void testFindCompanyByIdOK() {
 		
-		Optional<Company> company = companyDAO.findCompanyById(1);
+		Optional<Company> company = companyDAO.findById(1);
 		assertTrue(company.isPresent());
 		assertEquals("Apple Inc.", company.get().getName());
 		
-		company = companyDAO.findCompanyById(0);
+		company = companyDAO.findById(0);
 		assertFalse(company.isPresent());
 	}
 	

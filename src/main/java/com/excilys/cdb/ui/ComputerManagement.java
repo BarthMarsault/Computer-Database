@@ -102,7 +102,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		Optional<Computer> computer = ComputerDAO.getInstance().findComputerById(id);
+		Optional<Computer> computer = ComputerDAO.getInstance().findById(id);
 
 		if (computer.isPresent()) {
 			System.out.println(computer.get().toString());
@@ -123,7 +123,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		if (ComputerDAO.getInstance().deleteComputer(id)) {
+		if (ComputerDAO.getInstance().delete(id)) {
 			System.out.println("Ordinateur supprimé"); // Suppression en BDD
 		} else {
 			System.out.println("Echec");
@@ -166,7 +166,7 @@ public class ComputerManagement {
 			while (!valid) {
 
 				id = UiUtils.askId("Id du fabricant :");
-				Optional<Company> company = CompanyDAO.getInstance().findCompanyById(id);
+				Optional<Company> company = CompanyDAO.getInstance().findById(id);
 				if (!company.isPresent()) {
 					System.out.println("l'id : " + id + " n'est pas valide");
 				} else {					
@@ -187,7 +187,7 @@ public class ComputerManagement {
 	 */
 	public static void update() {
 		int idComputer = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité modifier:");
-		Optional<Computer> computer = ComputerDAO.getInstance().findComputerById(idComputer);
+		Optional<Computer> computer = ComputerDAO.getInstance().findById(idComputer);
 		if (!computer.isPresent()) {
 			System.out.println("L'ordinateur avec l'id " + idComputer + " n'éxiste pas");
 		} else {
@@ -215,7 +215,7 @@ public class ComputerManagement {
 			// Update du fabricant
 			if (UiUtils.askYesNo("Voulez vous modifier le fabricant :")) {
 				int idCompany = UiUtils.askId("Entrez l'id du fabricant :");
-				Optional<Company> company = CompanyDAO.getInstance().findCompanyById(idCompany);
+				Optional<Company> company = CompanyDAO.getInstance().findById(idCompany);
 				if (company.isPresent()) {
 					computer.get().setCompany(company.get());
 				} else {
@@ -225,7 +225,7 @@ public class ComputerManagement {
 
 			// Validation
 			if (UiUtils.askYesNo("Voulez vous enregistrer les changements sur : " + computer.toString())) {
-				ComputerDAO.getInstance().updateComputer(computer.get());
+				ComputerDAO.getInstance().update(computer.get());
 				System.out.println("Changements enregistrer");
 			} else {
 				System.out.println("Annulation");

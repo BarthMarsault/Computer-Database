@@ -26,7 +26,7 @@ public class AddComputer extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		ArrayList<Company> companies = (ArrayList<Company>) CompanyDAO.getInstance().getCompanies();
+		ArrayList<Company> companies = (ArrayList<Company>) CompanyDAO.getInstance().getAll();
 		
 		request.setAttribute("companies", companies );
 		

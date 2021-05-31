@@ -148,7 +148,7 @@ public class ComputerMapper {
 		
 		//WIP A faire comme ça ????
 		if(dto.getIdCompany() > 0) {
-			company = CompanyDAO.getInstance().findCompanyById(dto.getIdCompany());
+			company = CompanyDAO.getInstance().findById(dto.getIdCompany());
 		}
 		
 		
