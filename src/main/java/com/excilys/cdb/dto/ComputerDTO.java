@@ -2,6 +2,8 @@ package com.excilys.cdb.dto;
 
 import java.time.LocalDate;
 
+import com.excilys.cdb.validator.ComputerValidator;
+
 public class ComputerDTO {
 	
 	private final int NAME_MIN_SIZE = 2;
@@ -24,15 +26,7 @@ public class ComputerDTO {
 	
 	
 	public boolean isValid() {
-		
-		if (name == null || name.equals("") || name.length() <= NAME_MIN_SIZE) {
-			return false;
-		}
-		if(discontinued != null && introduced == null) {
-			return false;
-		}
-		return true;
-		
+		return ComputerValidator.getInstance().isValid(this);		
 	}
 	
 	
