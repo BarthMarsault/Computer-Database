@@ -25,7 +25,8 @@ public class Dashboard extends HttpServlet{
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		HttpSession session = request.getSession();
-		
+		ComputerMapper mapper = ComputerMapper.getInstance();
+		List<ComputerDTO> computers =  new ArrayList<>();
 		int nbComputerByPage = 10;
 		int currentPageNumber = 1;
 		int numberOfPage;
@@ -36,24 +37,20 @@ public class Dashboard extends HttpServlet{
 			currentPageNumber = Integer.parseInt(request.getParameter("pageRequest"));
 		}
 		
-		if(request.getParameter("nbComputerByPage") != null) {
-			nbComputerByPage = Integer.parseInt(request.getParameter("nbComputerByPage"));
-			session.setAttribute("nbComputerByPage", String.valueOf(nbComputerByPage));
-		}else { //Initialisation de session.nbComputerByPage si vide
-			String tmp = (String) session.getAttribute("nbComputerByPage");
-			if((String) session.getAttribute("nbComputerByPage") == null) {
-				session.setAttribute("nbComputerByPage", "10");
-			}
-			nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
-		}
-
+		
+		
+		session = updateSession(request);
+		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
 		
 		
 		
-		
-		
-		nbComputer = ComputerDAO.getInstance().getCount();
+		String param = session.getAttribute("search").toString();
+		nbComputer = ComputerDAO.getInstance().getCount(param);
 		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
+		
+		for(Computer computer : ComputerService.getInstance().getComputersWithParamWithLimit(param, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage)) {
+			computers.add(mapper.computerToComputerDTO(computer).get());
+		}
 
 		
 		
@@ -64,11 +61,7 @@ public class Dashboard extends HttpServlet{
 			}
 		}
 		
-		ArrayList<ComputerDTO> computers =  new ArrayList<>();
-		ComputerMapper mapper = ComputerMapper.getInstance();
-		for(Computer computer : ComputerService.getInstance().getComputersWithLimit(nbComputerByPage, (currentPageNumber-1)*nbComputerByPage)) {
-			computers.add(mapper.computerToComputerDTO(computer).get());
-		}
+		
 		
 		request.setAttribute("nbComputer", nbComputer);
 		request.setAttribute("computers", computers );
@@ -86,6 +79,30 @@ public class Dashboard extends HttpServlet{
 		doGet(request, response);
 	}
 	
+	
+	public HttpSession updateSession(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		int nbComputerByPage = 10;
+		
+		if(request.getParameter("nbComputerByPage") != null) {
+			nbComputerByPage = Integer.parseInt(request.getParameter("nbComputerByPage"));
+			session.setAttribute("nbComputerByPage", String.valueOf(nbComputerByPage));
+		}else { //Initialisation de session.nbComputerByPage si vide
+			if((String) session.getAttribute("nbComputerByPage") == null) {
+				session.setAttribute("nbComputerByPage", "10");
+			}
+		}
+		
+		if(request.getParameter("search") != null) {
+			session.setAttribute("search", request.getParameter("search"));
+		}else {
+			if(session.getAttribute("search") == null) {
+				session.setAttribute("search", "");
+			}
+		}
+		
+		return session;
+	}
 	
 	
 	public void deleteComputers(String strComputerToDelete) {

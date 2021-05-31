@@ -38,6 +38,14 @@ public class ComputerService {
 		return computerDAO.getWithLimit(limit, offset);
 	}
 	
+	public List<Computer> getComputersWithParamWithLimit(String param, int limit, int offset){		
+		if(param == null || param.equals("")) {
+			return getComputersWithLimit(limit, offset);
+		}
+		
+		return computerDAO.findWithParamWithLimit(param, limit, offset);
+	} 
+	
 	public Optional<Computer> getById(int id){
 		return computerDAO.findById(id);
 	}
@@ -48,6 +56,17 @@ public class ComputerService {
 	
 	public boolean deleteComputer(int id) {
 		return computerDAO.delete(id);
+	}
+	
+	public int getCountComputer() {
+		return computerDAO.getCount();
+	}
+	
+	public int getCountComputer(String param) {
+		if(param == null || param.equals("")) {
+			return getCountComputer();
+		}
+		return computerDAO.getCount(param);
 	}
 
 	
