@@ -80,16 +80,26 @@ public class Dashboard extends HttpServlet{
 	}
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-		//int nbComputerByPage = Integer.parseInt(request.getParameter("nbComputerByPage"));
-		/*ArrayList<Computer> computers = (ArrayList<Computer>) ComputerDAO.getInstance().getComputersWithLimit(10, 0);
-		System.out.println("PASSAGE POST : " + request.getParameter("nbComputerByPage"));
-		
-		request.setAttribute("nbComputer", ComputerDAO.getInstance().getComputerCount());
-		request.setAttribute("computers", computers );
-		
-		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);*/
+		if(request.getParameter("selection") != null) {
+			deleteComputers(request.getParameter("selection"));			
+		}
 		doGet(request, response);
+	}
+	
+	
+	
+	public void deleteComputers(String strComputerToDelete) {
+		for(String idComputer : strComputerToDelete.split(",")) {
+			int id = 0;
+			
+			try {
+				id = Integer.parseInt(idComputer);
+			}catch(Exception e) {
+				
+			}
+			
+			ComputerService.getInstance().deleteComputer(id);
+		}
 	}
 
 }

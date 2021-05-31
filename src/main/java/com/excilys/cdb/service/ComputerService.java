@@ -45,6 +45,10 @@ public class ComputerService {
 	public boolean updateComputer(Computer computer) {
 		return computerDAO.update(computer);
 	}
+	
+	public boolean deleteComputer(int id) {
+		return computerDAO.delete(id);
+	}
 
 	
 	
