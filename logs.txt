@@ -1,0 +1,186 @@
+14:47:27.714 [main] ERROR com.excilys.cdb.Main - Premier message de log
+14:48:22.677 [main] INFO  com.excilys.cdb.Main - Test info
+14:56:02.242 [main] INFO  com.excilys.cdb.Main - Test info
+14:58:22.809 [main] INFO  com.excilys.cdb.Main - Test info
+14:58:22.814 [main] WARN  com.excilys.cdb.Main - Warn test
+15:04:38.437 [main] ERROR com.excilys.cdb.Main - ERROR
+15:05:16.648 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECTT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name FROM computer C' at line 1
+10:15:57.134 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'un Optional<Computer> vide
+10:48:36.469 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - No value specified for parameter 1
+10:48:36.474 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un liste de Company vide
+10:49:52.948 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - No value specified for parameter 1
+10:49:52.954 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un liste de Company vide
+11:07:37.023 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:07:37.029 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:08:30.959 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:08:30.966 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:10:00.548 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:10:00.555 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:10:21.871 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:10:21.878 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+11:11:16.229 [main] ERROR com.excilys.cdb.persistence.ComputerDAO - Parameter index out of range (1 > number of parameters, which is 0).
+11:11:16.236 [main] TRACE com.excilys.cdb.persistence.ComputerDAO - Retour d'une liste de Computer vide
+12:07:37.715 [main] ERROR com.excilys.cdb.persistence.DB - Erreur de syntaxe dans l'instruction SQL "[*]
+
+  #                                   
+  #USER RIGHTS MANAGEMENT
+  #                                   
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa'"
+Syntax error in SQL statement "[*]
+
+  #                                   
+  #USER RIGHTS MANAGEMENT
+  #                                   
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa'"; SQL statement:
+
+
+  #-----------------------------------
+  #USER RIGHTS MANAGEMENT
+  #-----------------------------------
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa' [42000-200]
+12:08:40.820 [main] ERROR com.excilys.cdb.persistence.DB - Erreur de syntaxe dans l'instruction SQL "[*]
+
+  #                                   
+  #USER RIGHTS MANAGEMENT
+  #                                   
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa'"
+Syntax error in SQL statement "[*]
+
+  #                                   
+  #USER RIGHTS MANAGEMENT
+  #                                   
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa'"; SQL statement:
+
+
+  #-----------------------------------
+  #USER RIGHTS MANAGEMENT
+  #-----------------------------------
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa' [42000-200]
+12:09:16.508 [main] ERROR com.excilys.cdb.persistence.DB - Erreur de syntaxe dans l'instruction SQL "
+
+  CREATE USER 'sa'[*]@'localhost' IDENTIFIED BY 'sa'"; attendu "identifier"
+Syntax error in SQL statement "
+
+  CREATE USER 'sa'[*]@'localhost' IDENTIFIED BY 'sa'"; expected "identifier"; SQL statement:
+
+
+  CREATE USER 'sa'@'localhost' IDENTIFIED BY 'sa' [42001-200]
+12:13:30.472 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_8DC957FF_15E2_4DBF_9C1A_D4CCEE47E33E, SYSTEM_SEQUENCE_3DCF802A_F7CB_453B_A706_EB655E7AD663, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_8DC957FF_15E2_4DBF_9C1A_D4CCEE47E33E, SYSTEM_SEQUENCE_3DCF802A_F7CB_453B_A706_EB655E7AD663, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:13:30.489 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:13:30.490 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:14:05.392 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_83B23BBD_DEEB_4F27_A0B7_FA03D4021E6C, SYSTEM_SEQUENCE_B705D838_0D3B_4B45_96CC_902FAEC80B3C, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_83B23BBD_DEEB_4F27_A0B7_FA03D4021E6C, SYSTEM_SEQUENCE_B705D838_0D3B_4B45_96CC_902FAEC80B3C, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:14:05.410 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:14:05.411 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:15:15.212 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_E9DC5BC5_7DAC_4F4A_A315_B5D017456706, SYSTEM_SEQUENCE_8A521960_84CF_4172_A1D6_A14E77CB226F, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_E9DC5BC5_7DAC_4F4A_A315_B5D017456706, SYSTEM_SEQUENCE_8A521960_84CF_4172_A1D6_A14E77CB226F, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:15:15.237 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:15:15.238 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:19:37.891 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_C0AE9F8C_AA3C_4EF4_B782_2777FDE0749C, SYSTEM_SEQUENCE_685E3EE5_5C72_4001_9AE7_A769108B9A38, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_C0AE9F8C_AA3C_4EF4_B782_2777FDE0749C, SYSTEM_SEQUENCE_685E3EE5_5C72_4001_9AE7_A769108B9A38, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:19:37.901 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:19:37.902 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:24:13.826 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_0EA21B3E_2068_4ED5_92BB_745101D32058, SYSTEM_SEQUENCE_07BA0FE6_2BFE_4136_AB16_6D7D92619B6A, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_0EA21B3E_2068_4ED5_92BB_745101D32058, SYSTEM_SEQUENCE_07BA0FE6_2BFE_4136_AB16_6D7D92619B6A, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:24:13.844 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:24:13.844 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:02:47.155 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_236DC60C_AC72_47CF_A4F9_719CA1E99523, SYSTEM_SEQUENCE_D3B35904_487B_4B12_9620_CEE92212FF52, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_236DC60C_AC72_47CF_A4F9_719CA1E99523, SYSTEM_SEQUENCE_D3B35904_487B_4B12_9620_CEE92212FF52, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:02:47.168 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:02:47.168 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:08:33.051 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_865DD82D_9DBC_4D0E_B93C_FD9248ECCEC1, SYSTEM_SEQUENCE_C1E82141_0B58_45BC_9623_9F7069B7F394, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_865DD82D_9DBC_4D0E_B93C_FD9248ECCEC1, SYSTEM_SEQUENCE_C1E82141_0B58_45BC_9623_9F7069B7F394, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:08:33.064 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:08:33.064 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:09:02.007 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_7ECC4FD8_D4EA_4312_844D_47FFE957EC17, SYSTEM_SEQUENCE_A86B1046_266F_424E_B897_9E197DA465CC, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_7ECC4FD8_D4EA_4312_844D_47FFE957EC17, SYSTEM_SEQUENCE_A86B1046_266F_424E_B897_9E197DA465CC, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:09:02.026 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:09:02.026 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:09:27.924 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_022CEE79_9768_4709_B06D_31C062A2D935, SYSTEM_SEQUENCE_20488A5A_F627_4711_B688_7C9272F2AA26, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_022CEE79_9768_4709_B06D_31C062A2D935, SYSTEM_SEQUENCE_20488A5A_F627_4711_B688_7C9272F2AA26, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:09:27.936 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:09:27.936 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+12:10:09.887 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_28C0DA1F_9CD0_463E_B8FB_F5F24D047923, SYSTEM_SEQUENCE_09EA6A8B_CBD3_4DC5_8023_5641CA09EFBD, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_28C0DA1F_9CD0_463E_B8FB_F5F24D047923, SYSTEM_SEQUENCE_09EA6A8B_CBD3_4DC5_8023_5641CA09EFBD, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:10:09.903 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:11:23.984 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_2E67D80F_7E47_4C16_89A3_2A91E720A905, SYSTEM_SEQUENCE_28F27D4D_5B08_431D_895E_7F0A502F21EA, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_2E67D80F_7E47_4C16_89A3_2A91E720A905, SYSTEM_SEQUENCE_28F27D4D_5B08_431D_895E_7F0A502F21EA, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+12:11:23.998 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+12:11:23.998 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+15:13:06.662 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_B0278498_B36F_4F1B_B441_243EA3E6B4E2, SYSTEM_SEQUENCE_5AB424C9_8DDB_4F4A_8E23_4A87BD0C4392, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_B0278498_B36F_4F1B_B441_243EA3E6B4E2, SYSTEM_SEQUENCE_5AB424C9_8DDB_4F4A_8E23_4A87BD0C4392, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:13:06.675 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:47:54.028 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_044077BD_C157_493C_88D3_07BA0612CD9C, SYSTEM_SEQUENCE_007FC6F3_4DB1_47EA_AC38_A806C9648838, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_044077BD_C157_493C_88D3_07BA0612CD9C, SYSTEM_SEQUENCE_007FC6F3_4DB1_47EA_AC38_A806C9648838, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:47:54.046 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:48:15.993 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_61FC686F_71CE_457F_855E_EE8ACFCCFD57, SYSTEM_SEQUENCE_FE17A270_692A_40AC_ACC2_BC221FDC3DF5, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_61FC686F_71CE_457F_855E_EE8ACFCCFD57, SYSTEM_SEQUENCE_FE17A270_692A_40AC_ACC2_BC221FDC3DF5, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:48:16.007 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:48:16.010 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_61FC686F_71CE_457F_855E_EE8ACFCCFD57, SYSTEM_SEQUENCE_FE17A270_692A_40AC_ACC2_BC221FDC3DF5, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_61FC686F_71CE_457F_855E_EE8ACFCCFD57, SYSTEM_SEQUENCE_FE17A270_692A_40AC_ACC2_BC221FDC3DF5, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:48:16.011 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:48:16.012 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+15:48:29.168 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_1C5DE397_E4B8_450B_95BB_29549855C184, SYSTEM_SEQUENCE_E85D12CB_9216_412A_B1DE_B4DD6D2254B8, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_1C5DE397_E4B8_450B_95BB_29549855C184, SYSTEM_SEQUENCE_E85D12CB_9216_412A_B1DE_B4DD6D2254B8, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:48:29.183 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:48:29.187 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_1C5DE397_E4B8_450B_95BB_29549855C184, SYSTEM_SEQUENCE_E85D12CB_9216_412A_B1DE_B4DD6D2254B8, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_1C5DE397_E4B8_450B_95BB_29549855C184, SYSTEM_SEQUENCE_E85D12CB_9216_412A_B1DE_B4DD6D2254B8, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:48:29.188 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:48:29.188 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+15:50:58.152 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_15FD7A61_456B_43C7_ACB3_C85B059FD32D, SYSTEM_SEQUENCE_EC8F44F1_5C16_4857_A0D2_CC77E99BE7E0, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_15FD7A61_456B_43C7_ACB3_C85B059FD32D, SYSTEM_SEQUENCE_EC8F44F1_5C16_4857_A0D2_CC77E99BE7E0, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:50:58.172 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:50:58.176 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_15FD7A61_456B_43C7_ACB3_C85B059FD32D, SYSTEM_SEQUENCE_EC8F44F1_5C16_4857_A0D2_CC77E99BE7E0, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_15FD7A61_456B_43C7_ACB3_C85B059FD32D, SYSTEM_SEQUENCE_EC8F44F1_5C16_4857_A0D2_CC77E99BE7E0, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:50:58.177 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:50:58.177 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
+15:51:51.137 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_B1C716E3_E80A_4D05_BDC6_B82356CEEAD7, SYSTEM_SEQUENCE_B87CCC4F_F7E2_4F19_B3EF_74FC5E672D83, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_B1C716E3_E80A_4D05_BDC6_B82356CEEAD7, SYSTEM_SEQUENCE_B87CCC4F_F7E2_4F19_B3EF_74FC5E672D83, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:51:51.153 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:51:51.157 [main] ERROR com.excilys.cdb.persistence.DB - Impossible de supprimer "COMPUTER-DATABASE-DB-TEST" car "COMPUTER, COMPANY, SYSTEM_SEQUENCE_B1C716E3_E80A_4D05_BDC6_B82356CEEAD7, SYSTEM_SEQUENCE_B87CCC4F_F7E2_4F19_B3EF_74FC5E672D83, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" dépend de lui
+Cannot drop "COMPUTER-DATABASE-DB-TEST" because "COMPUTER, COMPANY, SYSTEM_SEQUENCE_B1C716E3_E80A_4D05_BDC6_B82356CEEAD7, SYSTEM_SEQUENCE_B87CCC4F_F7E2_4F19_B3EF_74FC5E672D83, PRIMARY_KEY_A, FK_COMPUTER_COMPANY_1_INDEX_A, IX_COMPUTER_COMPANY_1, PRIMARY_KEY_6, PK_COMPANY, FK_COMPUTER_COMPANY_1, PK_COMPUTER" depends on it; SQL statement:
+drop schema if exists `computer-database-db-test` [90107-200]
+15:51:51.158 [main] ERROR com.excilys.cdb.persistence.CompanyDAO - L'objet est déjà fermé
+The object is already closed [90007-200]
+15:51:51.159 [main] TRACE com.excilys.cdb.persistence.CompanyDAO - Retour d'un Optional<Company> vide
