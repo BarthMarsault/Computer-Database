@@ -31,18 +31,6 @@ public class ComputerDTO {
 		if(discontinued != null && introduced == null) {
 			return false;
 		}
-		
-		if(introduced != null && discontinued != null) {
-			LocalDate dateIntr = LocalDate.parse(introduced);
-			LocalDate dateDisc = LocalDate.parse(discontinued);
-			
-			if((dateIntr != null && dateDisc != null) && (dateIntr.isAfter(dateDisc))) {
-				return false;
-			}
-			
-		}
-		
-		
 		return true;
 		
 	}

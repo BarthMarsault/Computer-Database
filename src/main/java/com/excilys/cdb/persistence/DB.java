@@ -54,7 +54,6 @@ public class DB {
 		} catch (SQLException | ClassNotFoundException e) {
 			logger.error(e.getMessage());
 		}
-		
 		return conn;
 	}
 	
@@ -70,7 +69,7 @@ public class DB {
 		return properties;
 	}
 	
-	public boolean closeConnection() {
+	public boolean close() {
 		try {
 			conn.close();
 			conn = null;

@@ -1,17 +1,18 @@
 package com.excilys.cdb;
 
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.CompanyDAO;
 
-import junit.framework.TestCase;
+
 
 
 
@@ -19,15 +20,15 @@ public class TestCompanyDAO {
 	
 	
 	
-	private static CompanyDAO companyDAO = CompanyDAO.getInstance();
+	private CompanyDAO companyDAO;
 	
 	
-	//@Before
-	/*public void setup() throws SQLException, IOException {
+	@BeforeEach
+	public void setup() throws SQLException, IOException {
 
-		//companyDAO = CompanyDAO.getInstance();
+		companyDAO = CompanyDAO.getInstance();
 		
-    }*/
+    }
 	
 	
 	
@@ -41,6 +42,7 @@ public class TestCompanyDAO {
 		company = companyDAO.findCompanyById(0);
 		assertFalse(company.isPresent());
 	}
+	
 	
 	/*@Test
 	public void testFindByIdReturnOptionnalEmpty() {

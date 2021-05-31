@@ -1,5 +1,7 @@
 package com.excilys.cdb;
 
+import java.util.Iterator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("Hello");
 		
+
 		
 		
 		/*for(Computer c : ComputerDAO.getInstance().findComputersByNameWithLimit("Mac",10,0)) {
