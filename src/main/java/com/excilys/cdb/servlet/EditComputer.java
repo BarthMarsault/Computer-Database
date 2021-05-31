@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,44 +25,60 @@ import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
 /**
- * Servlet implementation class AddComputer
+ * Servlet implementation class EditComputer
  */
-@WebServlet( name="AddComputer", urlPatterns = "/addComputer")
-public class AddComputer extends HttpServlet {
-	
+@WebServlet("/editComputer")
+public class EditComputer extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(AddComputer.class); 
 	private final String ERROR_INVALID_COMPUTER = "Invalid Computer";
 	private final String ERROR_STARAGE_FAIL = "Error in the process, retry later";
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public EditComputer() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		if(request.getParameter("requestId") == null) {
+			response.sendRedirect("dashboard");
+		}
+		ComputerMapper mapperComputer = ComputerMapper.getInstance();
+		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(ComputerService.getInstance().getById(Integer.parseInt(request.getParameter("requestId"))).get());
+		
 		
 		ArrayList<CompanyDTO> companies = new ArrayList<>();
-		CompanyMapper mapper = CompanyMapper.getInstance();
+		CompanyMapper mapperCompany = CompanyMapper.getInstance();
 		for(Company company : CompanyService.getInstance().getCompanies()) {
-			companies.add(mapper.companyToCompayDTO(company).get());
+			companies.add(mapperCompany.companyToCompayDTO(company).get());
 		}
 		
 		
 		
-		request.setAttribute("companies", companies );
+		request.setAttribute("companies", companies );		
+		request.setAttribute("computer", computerDTO.get() );
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/addComputer.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/editComputer.jsp").forward(request, response);
 	}
 
-
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
-		
-		
+		int id = Integer.parseInt(request.getParameter("idValue"));
 		String name = request.getParameter("computerNameValue");
 		String intr = request.getParameter("introducedValue");
 		String disc = request.getParameter("discontinuedValue");
 		int idCompany = Integer.parseInt(request.getParameter("companyIdValue"));
 	
-		ComputerDTO computerDTO = new ComputerDTOBuilder().withName(name).withIntroduced(intr)
+		ComputerDTO computerDTO = new ComputerDTOBuilder().withId(id).withName(name).withIntroduced(intr)
 				.withDiscontinued(disc).withIdCompany(idCompany).build();
 		Optional<Computer> computer = Optional.empty();
 		
@@ -75,14 +92,14 @@ public class AddComputer extends HttpServlet {
 			return;
 		}
 		
-		if(ComputerService.getInstance().addComputerToDatabase(computer)) {
+		
+		if(computer.isPresent() && ComputerService.getInstance().updateComputer(computer.get())) {
 			response.sendRedirect("dashboard");
 		}else {
 			request.setAttribute("errorMessage", ERROR_STARAGE_FAIL );
 			logger.error("Fail in the storage process");
 			doGet(request, response);
 		}
-		
 	}
 
 }

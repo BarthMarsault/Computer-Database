@@ -167,15 +167,17 @@ public class ComputerDAO {
 			String name = computer.getName();
 			LocalDate intr = computer.getIntroduced();
 			LocalDate disc = computer.getDiscontinued();
-			int idCompany = computer.getCompany().getId();
+			
+			
 
 			
 			ps.setString(1, name);	
 			
 			ps.setDate(2, intr != null ? Date.valueOf(intr) : null);
 			ps.setDate(3, disc != null ? Date.valueOf(disc) : null);
-				
-			if(idCompany > 0) {
+			
+			if(computer.getCompany() != null) {
+				int idCompany = computer.getCompany().getId();
 				ps.setInt(4, idCompany);
 			}				
 			else {
@@ -184,7 +186,6 @@ public class ComputerDAO {
 				
 			
 			ps.setInt(5, computer.getId());
-			
 			//Execution
 			ps.executeUpdate();
 

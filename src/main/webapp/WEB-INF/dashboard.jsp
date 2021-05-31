@@ -93,7 +93,9 @@
                         	<td class="editMode">
                             	<input type="checkbox" name="cb" class="cb" value="0"> 
                             </td>    
-					        <td><a href="editComputer.html" onclick=""><c:out value = "${computer.name}" /></a></td>
+					        
+					        <td><a href="<c:url value="editComputer"> <c:param name="requestId" value="${computer.id}"/></c:url>" onclick=""><c:out value = "${computer.name}" /></a></td>
+					        
 					        <td><c:out value = "${computer.introduced}" /></td>
 					        <td><c:out value = "${computer.discontinued}" /></td>
 					        <td><c:out value = "${computer.nameCompany}" /></td>
