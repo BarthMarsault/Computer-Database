@@ -56,11 +56,13 @@ public class DB {
 	}
 	
 	public Connection getConnection() {
+		
 		try {
-			if(conn == null || conn.isClosed()) { 
+			return datasource.getConnection();
+			/*if(conn == null || conn.isClosed()) { 
 			    //conn =  DriverManager.getConnection(database.url, database.user, database.pass);
 			    conn = datasource.getConnection();
-			}
+			}*/
 					    
 		} catch (SQLException e) {
 			logger.error(e.getMessage());

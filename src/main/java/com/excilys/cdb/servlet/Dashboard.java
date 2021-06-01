@@ -49,16 +49,11 @@ public class Dashboard extends HttpServlet{
 		
 		
 		
-		
-		
-		
-		
-		
-		
 		for(Computer computer : ComputerService.getInstance().getComputersWithParamWithLimit(param, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage)) {
 			computers.add(mapper.computerToComputerDTO(computer).get());
 		}
-
+		
+				
 		
 		
 		ArrayList<Integer> pagePropositions = new ArrayList<>();
@@ -103,7 +98,7 @@ public class Dashboard extends HttpServlet{
 		if(request.getParameter("search") != null) {
 			session.setAttribute("search", request.getParameter("search"));
 		}else {
-			if(session.getAttribute("search") == null) {
+			if(session.getAttribute("search") == null) { //Initialisation de session.search si vide
 				session.setAttribute("search", "");
 			}
 		}

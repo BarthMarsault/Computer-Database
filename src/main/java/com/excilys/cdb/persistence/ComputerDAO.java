@@ -40,13 +40,6 @@ public class ComputerDAO {
 			" ON C.company_id = Y.id" +
 			" WHERE C.id = ?";
 	
-	private final String sqlFindComputerByName = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
-			" FROM " + tableName + " C" +
-			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id" +
-			" WHERE C.name LIKE ?";
-	
-	
 	private final String sqlGetComputers= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
 		 	" FROM " + tableName + " C" +
 			" LEFT JOIN company Y" +

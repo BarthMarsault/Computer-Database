@@ -23,7 +23,11 @@ public class ControllerCompany {
 	public static void showCompanies(List<Company> companies) {
 		CompaniesList.showList(companies);
 	}
-
+	
+	
+	public static void deleteCompany() {
+		CompaniesList.deleteCompany();
+	}
 	
 
 }
