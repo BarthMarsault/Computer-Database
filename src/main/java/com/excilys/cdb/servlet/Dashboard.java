@@ -32,21 +32,28 @@ public class Dashboard extends HttpServlet{
 		int numberOfPage;
 		int nbComputer;
 		
+		session = updateSession(request);
+		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
+		String param = session.getAttribute("search").toString();
+		nbComputer = ComputerDAO.getInstance().getCount(param);
+		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
 		
 		if(request.getParameter("pageRequest") != null){
 			currentPageNumber = Integer.parseInt(request.getParameter("pageRequest"));
+			if(currentPageNumber > numberOfPage) { //Verification du paramètre pageRequest
+				currentPageNumber = numberOfPage;
+			}else if( currentPageNumber < 1) {
+				currentPageNumber = 1;
+			}
 		}
 		
 		
 		
-		session = updateSession(request);
-		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
 		
 		
 		
-		String param = session.getAttribute("search").toString();
-		nbComputer = ComputerDAO.getInstance().getCount(param);
-		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
+		
+		
 		
 		for(Computer computer : ComputerService.getInstance().getComputersWithParamWithLimit(param, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage)) {
 			computers.add(mapper.computerToComputerDTO(computer).get());
