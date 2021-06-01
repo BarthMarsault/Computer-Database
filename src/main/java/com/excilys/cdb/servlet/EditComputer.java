@@ -48,10 +48,15 @@ public class EditComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("requestId") == null) {
 			response.sendRedirect("dashboard");
+			return;
 		}
 		ComputerMapper mapperComputer = ComputerMapper.getInstance();
-		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(ComputerService.getInstance().getById(Integer.parseInt(request.getParameter("requestId"))).get());
+		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(ComputerService.getInstance().getById(Integer.parseInt(request.getParameter("requestId"))));
 		
+		if(!computerDTO.isPresent()) {
+			response.sendRedirect("dashboard");
+			return;
+		}
 		
 		ArrayList<CompanyDTO> companies = new ArrayList<>();
 		CompanyMapper mapperCompany = CompanyMapper.getInstance();

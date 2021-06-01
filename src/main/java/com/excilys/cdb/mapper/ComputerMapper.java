@@ -119,6 +119,17 @@ public class ComputerMapper {
 		return computers;
 	}
 	
+	
+	public Optional<ComputerDTO> computerToComputerDTO(Optional<Computer> c) {
+		if(c.isPresent()) {
+			return computerToComputerDTO(c.get());
+		}
+		else {
+			return Optional.empty();
+		}
+		
+	}
+	
 	public Optional<ComputerDTO> computerToComputerDTO(Computer c) {
 		Optional<ComputerDTO> computerDTO = Optional.empty();
 		
