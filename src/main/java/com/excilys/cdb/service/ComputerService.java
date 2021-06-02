@@ -7,7 +7,9 @@ import java.util.Optional;
 import com.excilys.cdb.dto.ComputerDTO;
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.ComputerAttribute;
 import com.excilys.cdb.persistence.ComputerDAO;
+import com.excilys.cdb.persistence.ComputerDAO.SortingRule;
 
 public class ComputerService {
 	
@@ -45,6 +47,11 @@ public class ComputerService {
 		
 		return computerDAO.findWithParamWithLimit(param, limit, offset);
 	} 
+	
+	public List<Computer> getComputersWithParamOrderedWithLimit(String param,
+			ComputerAttribute attribute, SortingRule sr, int limit, int offset) {
+		return computerDAO.FindWithParamOrderedWithLimit(param, attribute, sr, limit, offset);
+	}
 	
 	public Optional<Computer> getById(int id){
 		return computerDAO.findById(id);

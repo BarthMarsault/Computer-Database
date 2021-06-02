@@ -131,7 +131,9 @@ public class CompanyDAO {
 			//logger.trace("Tentative de suppression d'un ordinateur sans id");
 			return false;
 		}
-		try (Connection conn = db.getConnection()){
+		Connection conn = db.getConnection();
+				
+		try {
 			conn.setAutoCommit(false);
 			PreparedStatement ps;
 			
@@ -152,6 +154,13 @@ public class CompanyDAO {
 			ps.close();
 			return true;
 		}catch(SQLException e) {
+			try {
+				if (conn != null && !conn.isClosed()) {
+					conn.rollback();
+				}
+			} catch (SQLException e1) {
+				logger.error(e.getMessage());
+			}
 			logger.error(e.getMessage());
 			//e.printStackTrace();
 		}

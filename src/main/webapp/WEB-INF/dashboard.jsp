@@ -69,17 +69,25 @@
                         </th>
                         <th>
                             Computer name
+                            <a href="?orderBy=name" >
+							<i class="fa fa-fw fa-sort pull-right fa-clickable"></i></a>
                         </th>
                         <th>
                             Introduced date
+                            <a href="?orderBy=introduced" >
+							<i class="fa fa-fw fa-sort pull-right fa-clickable"></i></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
                             Discontinued date
+                            <a href="?orderBy=discontinued" >
+							<i class="fa fa-fw fa-sort pull-right fa-clickable"></i></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
                             Company
+                            <a href="?orderBy=company" >
+							<i class="fa fa-fw fa-sort pull-right fa-clickable"></i></a>
                         </th>
 
                     </tr>

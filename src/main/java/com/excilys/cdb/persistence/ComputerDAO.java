@@ -23,6 +23,7 @@ public class ComputerDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private static ComputerDAO computerDAO = null;
 	ComputerMapper mapper;
+	public enum SortingRule { ASC, DESC };
 	
 	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
 	private final String sqlGetCountComputerWithParam = "SELECT COUNT(*)" + 
@@ -231,6 +232,55 @@ public class ComputerDAO {
 
 			if(limit >= 0) { ps.setInt(1, limit);}
 			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
+			
+			rs = ps.executeQuery();
+		
+			
+			computers = mapper.resultSetToListComputer(rs);
+			
+			rs.close();			
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			//e.printStackTrace();
+		}
+		
+		if(computers.size() == 0) {
+			logger.trace("Retour d'une liste de Computer vide");
+		}
+		
+		
+		return computers;
+	}
+	
+	public List<Computer> FindWithParamOrderedWithLimit(String param,ComputerAttribute attribute, SortingRule sr, int limit, int offset){
+		List<Computer> computers = new ArrayList<>();
+		ResultSet rs;
+		String req = sqlFindWithParam;
+		
+		
+		if(attribute != null && sr != null) {
+			req += " ORDER BY " + attribute.getAttribute();
+			if(sr == SortingRule.ASC || sr == null) {
+				req += " ASC";
+			}else {
+				req += " DESC";
+			}
+		}
+		
+		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
+		if(limit >= 0) { req += " LIMIT ?";}
+		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
+				
+		try (Connection conn = db.getConnection();
+				PreparedStatement ps = conn.prepareStatement(req)){
+
+			ps.setString(1, "%" + param + "%");
+			ps.setString(2, "%" + param + "%");
+			ps.setString(3, "%" + param + "%");
+			ps.setString(4, "%" + param + "%");
+			
+			if(limit >= 0) { ps.setInt(5, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(6, offset);}
 			
 			rs = ps.executeQuery();
 		
