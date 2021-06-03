@@ -41,10 +41,6 @@ public class ComputerDAO {
 			" ON C.company_id = Y.id" +
 			" WHERE C.id = ?";
 	
-	private final String sqlGetComputers= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
-		 	" FROM " + tableName + " C" +
-			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id";
 	
 	private final String sqlFindWithParam= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
 		 	" FROM " + tableName + " C" +
@@ -219,45 +215,17 @@ public class ComputerDAO {
 	
 	
 	
-	public List<Computer> getWithLimit(int limit, int offset){
-		List<Computer> computers = new ArrayList<>();
-		ResultSet rs;
-		String req = sqlGetComputers;
-		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
-		if(limit >= 0) { req += " LIMIT ?";}
-		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
-				
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(req)){
-
-			if(limit >= 0) { ps.setInt(1, limit);}
-			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
-			
-			rs = ps.executeQuery();
-		
-			
-			computers = mapper.resultSetToListComputer(rs);
-			
-			rs.close();			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		
-		if(computers.size() == 0) {
-			logger.trace("Retour d'une liste de Computer vide");
-		}
-		
-		
-		return computers;
+	public List<Computer> getWithLimit(int limit, int offset){	
+		return FindWithParamOrderedWithLimit("",null,null,-1,-1);
 	}
+	
 	
 	public List<Computer> FindWithParamOrderedWithLimit(String param,ComputerAttribute attribute, SortingRule sr, int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
 		String req = sqlFindWithParam;
 		
-		
+		//Ajout du tri - SI NECESSAIRE !
 		if(attribute != null && sr != null) {
 			req += " ORDER BY " + attribute.getAttribute();
 			if(sr == SortingRule.ASC || sr == null) {

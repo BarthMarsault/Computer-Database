@@ -36,17 +36,6 @@ public class ComputerService {
 		return false;
 	}
 	
-	public List<Computer> getComputersWithLimit(int limit, int offset){		
-		return computerDAO.getWithLimit(limit, offset);
-	}
-	
-	public List<Computer> getComputersWithParamWithLimit(String param, int limit, int offset){		
-		if(param == null || param.equals("")) {
-			return getComputersWithLimit(limit, offset);
-		}
-		
-		return computerDAO.findWithParamWithLimit(param, limit, offset);
-	} 
 	
 	public List<Computer> getComputersWithParamOrderedWithLimit(String param,
 			ComputerAttribute attribute, SortingRule sr, int limit, int offset) {
