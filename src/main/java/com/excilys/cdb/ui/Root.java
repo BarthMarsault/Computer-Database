@@ -14,7 +14,7 @@ public class Root {
 		Scanner sc = new Scanner(System.in);
 		
 		while(!res.equals("q")) {
-			System.out.println("1 : Companies / 2 : Computers / q : Quit");
+			System.out.println("1 : Companies / 2 : Computers / 3 : Delete  Company / q : Quit");
 			
 			res = sc.nextLine();
 			
@@ -25,6 +25,9 @@ public class Root {
 				case "2":
 					ComputerManagement.showRoot();
 					break;
+				case "3":
+					ControllerCompany.deleteCompany();
+					break;					
 				case "q":
 					break;
 				default :

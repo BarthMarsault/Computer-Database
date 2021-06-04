@@ -26,7 +26,7 @@
 
 	
 	
-	
+	 
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
@@ -69,17 +69,25 @@
                         </th>
                         <th>
                             Computer name
+                            <a href="?orderBy=name" >
+							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
                         <th>
                             Introduced date
+                            <a href="?orderBy=introduced" >
+							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
                             Discontinued date
+                            <a href="?orderBy=discontinued" >
+							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
                             Company
+                            <a href="?orderBy=company" >
+							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
 
                     </tr>
@@ -91,9 +99,11 @@
                 	<c:forEach items="${computers}" var="computer">
 					    <tr>
                         	<td class="editMode">
-                            	<input type="checkbox" name="cb" class="cb" value="0"> 
+                            	<input type="checkbox" name="cb" class="cb" value="${computer.id}"> 
                             </td>    
-					        <td><a href="editComputer.html" onclick=""><c:out value = "${computer.name}" /></a></td>
+					        
+					        <td><a href="<c:url value="editComputer"> <c:param name="requestId" value="${computer.id}"/></c:url>" onclick=""><c:out value = "${computer.name}" /></a></td>
+					        
 					        <td><c:out value = "${computer.introduced}" /></td>
 					        <td><c:out value = "${computer.discontinued}" /></td>
 					        <td><c:out value = "${computer.nameCompany}" /></td>

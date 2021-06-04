@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form id="addComputerForm" action="addComputer" method="POST">
+                    <form id="addComputerForm" action="addComputer" method="POST">                    	
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -43,7 +43,7 @@
                                 <select name="companyIdValue" class="form-control" id="companyId" >
                                 	<option value="0">--</option>
                                 	<c:forEach items="${companies}" var="company">
-									    <option value="<c:out value = "${company.id}" />"><c:out value = "${company.name}" /></option>
+									    <option value="<c:out value = "${company.id}"/>"><c:out value = "${company.name}" /></option>
 									</c:forEach> 
                                     
                                 </select>

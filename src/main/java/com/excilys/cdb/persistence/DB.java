@@ -9,11 +9,14 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 public class DB {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DB.class);
 	
 	private static DB database = null;
+	private static HikariDataSource datasource;
 	private Connection conn = null;
 	
 	private final String CONFIG_FILE = "db.properties";
@@ -21,20 +24,28 @@ public class DB {
 	private final String DATABASE_URL = "url";	
 	private final String DATABASE_USER = "username";
 	private final String DATABASE_PASSWORD = "password";
-	
-	private String driver;
-	private String url;
-	private String user;
-	private String pass;
+
 	
 	
 	private DB() {
 		super();
 		Properties properties = getProperties();
-		driver = properties.getProperty(DATABASE_DRIVER);
-		url = properties.getProperty(DATABASE_URL);
-		user = properties.getProperty(DATABASE_USER);
-		pass = properties.getProperty(DATABASE_PASSWORD);
+		datasource = new HikariDataSource();
+		
+		try {
+			datasource.setDriverClassName(properties.getProperty(DATABASE_DRIVER));
+			datasource.setJdbcUrl(properties.getProperty(DATABASE_URL));
+			datasource.setUsername(properties.getProperty(DATABASE_USER));
+			datasource.setPassword(properties.getProperty(DATABASE_PASSWORD));
+			
+			datasource.setMinimumIdle(5);
+			datasource.setMaximumPoolSize(100);
+			datasource.setLoginTimeout(3);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static DB getInstance() {
@@ -45,13 +56,15 @@ public class DB {
 	}
 	
 	public Connection getConnection() {
+		
 		try {
-			Class.forName(driver);
-			if(conn == null || conn.isClosed()) { 
-			    conn =  DriverManager.getConnection(database.url, database.user, database.pass);
-			}
+			return datasource.getConnection();
+			/*if(conn == null || conn.isClosed()) { 
+			    //conn =  DriverManager.getConnection(database.url, database.user, database.pass);
+			    conn = datasource.getConnection();
+			}*/
 					    
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}
 		return conn;
@@ -71,7 +84,9 @@ public class DB {
 	
 	public boolean close() {
 		try {
-			conn.close();
+			if(conn != null || !conn.isClosed()) {
+				conn.close();
+			}			
 			conn = null;
 			return true;
 		} catch (SQLException e) {

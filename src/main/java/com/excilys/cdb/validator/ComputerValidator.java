@@ -23,6 +23,7 @@ public class ComputerValidator {
 	}
 	
 	public boolean isValid(ComputerDTO c) {
+		
 		return validateId(c.getId())
 				&& validateName(c.getName())
 				&& validateDate(c.getIntroduced())
@@ -30,6 +31,8 @@ public class ComputerValidator {
 				&& validateIntrAfterDisc(c.getIntroduced(), c.getDiscontinued())
 				&& validateId(c.getIdCompany());
 	}
+	
+	
 	
 	private boolean validateId(int id) {
 		return id >= 0;

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 
 /**
  * CompanyDAO est une couche de persistance permettant la liaison entre la classe Company et la base de données.
@@ -32,6 +33,9 @@ public class CompanyDAO {
 	
 	private final String sqlGetCompanies = "SELECT * FROM " + tableName;
 	
+	private final String sqlDeleteCopany = "DELETE FROM " + tableName + " WHERE  id = ?";
+	
+	private final String sqlDeleteComputer = "DELETE FROM computer WHERE company_id = ?";
 	
 	private CompanyDAO() {
 		db = DB.getInstance();
@@ -119,6 +123,49 @@ public class CompanyDAO {
 		}
 		
 		return company;
+	}
+	
+	public boolean delete(int id) {
+		
+		if(id < 1) {
+			//logger.trace("Tentative de suppression d'un ordinateur sans id");
+			return false;
+		}
+		Connection conn = db.getConnection();
+				
+		try {
+			conn.setAutoCommit(false);
+			PreparedStatement ps;
+			
+			ps = conn.prepareStatement(sqlDeleteComputer);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			
+			
+			
+			ps = conn.prepareStatement(sqlDeleteCopany);
+			ps.setInt(1, id);
+			
+			//Execution
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+			ps.close();
+			return true;
+		}catch(SQLException e) {
+			try {
+				if (conn != null && !conn.isClosed()) {
+					conn.rollback();
+				}
+			} catch (SQLException e1) {
+				logger.error(e.getMessage());
+			}
+			logger.error(e.getMessage());
+			//e.printStackTrace();
+		}
+		return false;
+		
 	}
 
 }

@@ -23,26 +23,33 @@ public class ComputerDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	private static ComputerDAO computerDAO = null;
 	ComputerMapper mapper;
+	public enum SortingRule { ASC, DESC };
 	
 	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
+	private final String sqlGetCountComputerWithParam = "SELECT COUNT(*)" + 
+			" FROM " + tableName + " C" + 
+			" LEFT JOIN company Y" +
+			" ON C.company_id = Y.id" +
+			" WHERE C.name LIKE ?" +
+			" OR C.introduced LIKE ?" +
+			" OR C.discontinued LIKE ?" +
+			" OR Y.name LIKE ?";
+	
 	private final String sqlFindComputerByIdWithLimit = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
 			" FROM " + tableName + " C" +
 			" LEFT JOIN company Y" +
 			" ON C.company_id = Y.id" +
 			" WHERE C.id = ?";
 	
-	private final String sqlFindComputerByName = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
-			" FROM " + tableName + " C" +
-			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id" +
-			" WHERE C.name LIKE ?";
 	
-	
-	private final String sqlGetComputers= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+	private final String sqlFindWithParam= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
 		 	" FROM " + tableName + " C" +
 			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id";
-	
+			" ON C.company_id = Y.id" +
+			" WHERE C.name LIKE ?" +
+			" OR C.introduced LIKE ?" +
+			" OR C.discontinued LIKE ?" +
+			" OR Y.name LIKE ?";
 	
 	private final String sqlUpdateComputer = "UPDATE " + tableName + 
 			" SET name = ?, introduced = ?, discontinued = ?, company_id = ?" + 
@@ -167,15 +174,17 @@ public class ComputerDAO {
 			String name = computer.getName();
 			LocalDate intr = computer.getIntroduced();
 			LocalDate disc = computer.getDiscontinued();
-			int idCompany = computer.getCompany().getId();
+			
+			
 
 			
 			ps.setString(1, name);	
 			
 			ps.setDate(2, intr != null ? Date.valueOf(intr) : null);
 			ps.setDate(3, disc != null ? Date.valueOf(disc) : null);
-				
-			if(idCompany > 0) {
+			
+			if(computer.getCompany() != null) {
+				int idCompany = computer.getCompany().getId();
 				ps.setInt(4, idCompany);
 			}				
 			else {
@@ -184,7 +193,6 @@ public class ComputerDAO {
 				
 			
 			ps.setInt(5, computer.getId());
-			
 			//Execution
 			ps.executeUpdate();
 
@@ -207,10 +215,26 @@ public class ComputerDAO {
 	
 	
 	
-	public List<Computer> getWithLimit(int limit, int offset){
+	public List<Computer> getWithLimit(int limit, int offset){	
+		return FindWithParamOrderedWithLimit("",null,null,-1,-1);
+	}
+	
+	
+	public List<Computer> FindWithParamOrderedWithLimit(String param,ComputerAttribute attribute, SortingRule sr, int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
-		String req = sqlGetComputers;
+		String req = sqlFindWithParam;
+		
+		//Ajout du tri - SI NECESSAIRE !
+		if(attribute != null && sr != null) {
+			req += " ORDER BY " + attribute.getAttribute();
+			if(sr == SortingRule.ASC || sr == null) {
+				req += " ASC";
+			}else {
+				req += " DESC";
+			}
+		}
+		
 		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
@@ -218,8 +242,13 @@ public class ComputerDAO {
 		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(req)){
 
-			if(limit >= 0) { ps.setInt(1, limit);}
-			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
+			ps.setString(1, "%" + param + "%");
+			ps.setString(2, "%" + param + "%");
+			ps.setString(3, "%" + param + "%");
+			ps.setString(4, "%" + param + "%");
+			
+			if(limit >= 0) { ps.setInt(5, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(6, offset);}
 			
 			rs = ps.executeQuery();
 		
@@ -271,25 +300,28 @@ public class ComputerDAO {
 		
 	}
 	
-	public List<Computer> findByName(String name){
-		return findByNameWithLimit(name,-1,-1);
+	public List<Computer> findWithParam(String param){
+		return findWithParamWithLimit(param,-1,-1);
 	}
 	
 	
-	public List<Computer> findByNameWithLimit(String name, int limit, int offset){
+	public List<Computer> findWithParamWithLimit(String param, int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
 		ResultSet rs;
-		String req = sqlFindComputerByName;
+		String req = sqlFindWithParam;
 		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 				
 		try (Connection conn = db.getConnection();
 				PreparedStatement ps = conn.prepareStatement(req)){
-			ps.setString(1, "%" + name + "%");
+			ps.setString(1, "%" + param + "%");
+			ps.setString(2, "%" + param + "%");
+			ps.setString(3, "%" + param + "%");
+			ps.setString(4, "%" + param + "%");
 			
-			if(limit >= 0) { ps.setInt(2, limit);}
-			if(limit >= 0 && offset >= 0) { ps.setInt(3, offset);}
+			if(limit >= 0) { ps.setInt(5, limit);}
+			if(limit >= 0 && offset >= 0) { ps.setInt(6, offset);}
 			rs = ps.executeQuery();
 		
 			
@@ -329,8 +361,29 @@ public class ComputerDAO {
 		}catch(SQLException e) {
 			logger.error(e.getMessage());
 		}
+		return nbComputer;
+	}
+	
+	public int getCount(String param) {
+		int nbComputer = 0;
 		
-		
+		try (Connection conn = db.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sqlGetCountComputerWithParam)){
+			
+			ps.setString(1, "%" + param + "%");
+			ps.setString(2, "%" + param + "%");
+			ps.setString(3, "%" + param + "%");
+			ps.setString(4, "%" + param + "%");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				nbComputer = rs.getInt(1);
+			}
+			
+		}catch(SQLException e) {
+			logger.error(e.getMessage());
+		}
 		
 		return nbComputer;
 	}
