@@ -1,15 +1,12 @@
 package com.excilys.cdb.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.excilys.cdb.dto.ComputerDTO;
-import com.excilys.cdb.mapper.ComputerMapper;
+
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerAttribute;
 import com.excilys.cdb.persistence.ComputerDAO;
@@ -18,21 +15,10 @@ import com.excilys.cdb.persistence.ComputerDAO.SortingRule;
 @Service
 public class ComputerService {
 	
-	//private static ComputerService computerService = null;
 	@Autowired
 	private ComputerDAO computerDAO;
 	
-	/*private ComputerService() {
-		//computerDAO = ComputerDAO.getInstance();
-	}
-	
-	public static ComputerService getInstance() {
-		if(computerService == null) {
-			computerService = new ComputerService();
-		}
-		return computerService;
-	}*/
-	
+
 	
 	public boolean addComputerToDatabase(Optional<Computer> computer) {
 		if(computer.isPresent()) {

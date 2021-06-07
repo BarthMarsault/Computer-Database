@@ -23,19 +23,7 @@ import com.excilys.cdb.model.Company;
 public class CompanyMapper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
-	/*private static CompanyMapper companyMapper = null;
-	
-	private CompanyMapper() {
-		
-	}
-	
-	public static CompanyMapper getInstance() {
-		if(companyMapper == null) {
-			companyMapper = new CompanyMapper();
-		}
-		return companyMapper;
-	}*/
-	
+
 	/**
 	 * Permet de transformer le contenu d'un ResultSet en objet Comapny
 	 * @param rs ResultSet

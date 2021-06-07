@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.ComputerDTO;
@@ -35,21 +34,7 @@ public class ComputerMapper {
 	
 	@Autowired
 	private ComputerValidator validator;
-	
-	@Autowired
-	private CompanyDAO companyDAO;
-	//private static ComputerMapper computerMapper = null;
-	
-	/*private ComputerMapper() {
-		
-	}
-	
-	public static ComputerMapper getInstance() {
-		if(computerMapper == null) {
-			computerMapper = new ComputerMapper();
-		}
-		return computerMapper;
-	}*/
+
 	
 	/**
 	 * Retourne un objet Computer obtenu à partir d'un ResultSet
@@ -172,7 +157,6 @@ public class ComputerMapper {
 			
 			//TODO A faire comme ça ????
 			if(dto.getIdCompany() > 0) {
-				//company = companyDAO.findById(dto.getIdCompany());
 				company = Optional.ofNullable(new CompanyBuilder().withId(dto.getIdCompany()).build());
 			}
 			

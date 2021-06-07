@@ -9,21 +9,8 @@ import com.excilys.cdb.dto.ComputerDTO;
 @Component
 public class ComputerValidator {
 	
-	
-
-	
 	private final int NAME_MIN_SIZE = 2;
 	
-	/*private ComputerValidator() {
-		
-	}
-	
-	public static ComputerValidator getInstance() {
-		if(computerValidator == null) {
-			computerValidator = new ComputerValidator();
-		}
-		return computerValidator;
-	}*/
 	
 	public boolean isValid(ComputerDTO c) {
 		

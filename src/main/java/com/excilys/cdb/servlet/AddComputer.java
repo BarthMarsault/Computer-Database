@@ -35,11 +35,8 @@ public class AddComputer extends HttpServlet {
 	
 
 	private CompanyService companyService;
-
 	private ComputerService computerService;
-
 	private ComputerMapper mapperComputer;
-
 	private CompanyMapper mapperCompany;
 	
 	

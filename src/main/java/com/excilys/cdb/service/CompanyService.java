@@ -12,21 +12,10 @@ import com.excilys.cdb.persistence.ComputerDAO;
 
 @Service
 public class CompanyService {
-	//private static CompanyService companyService = null;
 	@Autowired
 	CompanyDAO companyDAO;
 	
-	/*private CompanyService() {
-		
-	}
-	
-	
-	public static CompanyService getInstance() {
-		if(companyService == null) {
-			companyService = new CompanyService();
-		}
-		return companyService;
-	}*/
+
 	
 	
 	public List<Company> getCompanies(){

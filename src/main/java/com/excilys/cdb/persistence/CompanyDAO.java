@@ -29,8 +29,7 @@ public class CompanyDAO {
 	private DB db;
 	static String tableName = "company";
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
-	
-	//private static CompanyDAO companyDAO;
+
 	@Autowired
 	private CompanyMapper mapper;
 	
@@ -43,17 +42,7 @@ public class CompanyDAO {
 	
 	private final String sqlDeleteComputer = "DELETE FROM computer WHERE company_id = ?";
 	
-	/*private CompanyDAO() {
-		db = DB.getInstance();
-		mapper = CompanyMapper.getInstance();
-	}
 	
-	public static CompanyDAO getInstance() {
-		if(companyDAO == null) {
-			companyDAO = new CompanyDAO();
-		}
-		return companyDAO;
-	}*/
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.

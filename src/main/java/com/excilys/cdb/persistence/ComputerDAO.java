@@ -24,7 +24,7 @@ public class ComputerDAO {
 	
 	static String tableName = "computer";
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	//private static ComputerDAO computerDAO;
+
 	@Autowired
 	private DB db;
 	@Autowired
@@ -70,17 +70,7 @@ public class ComputerDAO {
 			" (name, introduced, discontinued, company_id)" +
 			" VALUE (?,?,?,? )" ;
 	
-	/*private ComputerDAO() {
-		db = DB.getInstance();
-		mapper = ComputerMapper.getInstance();
-	}
-	
-	public static ComputerDAO getInstance() {
-		if(computerDAO == null) {
-			computerDAO = new ComputerDAO();
-		}
-		return computerDAO;
-	}*/
+
 	
 	
 	/**

@@ -17,7 +17,6 @@ public class DB {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DB.class);
 	
-	//private static DB database = null;
 	private static HikariDataSource datasource;
 	private Connection conn = null;
 	
@@ -50,12 +49,7 @@ public class DB {
 		
 	}
 	
-	/*public static DB getInstance() {
-		if(database == null) {
-			database = new DB();
-		}
-		return database;
-	}*/
+
 	
 	public Connection getConnection() {
 		

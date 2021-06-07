@@ -1,10 +1,5 @@
 package com.excilys.cdb.dto;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.excilys.cdb.validator.ComputerValidator;
-
 public class ComputerDTO {
 	
 	
