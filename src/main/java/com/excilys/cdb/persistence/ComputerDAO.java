@@ -7,6 +7,8 @@ import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.*;
@@ -16,13 +18,19 @@ import com.excilys.cdb.model.*;
  * @author excilys
  *
  */
+@Repository
 public class ComputerDAO {
 	
-	private DB db = null;
+	
 	static String tableName = "computer";
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	private static ComputerDAO computerDAO = null;
-	ComputerMapper mapper;
+	//private static ComputerDAO computerDAO;
+	@Autowired
+	private DB db;
+	@Autowired
+	private ComputerMapper mapper;
+	
+
 	public enum SortingRule { ASC, DESC };
 	
 	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
@@ -62,7 +70,7 @@ public class ComputerDAO {
 			" (name, introduced, discontinued, company_id)" +
 			" VALUE (?,?,?,? )" ;
 	
-	private ComputerDAO() {
+	/*private ComputerDAO() {
 		db = DB.getInstance();
 		mapper = ComputerMapper.getInstance();
 	}
@@ -72,7 +80,7 @@ public class ComputerDAO {
 			computerDAO = new ComputerDAO();
 		}
 		return computerDAO;
-	}
+	}*/
 	
 	
 	/**
@@ -251,7 +259,6 @@ public class ComputerDAO {
 			if(limit >= 0 && offset >= 0) { ps.setInt(6, offset);}
 			
 			rs = ps.executeQuery();
-		
 			
 			computers = mapper.resultSetToListComputer(rs);
 			

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.CompanyDAO;
@@ -19,14 +20,14 @@ import com.excilys.cdb.persistence.CompanyDAO;
 public class TestCompanyDAO {
 	
 	
-	
+	@Autowired
 	private CompanyDAO companyDAO;
 	
 	
 	@BeforeEach
 	public void setup() throws SQLException, IOException {
 
-		companyDAO = CompanyDAO.getInstance();
+		//companyDAO = CompanyDAO.getInstance();
 		
     }
 	

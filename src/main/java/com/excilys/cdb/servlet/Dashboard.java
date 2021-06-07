@@ -11,23 +11,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.excilys.cdb.Main;
 import com.excilys.cdb.dto.ComputerDTO;
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerAttribute;
-import com.excilys.cdb.persistence.ComputerDAO;
 import com.excilys.cdb.persistence.ComputerDAO.SortingRule;
 import com.excilys.cdb.service.ComputerService;
-import com.excilys.cdb.service.PageComputer;
+
 
 @WebServlet( name="Dashboard", urlPatterns = { "/dashboard" })
 public class Dashboard extends HttpServlet{
 	
+	private static final long serialVersionUID = 1L;
+	
+	private ComputerService computerService;
+	private ComputerMapper mapper;
+	
+
+	
+	public void init() {
+		@SuppressWarnings("resource")
+		ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+		computerService = context.getBean(ComputerService.class);
+		mapper = context.getBean(ComputerMapper.class);
+	}
+	
+
 	
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		HttpSession session = request.getSession();
-		ComputerMapper mapper = ComputerMapper.getInstance();
+		
+		
 		List<ComputerDTO> computers =  new ArrayList<>();
 		int nbComputerByPage = 10;
 		int currentPageNumber = 1;
@@ -40,7 +60,7 @@ public class Dashboard extends HttpServlet{
 		session = updateSession(request);
 		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
 		String param = session.getAttribute("search").toString();
-		nbComputer = ComputerDAO.getInstance().getCount(param);
+		nbComputer = computerService.getCountComputer(param);
 		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
 		
 		if(request.getParameter("pageRequest") != null){
@@ -60,7 +80,7 @@ public class Dashboard extends HttpServlet{
 		sortingRule = getSortingRule(session);
 				
 		
-		ArrayList<Computer> computersTmp = (ArrayList<Computer>) ComputerService.getInstance().getComputersWithParamOrderedWithLimit(param,
+		ArrayList<Computer> computersTmp = (ArrayList<Computer>) computerService.getComputersWithParamOrderedWithLimit(param,
 				orderByAttribute, sortingRule, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
 
 		
@@ -155,7 +175,7 @@ public class Dashboard extends HttpServlet{
 				
 			}
 			
-			ComputerService.getInstance().deleteComputer(id);
+			computerService.deleteComputer(id);
 		}
 	}
 	

@@ -6,17 +6,19 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDAO;
 
 class TestComputerDAO {
 	
+	@Autowired
 	ComputerDAO dao;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		dao = ComputerDAO.getInstance();
+		//dao = ComputerDAO.getInstance();
 	}
 
 	@Test

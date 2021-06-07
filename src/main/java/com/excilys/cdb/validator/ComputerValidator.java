@@ -2,16 +2,19 @@ package com.excilys.cdb.validator;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.dto.ComputerDTO;
 
+@Component
 public class ComputerValidator {
 	
 	
-	private static ComputerValidator computerValidator = null;
+
 	
 	private final int NAME_MIN_SIZE = 2;
 	
-	private ComputerValidator() {
+	/*private ComputerValidator() {
 		
 	}
 	
@@ -20,7 +23,7 @@ public class ComputerValidator {
 			computerValidator = new ComputerValidator();
 		}
 		return computerValidator;
-	}
+	}*/
 	
 	public boolean isValid(ComputerDTO c) {
 		

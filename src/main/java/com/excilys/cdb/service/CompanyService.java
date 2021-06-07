@@ -2,15 +2,21 @@ package com.excilys.cdb.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.CompanyDAO;
 import com.excilys.cdb.persistence.ComputerDAO;
 
+@Service
 public class CompanyService {
-	private static CompanyService companyService = null;
+	//private static CompanyService companyService = null;
+	@Autowired
+	CompanyDAO companyDAO;
 	
-	private CompanyService() {
+	/*private CompanyService() {
 		
 	}
 	
@@ -20,15 +26,15 @@ public class CompanyService {
 			companyService = new CompanyService();
 		}
 		return companyService;
-	}
+	}*/
 	
 	
 	public List<Company> getCompanies(){
-		return CompanyDAO.getInstance().getAll();
+		return companyDAO.getAll();
 	}
 	
 	public boolean deleteCompany(int id) {		
-		return CompanyDAO.getInstance().delete(id);
+		return companyDAO.delete(id);
 	}
 	
 	

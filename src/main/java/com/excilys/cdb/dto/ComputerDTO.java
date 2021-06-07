@@ -1,12 +1,12 @@
 package com.excilys.cdb.dto;
 
-import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.validator.ComputerValidator;
 
 public class ComputerDTO {
 	
-	private final int NAME_MIN_SIZE = 2;
 	
 	private int id;
 	private String name;
@@ -14,6 +14,7 @@ public class ComputerDTO {
 	private String discontinued;
 	private int idCompany;
 	private String nameCompany;
+	
 	
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		id = builder.id;
@@ -23,12 +24,6 @@ public class ComputerDTO {
 		idCompany = builder.idCompany;
 		nameCompany = builder.nameCompany;
 	}
-	
-	
-	public boolean isValid() {
-		return ComputerValidator.getInstance().isValid(this);		
-	}
-	
 	
 	
 	public static class ComputerDTOBuilder {

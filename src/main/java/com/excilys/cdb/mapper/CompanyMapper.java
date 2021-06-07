@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.CompanyDTO;
 import com.excilys.cdb.dto.CompanyDTO.CompanyDTOBuilder;
@@ -18,10 +19,11 @@ import com.excilys.cdb.model.Company;
  * @author excilys
  *
  */
+@Component
 public class CompanyMapper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
-	private static CompanyMapper companyMapper = null;
+	/*private static CompanyMapper companyMapper = null;
 	
 	private CompanyMapper() {
 		
@@ -32,7 +34,7 @@ public class CompanyMapper {
 			companyMapper = new CompanyMapper();
 		}
 		return companyMapper;
-	}
+	}*/
 	
 	/**
 	 * Permet de transformer le contenu d'un ResultSet en objet Comapny

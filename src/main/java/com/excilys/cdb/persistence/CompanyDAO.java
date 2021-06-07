@@ -10,6 +10,8 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
@@ -20,13 +22,17 @@ import com.excilys.cdb.model.Computer;
  * @author excilys
  *
  */
+@Repository
 public class CompanyDAO {
 	
-	private DB db = null;
+	@Autowired
+	private DB db;
 	static String tableName = "company";
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
-	private static CompanyDAO companyDAO = null;
-	CompanyMapper mapper;
+	
+	//private static CompanyDAO companyDAO;
+	@Autowired
+	private CompanyMapper mapper;
 	
 	private final String sqlFindCompanyById = "SELECT * FROM " + tableName +
 			" WHERE id = ?";
@@ -37,7 +43,7 @@ public class CompanyDAO {
 	
 	private final String sqlDeleteComputer = "DELETE FROM computer WHERE company_id = ?";
 	
-	private CompanyDAO() {
+	/*private CompanyDAO() {
 		db = DB.getInstance();
 		mapper = CompanyMapper.getInstance();
 	}
@@ -47,7 +53,7 @@ public class CompanyDAO {
 			companyDAO = new CompanyDAO();
 		}
 		return companyDAO;
-	}
+	}*/
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.
@@ -63,7 +69,6 @@ public class CompanyDAO {
 		ResultSet rs;
 		
 		String req = sqlGetCompanies;
-		
 		
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}

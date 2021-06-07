@@ -10,25 +10,37 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.ComputerDTO;
 import com.excilys.cdb.dto.ComputerDTO.ComputerDTOBuilder;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Company.CompanyBuilder;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Computer.ComputerBuilder;
 import com.excilys.cdb.persistence.CompanyDAO;
+import com.excilys.cdb.validator.ComputerValidator;
 
 /**
  * Classe de Mapping de la classe Computer
  * @author excilys
  *
  */
+@Component
 public class ComputerMapper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
-	private static ComputerMapper computerMapper = null;
 	
-	private ComputerMapper() {
+	@Autowired
+	private ComputerValidator validator;
+	
+	@Autowired
+	private CompanyDAO companyDAO;
+	//private static ComputerMapper computerMapper = null;
+	
+	/*private ComputerMapper() {
 		
 	}
 	
@@ -37,7 +49,7 @@ public class ComputerMapper {
 			computerMapper = new ComputerMapper();
 		}
 		return computerMapper;
-	}
+	}*/
 	
 	/**
 	 * Retourne un objet Computer obtenu à partir d'un ResultSet
@@ -153,19 +165,27 @@ public class ComputerMapper {
 		String intr = dto.getIntroduced();
 		String disc = dto.getDiscontinued();
 		
-		LocalDate ldIntr = intr != null ? LocalDate.parse(intr) : null;
-		LocalDate ldDisc = disc != null ? LocalDate.parse(disc) : null;
-		
-		
-		//WIP A faire comme ça ????
-		if(dto.getIdCompany() > 0) {
-			company = CompanyDAO.getInstance().findById(dto.getIdCompany());
+		if(validator.isValid(dto)) {
+			LocalDate ldIntr = intr != null ? LocalDate.parse(intr) : null;
+			LocalDate ldDisc = disc != null ? LocalDate.parse(disc) : null;
+			
+			
+			//TODO A faire comme ça ????
+			if(dto.getIdCompany() > 0) {
+				//company = companyDAO.findById(dto.getIdCompany());
+				company = Optional.ofNullable(new CompanyBuilder().withId(dto.getIdCompany()).build());
+			}
+			
+			
+			computer = Optional.ofNullable(new ComputerBuilder().withId(dto.getId()).withName(dto.getName())
+					.withIntroduced(ldIntr).withDiscontinued(ldDisc)
+					.withCompany(company.isPresent() ? company.get() : null).build());
+					
+		}else {
+			logger.error("Invalid ComputerDTO");
 		}
 		
 		
-		computer = Optional.ofNullable(new ComputerBuilder().withId(dto.getId()).withName(dto.getName())
-				.withIntroduced(ldIntr).withDiscontinued(ldDisc)
-				.withCompany(company.isPresent() ? company.get() : null).build());
 		
 		
 		return computer;

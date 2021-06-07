@@ -60,6 +60,7 @@ public class Computer {
 			return this;
 		}
 		
+		
 		public Computer build() {
 			return new Computer(this);
 		}
@@ -73,7 +74,7 @@ public class Computer {
 	
 	
 	public boolean alreadyExistInDB() {
-		return this.equals(ComputerDAO.getInstance().findById(id));
+		return this.equals(new ComputerDAO().findById(id));
 	}
 
 

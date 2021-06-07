@@ -8,14 +8,16 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 
+@Repository
 public class DB {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DB.class);
 	
-	private static DB database = null;
+	//private static DB database = null;
 	private static HikariDataSource datasource;
 	private Connection conn = null;
 	
@@ -27,7 +29,7 @@ public class DB {
 
 	
 	
-	private DB() {
+	public DB() {
 		super();
 		Properties properties = getProperties();
 		datasource = new HikariDataSource();
@@ -48,12 +50,12 @@ public class DB {
 		
 	}
 	
-	public static DB getInstance() {
+	/*public static DB getInstance() {
 		if(database == null) {
 			database = new DB();
 		}
 		return database;
-	}
+	}*/
 	
 	public Connection getConnection() {
 		

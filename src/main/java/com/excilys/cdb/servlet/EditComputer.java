@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import com.excilys.cdb.Main;
 import com.excilys.cdb.dto.CompanyDTO;
 import com.excilys.cdb.dto.ComputerDTO;
 import com.excilys.cdb.dto.ComputerDTO.ComputerDTOBuilder;
@@ -29,18 +33,31 @@ import com.excilys.cdb.service.ComputerService;
  */
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
+	
+
+	private CompanyService companyService;
+
+	private ComputerService computerService;
+
+	private ComputerMapper mapperComputer;
+
+	private CompanyMapper mapperCompany;
+	
+	
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(AddComputer.class); 
 	private final String ERROR_INVALID_COMPUTER = "Invalid Computer";
 	private final String ERROR_STARAGE_FAIL = "Error in the process, retry later";
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EditComputer() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	public void init() {
+		@SuppressWarnings("resource")
+		ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+		computerService = context.getBean(ComputerService.class);
+		companyService = context.getBean(CompanyService.class);
+		mapperComputer = context.getBean(ComputerMapper.class);
+		mapperCompany = context.getBean(CompanyMapper.class);
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,8 +67,8 @@ public class EditComputer extends HttpServlet {
 			response.sendRedirect("dashboard");
 			return;
 		}
-		ComputerMapper mapperComputer = ComputerMapper.getInstance();
-		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(ComputerService.getInstance().getById(Integer.parseInt(request.getParameter("requestId"))));
+		//ComputerMapper mapperComputer = ComputerMapper.getInstance();
+		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(computerService.getById(Integer.parseInt(request.getParameter("requestId"))));
 		
 		if(!computerDTO.isPresent()) {
 			response.sendRedirect("dashboard");
@@ -59,8 +76,7 @@ public class EditComputer extends HttpServlet {
 		}
 		
 		ArrayList<CompanyDTO> companies = new ArrayList<>();
-		CompanyMapper mapperCompany = CompanyMapper.getInstance();
-		for(Company company : CompanyService.getInstance().getCompanies()) {
+		for(Company company : companyService.getCompanies()) {
 			companies.add(mapperCompany.companyToCompayDTO(company).get());
 		}
 		
@@ -88,17 +104,17 @@ public class EditComputer extends HttpServlet {
 		Optional<Computer> computer = Optional.empty();
 		
 		
-		if(computerDTO.isValid()) {
-			computer = ComputerMapper.getInstance().computerDtoToComputer(computerDTO);
-		}else {
+		
+		
+		computer = mapperComputer.computerDtoToComputer(computerDTO);
+		if(!computer.isPresent()) {
 			request.setAttribute("errorMessage", ERROR_INVALID_COMPUTER );
-			logger.error("Invalid Computer");
+			logger.error("No Computer Found");
 			doGet(request, response);
 			return;
 		}
 		
-		
-		if(computer.isPresent() && ComputerService.getInstance().updateComputer(computer.get())) {
+		if(computer.isPresent() && computerService.updateComputer(computer.get())) {
 			response.sendRedirect("dashboard");
 		}else {
 			request.setAttribute("errorMessage", ERROR_STARAGE_FAIL );

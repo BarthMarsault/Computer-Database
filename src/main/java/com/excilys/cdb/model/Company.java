@@ -11,6 +11,35 @@ public class Company {
 		this.id = id;
 		this.name = name;
 	}
+	
+	public Company(CompanyBuilder builder) {
+		id = builder.id;
+		name = builder.name;
+	}
+	
+	public static class CompanyBuilder{
+		private int id;
+		private String name;
+		
+		public CompanyBuilder() {
+			
+		}
+		
+		public CompanyBuilder withId(int id) {
+			this.id = id;
+			return this;
+		}
+		
+		public CompanyBuilder withName(String name) {
+			this.name = name;
+			return this;
+		}
+		
+		public Company build() {
+			return new Company(this);
+		}
+		
+	}
 		
 	
 	
