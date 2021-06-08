@@ -128,7 +128,15 @@
 	              <li><a >...</a></li>
 	              <c:forEach items="${pageProposition}" var="var">
 					    <!--<li><a href="p-${ var }">${ var }</a></li> -->
-					    <li><a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${var}"/></c:url>">${var}</a></li>
+					    <li><a href="<c:url value="dashboard"> <c:param name="pageRequest" value="${var}"/></c:url>">
+					    	<c:if test="${var == pageNumber}">
+					    		<strong>
+					    	</c:if>
+					    	${var}
+					    	<c:if test="${var == pageNumber}">
+					    		</strong>
+					    	</c:if>
+					    </a></li>
 				  </c:forEach> 
 	              <li><a >...</a></li>
 	              <!-- <li><a href="p-${numberOfPage}"><c:out value = "${numberOfPage}" /></a></li> -->

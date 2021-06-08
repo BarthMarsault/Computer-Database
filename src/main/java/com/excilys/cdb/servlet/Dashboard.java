@@ -53,24 +53,20 @@ public class Dashboard extends HttpServlet{
 		int currentPageNumber = 1;
 		int numberOfPage;
 		int nbComputer;
+		String param;
 		
+		//ENUMs
 		ComputerAttribute orderByAttribute = null;
 		SortingRule sortingRule = null;
 		
+		//Init les Paramètres de la page
 		session = updateSession(request);
 		nbComputerByPage = Integer.parseInt(session.getAttribute("nbComputerByPage").toString());
-		String param = session.getAttribute("search").toString();
+		param = session.getAttribute("search").toString();
 		nbComputer = computerService.getCountComputer(param);
 		numberOfPage = (int) Math.ceil((double) nbComputer/nbComputerByPage);
+		currentPageNumber = getCurrentPageNumber(request, numberOfPage);
 		
-		if(request.getParameter("pageRequest") != null){
-			currentPageNumber = Integer.parseInt(request.getParameter("pageRequest"));
-			if(currentPageNumber > numberOfPage) { //Verification du paramètre pageRequest
-				currentPageNumber = numberOfPage;
-			}else if( currentPageNumber < 1) {
-				currentPageNumber = 1;
-			}
-		}
 		
 		
 		
@@ -80,11 +76,10 @@ public class Dashboard extends HttpServlet{
 		sortingRule = getSortingRule(session);
 				
 		
-		ArrayList<Computer> computersTmp = (ArrayList<Computer>) computerService.getComputersWithParamOrderedWithLimit(param,
+		ArrayList<Computer> computersList = (ArrayList<Computer>) computerService.getComputersWithParamOrderedWithLimit(param,
 				orderByAttribute, sortingRule, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
 
-		
-		for(Computer computer : computersTmp) {
+		for(Computer computer : computersList) {
 			computers.add(mapper.computerToComputerDTO(computer).get());
 		}
 		
@@ -219,6 +214,22 @@ public class Dashboard extends HttpServlet{
 		}
 		
 		return sortingRule;
+	}
+	
+	
+	public int getCurrentPageNumber(HttpServletRequest request, int numberOfPage) {
+		int currentPageNumber = 1;
+		
+		if(request.getParameter("pageRequest") != null){
+			currentPageNumber = Integer.parseInt(request.getParameter("pageRequest"));
+			if(currentPageNumber > numberOfPage) { //Verification du paramètre pageRequest
+				currentPageNumber = numberOfPage;
+			}else if( currentPageNumber < 1) {
+				currentPageNumber = 1;
+			}
+		}
+		
+		return currentPageNumber;
 	}
 	
 
