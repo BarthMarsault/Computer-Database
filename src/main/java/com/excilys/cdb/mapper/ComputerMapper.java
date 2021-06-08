@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.ComputerDTO;
@@ -28,6 +29,7 @@ import com.excilys.cdb.validator.ComputerValidator;
  *
  */
 @Component
+@Scope
 public class ComputerMapper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ComputerMapper.class);

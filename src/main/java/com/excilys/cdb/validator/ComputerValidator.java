@@ -2,11 +2,13 @@ package com.excilys.cdb.validator;
 
 import java.time.LocalDate;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.ComputerDTO;
 
 @Component
+@Scope
 public class ComputerValidator {
 	
 	private final int NAME_MIN_SIZE = 2;

@@ -1,6 +1,7 @@
 package com.excilys.cdb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.excilys.cdb.model.Computer;
@@ -9,6 +10,7 @@ import com.excilys.cdb.service.PageComputer;
 import com.excilys.cdb.ui.ComputerManagement;
 
 @Controller
+@Scope
 public class ControllerComputer {
 	
 	static ComputerDAO computerDAO;

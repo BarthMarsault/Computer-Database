@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 
@@ -13,6 +14,7 @@ import com.excilys.cdb.persistence.ComputerDAO;
 import com.excilys.cdb.persistence.ComputerDAO.SortingRule;
 
 @Service
+@Scope
 public class ComputerService {
 	
 	@Autowired

@@ -8,11 +8,13 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 
 @Repository
+@Scope
 public class DB {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DB.class);

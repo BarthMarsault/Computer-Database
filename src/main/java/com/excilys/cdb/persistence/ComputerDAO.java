@@ -8,6 +8,7 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.mapper.ComputerMapper;
@@ -19,6 +20,7 @@ import com.excilys.cdb.model.*;
  *
  */
 @Repository
+@Scope
 public class ComputerDAO {
 	
 	
