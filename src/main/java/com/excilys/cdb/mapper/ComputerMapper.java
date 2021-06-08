@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.ComputerDTO;
@@ -30,13 +31,29 @@ import com.excilys.cdb.validator.ComputerValidator;
  */
 @Component
 @Scope
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer>{
 	
 	private static final Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 	
 	@Autowired
 	private ComputerValidator validator;
 
+	@Override
+	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		Date dIntr = rs.getDate(3);
+		Date dDisc = rs.getDate(4);
+		
+		LocalDate ldIntr =  dIntr != null ? dIntr.toLocalDate() : null;
+		LocalDate ldDisc = dDisc != null ? dDisc.toLocalDate() : null;
+		
+		Company company = new Company(rs.getInt(5), rs.getString(6));
+		
+	
+		
+		return new ComputerBuilder().withId(rs.getInt(1)).withName(rs.getString(2))
+				.withIntroduced(ldIntr).withDiscontinued(ldDisc).withCompany(company).build();
+	}
 	
 	/**
 	 * Retourne un objet Computer obtenu à partir d'un ResultSet
@@ -176,5 +193,7 @@ public class ComputerMapper {
 		
 		return computer;
 	}
+
+	
 
 }

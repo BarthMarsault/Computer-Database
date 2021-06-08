@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -19,6 +22,7 @@ public class DB {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DB.class);
 	
+	
 	private static HikariDataSource datasource;
 	private Connection conn = null;
 	
@@ -28,7 +32,30 @@ public class DB {
 	private final String DATABASE_USER = "username";
 	private final String DATABASE_PASSWORD = "password";
 
-	
+	@Bean
+	public static DataSource getDatasource() {
+		return datasource;
+	}
+	/*@Bean
+	public DataSource mysqlDataSource() {
+		Properties properties = getProperties();
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		try {
+			datasource.setDriverClassName(properties.getProperty(DATABASE_DRIVER));
+			datasource.setJdbcUrl(properties.getProperty(DATABASE_URL));
+			datasource.setUsername(properties.getProperty(DATABASE_USER));
+			datasource.setPassword(properties.getProperty(DATABASE_PASSWORD));
+			
+			datasource.setMinimumIdle(5);
+			datasource.setMaximumPoolSize(100);
+			datasource.setLoginTimeout(3);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+
+        return dataSource;
+	}*/
 	
 	public DB() {
 		super();
@@ -93,6 +120,10 @@ public class DB {
 		}
 		return false;
 	}
+
+
+
+	
 	
 	
 	

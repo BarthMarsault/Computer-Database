@@ -24,7 +24,7 @@ public class ComputerService {
 	
 	public boolean addComputerToDatabase(Optional<Computer> computer) {
 		if(computer.isPresent()) {
-			return computerDAO.create(computer.get());
+			return computerDAO.create(computer.get()) == 1;
 		}	
 			
 		return false;
@@ -41,11 +41,11 @@ public class ComputerService {
 	}
 	
 	public boolean updateComputer(Computer computer) {
-		return computerDAO.update(computer);
+		return computerDAO.update(computer) == 1;
 	}
 	
 	public boolean deleteComputer(int id) {
-		return computerDAO.delete(id);
+		return computerDAO.delete(id) == 1;
 	}
 	
 	public int getCountComputer() {

@@ -140,7 +140,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		if (computerDAO.delete(id)) {
+		if (computerDAO.delete(id) == 1) {
 			System.out.println("Ordinateur supprimé"); // Suppression en BDD
 		} else {
 			System.out.println("Echec");
