@@ -25,9 +25,6 @@ import com.excilys.cdb.model.Company;
 @Repository
 @Scope
 public class CompanyDAO {
-	
-	@Autowired
-	private DB db;
 
 	static String tableName = "company";
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);

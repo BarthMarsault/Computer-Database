@@ -1,4 +1,4 @@
-package com.excilys.cdb;
+package com.excilys.cdb.config;
 
 
 import java.sql.SQLException;
@@ -27,32 +27,41 @@ public class SpringJdbcConfig {
 	@Autowired
 	Environment environment;
 	
+	HikariDataSource dataSource;
+	
 	private static final Logger logger = LoggerFactory.getLogger(SpringJdbcConfig.class);
 	
 	private final String DATABASE_DRIVER = "driverClassName";
 	private final String DATABASE_URL = "url";	
-	private final String DATABASE_USER = "username";
+	private final String DATABASE_USER = "user_database";
 	private final String DATABASE_PASSWORD = "password";
 	
 	
+	public SpringJdbcConfig() {      
+		
+	}
+	
 	@Bean
 	public DataSource mysqlDataSource() {
-
-		HikariDataSource dataSource = new HikariDataSource();       
 		
-		try {
-			dataSource.setDriverClassName(environment.getProperty(DATABASE_DRIVER));
-			dataSource.setJdbcUrl(environment.getProperty(DATABASE_URL));
-			dataSource.setUsername(environment.getProperty(DATABASE_USER));
-			dataSource.setPassword(environment.getProperty(DATABASE_PASSWORD));
+		if(dataSource == null) {
+			dataSource = new HikariDataSource();
 			
-			dataSource.setMinimumIdle(5);
-			dataSource.setMaximumPoolSize(100);
-			dataSource.setLoginTimeout(3);
-		} 
-		catch (SQLException e) {
-			logger.error(e.getMessage());
+			try {
+				dataSource.setDriverClassName(environment.getProperty(DATABASE_DRIVER));
+				dataSource.setJdbcUrl(environment.getProperty(DATABASE_URL));
+				dataSource.setUsername(environment.getProperty(DATABASE_USER));
+				dataSource.setPassword(environment.getProperty(DATABASE_PASSWORD));
+				
+				dataSource.setMinimumIdle(5);
+				dataSource.setMaximumPoolSize(100);
+				dataSource.setLoginTimeout(3);
+			} 
+			catch (SQLException e) {
+				logger.error(e.getMessage());
+			}
 		}
+		
         return dataSource;
 	}
 

@@ -13,7 +13,8 @@ import com.excilys.cdb.ui.Root;
 @ComponentScan(basePackages = {"com.excilys.cdb.persistence" ,
 			"com.excilys.cdb.service", "com.excilys.cdb.controller",
 			"com.excilys.cdb.mapper", "com.excilys.cdb.ui",
-			"com.excilys.cdb.servlet", "com.excilys.cdb.validator"})
+			"com.excilys.cdb.servlet", "com.excilys.cdb.validator",
+			"com.excilys.cdb.config"})
 public class Main {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Main.class);
