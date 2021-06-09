@@ -9,11 +9,14 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.CompanyDTO;
 import com.excilys.cdb.dto.CompanyDTO.CompanyDTOBuilder;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Company.CompanyBuilder;
+import com.excilys.cdb.model.Computer;
 
 /**
  * Classe de mapping pour la classe Company
@@ -22,10 +25,16 @@ import com.excilys.cdb.model.Company;
  */
 @Component
 @Scope
-public class CompanyMapper {
+public class CompanyMapper implements RowMapper<Company>{
 	
 	private static final Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
+	
+	@Override
+	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+		return new CompanyBuilder().withId(rs.getInt(1)).withName(rs.getString(2)).build();
+	}
+	
 	/**
 	 * Permet de transformer le contenu d'un ResultSet en objet Comapny
 	 * @param rs ResultSet
@@ -66,4 +75,6 @@ public class CompanyMapper {
 		return Optional.ofNullable(new CompanyDTOBuilder().withId(c.getId())
 				.withName(c.getName()).build());
 	}
+
+	
 }

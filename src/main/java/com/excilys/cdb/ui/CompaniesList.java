@@ -3,15 +3,21 @@ package com.excilys.cdb.ui;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.service.CompanyService;
 
-
+@Component
 public class CompaniesList {
 	
-	@Autowired
+	
 	private static CompanyService companyService;
+	
+	@Autowired
+	public void setCompanyService(CompanyService companyService) {
+		CompaniesList.companyService = companyService;
+	}
 	
 	/**
 	 * Affiche la liste des compagnies

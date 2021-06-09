@@ -8,11 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
@@ -35,16 +39,22 @@ public class CompanyDAO {
 	@Autowired
 	private CompanyMapper mapper;
 	
-	private final String sqlFindCompanyById = "SELECT * FROM " + tableName +
-			" WHERE id = ?";
+	private JdbcTemplate jdbcTemplate;
+	
+	private final String sqlFindCompanyById = "SELECT * FROM " + tableName + " WHERE id = ?";
 	
 	private final String sqlGetCompanies = "SELECT * FROM " + tableName;
 	
-	private final String sqlDeleteCopany = "DELETE FROM " + tableName + " WHERE  id = ?";
+	private final String sqlDeleteCompany = "DELETE FROM " + tableName + " WHERE  id = ?";
 	
 	private final String sqlDeleteComputer = "DELETE FROM computer WHERE company_id = ?";
 	
-	
+
+	@Autowired
+	public void setJdbcTemplate(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.
@@ -57,28 +67,25 @@ public class CompanyDAO {
 	
 	public List<Company> getWithLimit(int limit, int offset){
 		List<Company> companies = new ArrayList<>();
-		ResultSet rs;
+		
 		
 		String req = sqlGetCompanies;
 		
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
 				
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(req);){
-			
-			if(limit >= 0) { ps.setInt(1, limit);}
-			if(limit >= 0 && offset >= 0) { ps.setInt(2, offset);}
-			
-			rs = ps.executeQuery();
-						
-			companies = mapper.resultSetToListCompany(rs);
-			
-			rs.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
+
+		
+		if(limit >= 0 && offset >= 0) {
+			companies = jdbcTemplate.query(req, mapper, limit, offset);
 		}
+		else if(limit >= 0) {
+			companies = jdbcTemplate.query(req, mapper, limit);
+		}
+		else {
+			companies = jdbcTemplate.query(req, mapper);
+		}
+		
 		if(companies.size() == 0) {
 			logger.trace("Retour d'un liste de Company vide");
 		}
@@ -93,74 +100,22 @@ public class CompanyDAO {
 	 * @return Company
 	 */
 	public Optional<Company> findById(int id) {
-		Optional<Company> company = Optional.empty();
-		
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlFindCompanyById);){
-
-			ps.setInt(1, id);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				company = mapper.resultSetToCompany(rs);
-			}
-			
-			
-									
-			rs.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		
-		if(!company.isPresent() && id > 0) {
-			logger.trace("Retour d'un Optional<Company> vide");
-		}
-		
-		return company;
+		return Optional.ofNullable(jdbcTemplate.queryForObject(sqlFindCompanyById, new Object[] { id }, mapper));
 	}
 	
+	
+	@Transactional
 	public boolean delete(int id) {
 		
 		if(id < 1) {
-			//logger.trace("Tentative de suppression d'un ordinateur sans id");
+			logger.trace("Tentative de suppression d'une company sans id");
 			return false;
 		}
-		Connection conn = db.getConnection();
-				
-		try {
-			conn.setAutoCommit(false);
-			PreparedStatement ps;
-			
-			ps = conn.prepareStatement(sqlDeleteComputer);
-			ps.setInt(1, id);
-			ps.executeUpdate();
-			
-			
-			
-			ps = conn.prepareStatement(sqlDeleteCopany);
-			ps.setInt(1, id);
-			
-			//Execution
-			ps.executeUpdate();
-			
-			conn.commit();
-			
-			ps.close();
-			return true;
-		}catch(SQLException e) {
-			try {
-				if (conn != null && !conn.isClosed()) {
-					conn.rollback();
-				}
-			} catch (SQLException e1) {
-				logger.error(e.getMessage());
-			}
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		return false;
+		
+		jdbcTemplate.update(sqlDeleteComputer,id);
+		jdbcTemplate.update(sqlDeleteCompany,id);
+		return true;
+		
 		
 	}
 
