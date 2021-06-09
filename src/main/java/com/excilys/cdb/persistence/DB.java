@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
@@ -36,26 +37,7 @@ public class DB {
 	public static DataSource getDatasource() {
 		return datasource;
 	}
-	/*@Bean
-	public DataSource mysqlDataSource() {
-		Properties properties = getProperties();
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		try {
-			datasource.setDriverClassName(properties.getProperty(DATABASE_DRIVER));
-			datasource.setJdbcUrl(properties.getProperty(DATABASE_URL));
-			datasource.setUsername(properties.getProperty(DATABASE_USER));
-			datasource.setPassword(properties.getProperty(DATABASE_PASSWORD));
-			
-			datasource.setMinimumIdle(5);
-			datasource.setMaximumPoolSize(100);
-			datasource.setLoginTimeout(3);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
-		}
 
-        return dataSource;
-	}*/
 	
 	public DB() {
 		super();

@@ -14,12 +14,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.persistence.ComputerDAO;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan("com.excilys.cdb.persistence")
+@ComponentScan("com.excilys.cdb")
 @PropertySource("classpath:db.properties")
 public class SpringJdbcConfig {
 	

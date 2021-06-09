@@ -1,9 +1,5 @@
 package com.excilys.cdb.persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
 
 /**
  * CompanyDAO est une couche de persistance permettant la liaison entre la classe Company et la base de données.
@@ -33,6 +28,7 @@ public class CompanyDAO {
 	
 	@Autowired
 	private DB db;
+
 	static String tableName = "company";
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 

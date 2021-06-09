@@ -1,8 +1,6 @@
 package com.excilys.cdb.persistence;
 
 import java.sql.*;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
 
 import javax.sql.DataSource;
@@ -31,16 +29,12 @@ public class ComputerDAO {
 	static String tableName = "computer";
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-	@Autowired
-	private DB db;
+
 	@Autowired
 	private ComputerMapper mapper;
 	
 	private JdbcTemplate jdbcTemplate;
 	
-	public ComputerDAO() {
-		
-	}
 	
 	@Autowired
 	public void setJdbcTemplate(DataSource dataSource) {
@@ -183,6 +177,11 @@ public class ComputerDAO {
 		}
 		else {
 			computers = jdbcTemplate.query(req, mapper, param, param, param, param);
+		}
+		
+		
+		if(computers.size() == 0) {
+			logger.trace("Retour d'un liste de Computer vide");
 		}
 		
 		return computers;

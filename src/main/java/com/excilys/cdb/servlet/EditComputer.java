@@ -77,7 +77,7 @@ public class EditComputer extends HttpServlet {
 		
 		ArrayList<CompanyDTO> companies = new ArrayList<>();
 		for(Company company : companyService.getCompanies()) {
-			companies.add(mapperCompany.companyToCompayDTO(company).get());
+			companies.add(mapperCompany.companyToCompanyDTO(company).get());
 		}
 		
 		

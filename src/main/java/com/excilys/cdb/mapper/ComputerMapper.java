@@ -55,85 +55,6 @@ public class ComputerMapper implements RowMapper<Computer>{
 				.withIntroduced(ldIntr).withDiscontinued(ldDisc).withCompany(company).build();
 	}
 	
-	/**
-	 * Retourne un objet Computer obtenu à partir d'un ResultSet
-	 * @param rs ResultSet
-	 * @return Une instance de la classe Computer
-	 */
-	public Optional<Computer> resultSetToComputer(ResultSet rs) {
-		try {
-			
-			Date dIntr = rs.getDate(3);
-			Date dDisc = rs.getDate(4);
-			
-			LocalDate ldIntr =  dIntr != null ? dIntr.toLocalDate() : null;
-			LocalDate ldDisc = dDisc != null ? dDisc.toLocalDate() : null;
-			
-			Company company = new Company(rs.getInt(5), rs.getString(6));
-			
-			return Optional.ofNullable(new ComputerBuilder().withId(rs.getInt(1)).withName(rs.getString(2))
-					.withIntroduced(ldIntr).withDiscontinued(ldDisc).withCompany(company).build());
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-		return Optional.empty();
-	}
-	
-	public List<Computer> resultSetToListComputer(ResultSet rs) {
-		ArrayList<Computer> computers = new ArrayList<>();
-		
-		try {
-			while(rs.next()) {
-				Optional<Computer> computer = resultSetToComputer(rs);
-				if(computer.isPresent()) {
-					computers.add(computer.get());
-				}
-				
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return computers;
-	}
-	
-	
-	public Optional<ComputerDTO> resultSetToComputerDTO(ResultSet rs){
-		Optional<ComputerDTO> computerDTO = Optional.empty();
-		try {
-			Date dIntr = rs.getDate(3);
-			Date dDisc = rs.getDate(4);
-			
-			String intr =  dIntr != null ? dIntr.toString() : null;
-			String disc = dDisc != null ? dDisc.toString() : null;
-					
-			computerDTO = Optional.ofNullable(new ComputerDTOBuilder().withId(rs.getInt(1)).withName(rs.getString(2))
-					.withIntroduced(intr).withDiscontinued(disc).withIdCompany(rs.getInt(5)).withNameCompany(rs.getString(6)).build());
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		
-		return computerDTO;
-	}
-	
-	public List<ComputerDTO> resultSetToListComputerDTO(ResultSet rs) {
-		ArrayList<ComputerDTO> computers = new ArrayList<>();
-		
-		try {
-			while(rs.next()) {
-				Optional<ComputerDTO> computer = resultSetToComputerDTO(rs);
-				if(computer.isPresent()) {
-					computers.add(computer.get());
-				}
-				
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return computers;
-	}
 	
 	
 	public Optional<ComputerDTO> computerToComputerDTO(Optional<Computer> c) {
@@ -143,8 +64,8 @@ public class ComputerMapper implements RowMapper<Computer>{
 		else {
 			return Optional.empty();
 		}
-		
 	}
+	
 	
 	public Optional<ComputerDTO> computerToComputerDTO(Computer c) {
 		Optional<ComputerDTO> computerDTO = Optional.empty();
@@ -161,7 +82,6 @@ public class ComputerMapper implements RowMapper<Computer>{
 		
 		return computerDTO;
 	}
-	
 	
 	public Optional<Computer> computerDtoToComputer(ComputerDTO dto){
 		Optional<Computer> computer = Optional.empty();

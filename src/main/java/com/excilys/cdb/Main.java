@@ -21,7 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
 		//ApplicationContext contextDB = new AnnotationConfigApplicationContext(SpringJdbcConfig.class);
-		
+
 		
 		//System.out.println(computerDAO.getAll().toString());
 		// TODO Auto-generated method stub
