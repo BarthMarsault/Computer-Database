@@ -99,8 +99,8 @@ public class ComputerMapper implements RowMapper<Computer>{
 		String disc = dto.getDiscontinued();
 		
 		if(validator.isValid(dto)) {
-			LocalDate ldIntr = intr != null && intr != "" ? LocalDate.parse(intr) : null;
-			LocalDate ldDisc = disc != null && intr != "" ? LocalDate.parse(disc) : null;
+			LocalDate ldIntr = intr != null && !intr.equals("") ? LocalDate.parse(intr) : null;
+			LocalDate ldDisc = disc != null && !disc.equals("") ? LocalDate.parse(disc) : null;
 			
 			
 			//TODO A faire comme ça ????
