@@ -29,7 +29,7 @@ public class CompanyDAO {
 	static String tableName = "company";
 	private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-	@Autowired
+
 	private CompanyMapper mapper;
 	
 	private JdbcTemplate jdbcTemplate;
@@ -43,8 +43,12 @@ public class CompanyDAO {
 	private final String sqlDeleteComputer = "DELETE FROM computer WHERE company_id = ?";
 	
 
-	@Autowired
-	public void setJdbcTemplate(DataSource dataSource) {
+	
+	
+	
+	public CompanyDAO(CompanyMapper mapper, DataSource dataSource) {
+		super();
+		this.mapper = mapper;
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 

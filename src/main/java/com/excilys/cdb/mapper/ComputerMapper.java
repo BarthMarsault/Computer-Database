@@ -35,8 +35,17 @@ public class ComputerMapper implements RowMapper<Computer>{
 	
 	private static final Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 	
-	@Autowired
+
 	private ComputerValidator validator;
+	
+	
+
+	public ComputerMapper(ComputerValidator validator) {
+		super();
+		this.validator = validator;
+	}
+
+
 
 	@Override
 	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {

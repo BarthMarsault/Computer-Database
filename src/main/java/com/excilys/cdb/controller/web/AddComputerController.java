@@ -1,4 +1,4 @@
-package com.excilys.cdb.controller;
+package com.excilys.cdb.controller.web;
 
 import java.util.ArrayList;
 import java.util.Map;

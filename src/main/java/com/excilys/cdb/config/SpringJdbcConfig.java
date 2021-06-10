@@ -24,7 +24,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @PropertySource("classpath:db.properties")
 public class SpringJdbcConfig {
 	
-	@Autowired
+
 	Environment environment;
 	
 	HikariDataSource dataSource;
@@ -37,10 +37,16 @@ public class SpringJdbcConfig {
 	private final String DATABASE_PASSWORD = "password";
 	
 	
-	public SpringJdbcConfig() {      
-		
-	}
 	
+	
+	public SpringJdbcConfig(Environment environment) {
+		super();
+		this.environment = environment;
+	}
+
+
+
+
 	@Bean
 	public DataSource mysqlDataSource() {
 		

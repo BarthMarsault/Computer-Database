@@ -64,20 +64,7 @@ public class Computer {
 			return new Computer(this);
 		}
 	}
-		
-		
-		
 	
-
-	
-	
-	
-	public boolean alreadyExistInDB() {
-		return this.equals(new ComputerDAO().findById(id));
-	}
-
-
-
 
 	public int getId() {
 		return id;

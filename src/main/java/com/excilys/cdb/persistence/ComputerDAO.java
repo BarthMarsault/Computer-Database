@@ -30,14 +30,16 @@ public class ComputerDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 
-	@Autowired
 	private ComputerMapper mapper;
 	
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	@Autowired
-	public void setJdbcTemplate(DataSource dataSource) {
+	
+	
+	public ComputerDAO(ComputerMapper mapper, DataSource dataSource) {
+		super();
+		this.mapper = mapper;
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 

@@ -1,4 +1,4 @@
-package com.excilys.cdb.controller;
+package com.excilys.cdb.controller.web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +27,19 @@ import com.excilys.cdb.session.DashboardSession;
 
 @Controller
 public class DashboardController {
-	@Autowired
+
 	private ComputerService computerService;
-	@Autowired
 	private ComputerMapper mapper;
-	@Autowired
 	DashboardSession session;
+	
+
+	public DashboardController(ComputerService computerService, ComputerMapper mapper, DashboardSession session) {
+		super();
+		this.computerService = computerService;
+		this.mapper = mapper;
+		this.session = session;
+	}
+
 
 	@GetMapping({"/","/dashboard"})
 	public ModelAndView dashboard(@RequestParam(required = false) Map<String,String> allParams) {
