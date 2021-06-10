@@ -7,7 +7,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,7 +60,7 @@ public class AddComputerController {
 		}
 		
 		
-		
+		response.addObject("computer",new ComputerDTO());
 		response.addObject("companies", companies);
 		
 		return response;
@@ -65,39 +68,21 @@ public class AddComputerController {
 	}
 	
 	
+	
 	@RequestMapping(value  ="/addComputer", method = RequestMethod.POST)
-	public ModelAndView postAddComputer(@RequestParam(required = true) Map<String,String> allParams) {
+	public ModelAndView postAddComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {
 
-		
-		String name = allParams.get("computerNameValue");
-		String intr = allParams.get("introducedValue");
-		String disc = allParams.get("discontinuedValue");
-		int idCompany = Integer.parseInt(allParams.get("companyIdValue"));
-	
-		ComputerDTO computerDTO = new ComputerDTOBuilder().withName(name).withIntroduced(intr)
-				.withDiscontinued(disc).withIdCompany(idCompany).build();
-		Optional<Computer> computer = Optional.empty();
-		
-		
-		computer = mapperComputer.computerDtoToComputer(computerDTO);
-		if(!computer.isPresent()) {
-			//request.setAttribute("errorMessage", ERROR_INVALID_COMPUTER );
-			logger.error("No Computer Found");
-			//doGet(request, response);
+			Optional<Computer> computer = mapperComputer.computerDtoToComputer(computerDTO);
+			if(computerService.addComputerToDatabase(computer)) {
+				return new ModelAndView("redirect:/dashboard");
+			}else {
+				//request.setAttribute("errorMessage", ERROR_STARAGE_FAIL );
+				logger.error("Fail in the storage process");
+				//doGet(request, response);
+			}
 			return addComputer();
-		}
-		
-		if(computerService.addComputerToDatabase(computer)) {
-			return new ModelAndView("redirect:/dashboard");
-		}else {
-			//request.setAttribute("errorMessage", ERROR_STARAGE_FAIL );
-			logger.error("Fail in the storage process");
-			//doGet(request, response);
-		}
-		
-		return addComputer();		
+			
 	}
-	
 	
 	
 }

@@ -10,6 +10,9 @@ public class ComputerDTO {
 	private int idCompany;
 	private String nameCompany;
 	
+	public ComputerDTO() {
+		
+	}
 	
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		id = builder.id;

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,38 +75,22 @@ public class EditComputerController {
 		
 	}
 	
-	
+
 	@RequestMapping(value  ="/editComputer", method = RequestMethod.POST)
-	public ModelAndView postEditComputer(@RequestParam(required = true) Map<String,String> allParams) {
-		
-		int id = Integer.parseInt(allParams.get("idValue"));
-		String name = allParams.get("computerNameValue");
-		String intr = allParams.get("introducedValue");
-		String disc = allParams.get("discontinuedValue");
-		int idCompany = Integer.parseInt(allParams.get("companyIdValue"));
+	public ModelAndView postEditComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {
 	
-		ComputerDTO computerDTO = new ComputerDTOBuilder().withId(id).withName(name).withIntroduced(intr)
-				.withDiscontinued(disc).withIdCompany(idCompany).build();
-		Optional<Computer> computer = Optional.empty();
-		
-		
-		
-		
-		computer = mapperComputer.computerDtoToComputer(computerDTO);
-		if(!computer.isPresent()) {
-			//request.setAttribute("errorMessage", ERROR_INVALID_COMPUTER );
-			logger.error("No Computer Found");
-			return editComputer(id);
-		}
-		
+		System.out.println(computerDTO.getName());
+	
+		Optional<Computer> computer = mapperComputer.computerDtoToComputer(computerDTO);
 		if(computer.isPresent() && computerService.updateComputer(computer.get())) {
 			return new ModelAndView("redirect:/dashboard");
 		}else {
 			//request.setAttribute("errorMessage", ERROR_STARAGE_FAIL );
 			logger.error("Fail in the storage process");
-			return editComputer(id);
+			//doGet(request, response);
 		}
-		
+		return editComputer(computerDTO.getId());
+			
 	}
 	
 

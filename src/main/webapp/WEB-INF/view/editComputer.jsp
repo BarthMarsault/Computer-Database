@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,24 +28,24 @@
                     </div>
                     <h1>Edit Computer</h1>
 
-                    <form  id="addComputerForm" action="editComputer" method="POST">
-                        <input name="idValue" type="hidden" value="${ computer.id }" id="id"/>
+                    <form:form  id="addComputerForm" action="editComputer" method="POST" modelAttribute="computer">
+                        <form:input path="id" name="idValue" type="hidden" value="${ computer.id }" id="id"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input name="computerNameValue" type="text" class="form-control" id="computerName" value="${ computer.name }">
+                                <form:input path="name" name="computerNameValue" type="text" class="form-control" id="computerName" value="${ computer.name }"/>
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input name="introducedValue" type="date" class="form-control" id="introduced" placeholder="Introduced date" value="${ computer.introduced }" >
+                                <form:input path="introduced" name="introducedValue" type="date" class="form-control" id="introduced" placeholder="Introduced date" value="${ computer.introduced }" />
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input name="discontinuedValue" type="date" class="form-control" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }" >
+                                <form:input path="discontinued" name="discontinuedValue" type="date" class="form-control" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }" />
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select name="companyIdValue" class="form-control" id="companyId" >
+                                <form:select path="idCompany" name="companyIdValue" class="form-control" id="companyId" >
                                     <option value="0">--</option>
                                     <c:forEach items="${companies}" var="company">
 									    <option value="<c:out value = "${company.id}" />" 
@@ -55,7 +55,7 @@
 									    		<c:out value = "${company.name}" />
 									    </option>
 									</c:forEach>
-                                </select>
+                                </form:select>
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
@@ -63,7 +63,7 @@
                             or
                             <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>
