@@ -4,7 +4,7 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
     
 <!DOCTYPE html>
 <html>
@@ -21,6 +21,10 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <ul>
+		        <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a>EN</li>
+		        <li><a href="?lang=fr"><fmt:message key="label.lang.fr" /></a>FR</li>
+		    </ul>
         </div>
     </header>
 
@@ -30,20 +34,20 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                <c:out value = "${nbComputer}" /> Computers found
+                <c:out value = "${nbComputer}" /> <fmt:message key="label.computerFound" />
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="<fmt:message key="label.search"/>" />
+                        <input type="submit" id="searchsubmit" value="<fmt:message key="label.filter"/>"
                         class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer"><fmt:message key="label.addComputer"/></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.edit"/></a>
                 </div>
             </div>
         </div>
@@ -68,24 +72,24 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                            <fmt:message key="label.computerName"/>
                             <a href="?orderBy=name" >
 							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
                         <th>
-                            Introduced date
+                            <fmt:message key="label.introducedDate"/>
                             <a href="?orderBy=introduced" >
 							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            Discontinued date
+                            <fmt:message key="label.discontinuedDate"/>
                             <a href="?orderBy=discontinued" >
 							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            Company
+                            <fmt:message key="label.company"/>
                             <a href="?orderBy=company" >
 							<i class="fa fa-fw fa-sort"></i></a>
                         </th>
