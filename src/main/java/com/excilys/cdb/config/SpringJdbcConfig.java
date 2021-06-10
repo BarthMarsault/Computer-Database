@@ -20,7 +20,7 @@ import com.excilys.cdb.persistence.ComputerDAO;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan("com.excilys.cdb")
+@ComponentScan
 @PropertySource("classpath:db.properties")
 public class SpringJdbcConfig {
 	

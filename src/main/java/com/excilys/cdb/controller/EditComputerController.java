@@ -1,0 +1,114 @@
+package com.excilys.cdb.controller;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.excilys.cdb.dto.CompanyDTO;
+import com.excilys.cdb.dto.ComputerDTO;
+import com.excilys.cdb.dto.ComputerDTO.ComputerDTOBuilder;
+import com.excilys.cdb.mapper.CompanyMapper;
+import com.excilys.cdb.mapper.ComputerMapper;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Computer.ComputerBuilder;
+import com.excilys.cdb.service.CompanyService;
+import com.excilys.cdb.service.ComputerService;
+
+@Controller
+public class EditComputerController {
+	
+	private CompanyService companyService;
+	private ComputerService computerService;
+	private ComputerMapper mapperComputer;
+	private CompanyMapper mapperCompany;
+	
+	private static final Logger logger = LoggerFactory.getLogger(AddComputerController.class); 
+	private final String ERROR_INVALID_COMPUTER = "Invalid Computer";
+	private final String ERROR_STARAGE_FAIL = "Error in the process, retry later";
+	
+	
+	public EditComputerController(CompanyService companyService, ComputerService computerService,
+			ComputerMapper mapperComputer, CompanyMapper mapperCompany) {
+		super();
+		this.companyService = companyService;
+		this.computerService = computerService;
+		this.mapperComputer = mapperComputer;
+		this.mapperCompany = mapperCompany;
+	}
+	
+	
+	@GetMapping("/editComputer")
+	public ModelAndView editComputer(@RequestParam(required = true) Integer requestId) {
+		ModelAndView response = new ModelAndView();
+		
+	
+		if(requestId == null) {
+			return new ModelAndView("redirect:/dashboard");
+		}
+		//ComputerMapper mapperComputer = ComputerMapper.getInstance();
+		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(computerService.getById(requestId));
+		
+		if(!computerDTO.isPresent()) {
+			return new ModelAndView("redirect:/dashboard");
+		}
+		
+		ArrayList<CompanyDTO> companies = new ArrayList<>();
+		for(Company company : companyService.getCompanies()) {
+			companies.add(mapperCompany.companyToCompanyDTO(company).get());
+		}
+		
+		
+		response.addObject("companies", companies);
+		response.addObject("computer", computerDTO.get());
+		
+		return response;
+		
+	}
+	
+	
+	@RequestMapping(value  ="/editComputer", method = RequestMethod.POST)
+	public ModelAndView postEditComputer(@RequestParam(required = true) Map<String,String> allParams) {
+		
+		int id = Integer.parseInt(allParams.get("idValue"));
+		String name = allParams.get("computerNameValue");
+		String intr = allParams.get("introducedValue");
+		String disc = allParams.get("discontinuedValue");
+		int idCompany = Integer.parseInt(allParams.get("companyIdValue"));
+	
+		ComputerDTO computerDTO = new ComputerDTOBuilder().withId(id).withName(name).withIntroduced(intr)
+				.withDiscontinued(disc).withIdCompany(idCompany).build();
+		Optional<Computer> computer = Optional.empty();
+		
+		
+		
+		
+		computer = mapperComputer.computerDtoToComputer(computerDTO);
+		if(!computer.isPresent()) {
+			//request.setAttribute("errorMessage", ERROR_INVALID_COMPUTER );
+			logger.error("No Computer Found");
+			return editComputer(id);
+		}
+		
+		if(computer.isPresent() && computerService.updateComputer(computer.get())) {
+			return new ModelAndView("redirect:/dashboard");
+		}else {
+			//request.setAttribute("errorMessage", ERROR_STARAGE_FAIL );
+			logger.error("Fail in the storage process");
+			return editComputer(id);
+		}
+		
+	}
+	
+
+}

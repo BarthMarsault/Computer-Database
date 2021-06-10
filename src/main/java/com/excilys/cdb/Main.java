@@ -10,19 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import com.excilys.cdb.ui.Root;
 
 @Configuration
-@ComponentScan(basePackages = {"com.excilys.cdb.persistence" ,
-			"com.excilys.cdb.service", "com.excilys.cdb.controller",
-			"com.excilys.cdb.mapper", "com.excilys.cdb.ui",
-			"com.excilys.cdb.servlet", "com.excilys.cdb.validator",
-			"com.excilys.cdb.config"})
+@ComponentScan(basePackages = {"com.excilys.cdb.config"})
 public class Main {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
-		//ApplicationContext contextDB = new AnnotationConfigApplicationContext(SpringJdbcConfig.class);
-
+		
 		
 		//System.out.println(computerDAO.getAll().toString());
 		// TODO Auto-generated method stub

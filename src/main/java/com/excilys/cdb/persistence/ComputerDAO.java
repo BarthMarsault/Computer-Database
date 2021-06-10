@@ -43,7 +43,7 @@ public class ComputerDAO {
 
 	
 
-	public enum SortingRule { ASC, DESC };
+	public enum SortingRule { ASC, DESC , NONE };
 	
 	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
 	private final String sqlGetCountComputerWithParam = "SELECT COUNT(*)" + 
@@ -94,7 +94,7 @@ public class ComputerDAO {
 		
 		return jdbcTemplate.update(sqlCreateComputer,c.getName(),
 				c.getIntroduced(), c.getDiscontinued(),
-				c.getCompany() != null ? c.getCompany().getId() : java.sql.Types.INTEGER);
+				c.getCompany() != null && c.getCompany().getId() > 0 ? c.getCompany().getId() : null);
 		
 		
 	}
@@ -153,9 +153,9 @@ public class ComputerDAO {
 		String req = sqlFindWithParam;
 		
 		//Ajout du tri - SI NECESSAIRE !
-		if(attribute != null && sr != null) {
+		if(attribute != null && sr != SortingRule.NONE) {
 			req += " ORDER BY " + attribute.getAttribute();
-			if(sr == SortingRule.ASC || sr == null) {
+			if(sr == SortingRule.ASC || sr == null || sr == SortingRule.NONE) {
 				req += " ASC";
 			}else {
 				req += " DESC";
