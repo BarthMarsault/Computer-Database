@@ -50,7 +50,6 @@ public class AppConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		System.out.println("Changement de langue");
 	    LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 	    localeChangeInterceptor.setParamName("lang");
 	    registry.addInterceptor(localeChangeInterceptor);

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -40,7 +41,10 @@ public class SpringJdbcConfig {
 		this.environment = environment;
 	}
 
-
+	@Bean
+	public JdbcTemplate getJdbcTemplate() {
+		return new JdbcTemplate(mysqlDataSource());
+	}
 
 
 	@Bean

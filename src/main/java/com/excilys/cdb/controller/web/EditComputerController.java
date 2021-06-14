@@ -78,10 +78,7 @@ public class EditComputerController {
 	}
 	
 	@PostMapping("/editComputer")
-	public ModelAndView postEditComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {
-	
-		System.out.println(computerDTO.getName());
-	
+	public ModelAndView postEditComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {	
 		Optional<Computer> computer = mapperComputer.computerDtoToComputer(computerDTO);
 		if(computer.isPresent() && computerService.updateComputer(computer.get())) {
 			return new ModelAndView("redirect:/dashboard");

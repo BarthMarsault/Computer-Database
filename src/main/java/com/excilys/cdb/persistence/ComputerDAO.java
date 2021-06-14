@@ -37,10 +37,10 @@ public class ComputerDAO {
 	
 	
 	
-	public ComputerDAO(ComputerMapper mapper, DataSource dataSource) {
+	public ComputerDAO(ComputerMapper mapper, JdbcTemplate jdbcTemplate) {
 		super();
 		this.mapper = mapper;
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	

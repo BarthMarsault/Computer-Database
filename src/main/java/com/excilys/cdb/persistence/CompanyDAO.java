@@ -46,10 +46,10 @@ public class CompanyDAO {
 	
 	
 	
-	public CompanyDAO(CompanyMapper mapper, DataSource dataSource) {
+	public CompanyDAO(CompanyMapper mapper, JdbcTemplate jdbcTemplate) {
 		super();
 		this.mapper = mapper;
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 
