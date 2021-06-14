@@ -18,10 +18,8 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
-            <ul>
-		        <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a>EN</li>
-		        <li><a href="?lang=fr"><fmt:message key="label.lang.fr" /></a>FR</li>
-		    </ul>
+            <a class="navbar-toggler" href="?lang=en"><img src="static/flags/flag_uk.png"/></a>
+			<a class="navbar-toggler" href="?lang=fr"><img src="static/flags/flag_fr.png"/></a>
         </div>
     </header>
 	<fmt:message key="label.computerName" var="namePlaceHolder" />  

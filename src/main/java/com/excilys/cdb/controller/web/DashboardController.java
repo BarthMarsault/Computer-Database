@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,10 +71,10 @@ public class DashboardController {
 		sortingRule = session.getSortingRule();
 			
 		
-		ArrayList<Computer> computersList = (ArrayList<Computer>) computerService.getComputersWithParamOrderedWithLimit(search,
+		ArrayList<Computer> computersModel = (ArrayList<Computer>) computerService.getComputersWithParamOrderedWithLimit(search,
 				orderByAttribute, sortingRule, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
 
-		for(Computer computer : computersList) {
+		for(Computer computer : computersModel) {
 			computers.add(mapper.computerToComputerDTO(computer).get());
 		}
 		
@@ -87,17 +88,19 @@ public class DashboardController {
 		}
 		
 		
-		response.addObject("nbComputer", nbComputer);
-		response.addObject("computers", computers );
+		response.addObject("nbComputer", nbComputer);		
 		response.addObject("pageNumber", currentPageNumber );
 		response.addObject("numberOfPage", numberOfPage);
+		response.addObject("computers", computers );
 		response.addObject("pageProposition", pagePropositions);
+		
+		
 		
 		return response;
 	}
 	
 	
-	@RequestMapping(value  = "/dashboard", method = RequestMethod.POST)
+	@PostMapping("/dashboard")
 	public ModelAndView postDashboard(@RequestParam(required = true) Map<String,String> allParams) {	
 		if(allParams.get("selection") != null) {
 			deleteComputers(allParams.get("selection"));			

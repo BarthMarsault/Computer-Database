@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,8 +48,9 @@ public class EditComputerController {
 	}
 	
 	
+	
 	@GetMapping("/editComputer")
-	public ModelAndView editComputer(@RequestParam(required = true) Integer requestId) {
+	public ModelAndView editComputer(@RequestParam(required = false) Integer requestId) {
 		ModelAndView response = new ModelAndView();
 		
 	
@@ -75,8 +77,7 @@ public class EditComputerController {
 		
 	}
 	
-
-	@RequestMapping(value  ="/editComputer", method = RequestMethod.POST)
+	@PostMapping("/editComputer")
 	public ModelAndView postEditComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {
 	
 		System.out.println(computerDTO.getName());
