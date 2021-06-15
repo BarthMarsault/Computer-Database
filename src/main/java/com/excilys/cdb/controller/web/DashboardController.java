@@ -27,6 +27,7 @@ import com.excilys.cdb.session.DashboardSession;
 
 
 @Controller
+@RequestMapping({"/","/dashboard"})
 public class DashboardController {
 
 	private ComputerService computerService;
@@ -42,7 +43,7 @@ public class DashboardController {
 	}
 
 
-	@GetMapping({"/","/dashboard"})
+	@GetMapping
 	public ModelAndView dashboard(@RequestParam(required = false) Map<String,String> allParams) {
 		ModelAndView response = new ModelAndView();
 		
@@ -100,7 +101,7 @@ public class DashboardController {
 	}
 	
 	
-	@PostMapping("/dashboard")
+	@PostMapping
 	public ModelAndView postDashboard(@RequestParam(required = true) Map<String,String> allParams) {	
 		if(allParams.get("selection") != null) {
 			deleteComputers(allParams.get("selection"));			

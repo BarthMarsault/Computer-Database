@@ -151,7 +151,6 @@ public class ComputerDAO {
 	
 	public List<Computer> FindWithParamOrderedWithLimit(String param,ComputerAttribute attribute, SortingRule sr, int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
-		ResultSet rs;
 		String req = sqlFindWithParam;
 		
 		//Ajout du tri - SI NECESSAIRE !

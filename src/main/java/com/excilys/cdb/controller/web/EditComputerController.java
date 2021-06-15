@@ -26,6 +26,7 @@ import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
 @Controller
+@RequestMapping("/editComputer")
 public class EditComputerController {
 	
 	private CompanyService companyService;
@@ -49,7 +50,7 @@ public class EditComputerController {
 	
 	
 	
-	@GetMapping("/editComputer")
+	@GetMapping
 	public ModelAndView editComputer(@RequestParam(required = false) Integer requestId) {
 		ModelAndView response = new ModelAndView();
 		
@@ -77,7 +78,7 @@ public class EditComputerController {
 		
 	}
 	
-	@PostMapping("/editComputer")
+	@PostMapping
 	public ModelAndView postEditComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {	
 		Optional<Computer> computer = mapperComputer.computerDtoToComputer(computerDTO);
 		if(computer.isPresent() && computerService.updateComputer(computer.get())) {

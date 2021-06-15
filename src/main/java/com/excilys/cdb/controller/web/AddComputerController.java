@@ -29,6 +29,7 @@ import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
 @Controller
+@RequestMapping("/addComputer")
 public class AddComputerController {
 
 	private CompanyService companyService;
@@ -51,7 +52,7 @@ public class AddComputerController {
 	}
 	
 	
-	@GetMapping("/addComputer")
+	@GetMapping
 	public ModelAndView addComputer() {
 		ModelAndView response = new ModelAndView();
 		
@@ -70,7 +71,7 @@ public class AddComputerController {
 	
 	
 	
-	@PostMapping("/addComputer")
+	@PostMapping
 	public ModelAndView postAddComputer(@ModelAttribute("computer") ComputerDTO computerDTO) {
 
 			Optional<Computer> computer = mapperComputer.computerDtoToComputer(computerDTO);
