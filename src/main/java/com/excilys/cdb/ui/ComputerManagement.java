@@ -5,14 +5,31 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.excilys.cdb.controller.ControllerComputer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.excilys.cdb.controller.console.ControllerComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Computer.ComputerBuilder;
 import com.excilys.cdb.persistence.CompanyDAO;
 import com.excilys.cdb.persistence.ComputerDAO;
 
+@Component
 public class ComputerManagement {
+	
+	private static ComputerDAO computerDAO;
+	private static CompanyDAO companyDAO;
+	
+	@Autowired
+	public void initComputerDAO(ComputerDAO computerDAO) {
+		ComputerManagement.computerDAO = computerDAO;
+	}
+	
+	@Autowired
+	public void initCompanyDAO(CompanyDAO companyDAO) {
+		ComputerManagement.companyDAO = companyDAO;
+	}
 
 	/**
 	 * CLI racine des actions possibles sur les Computers
@@ -102,7 +119,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		Optional<Computer> computer = ComputerDAO.getInstance().findById(id);
+		Optional<Computer> computer = computerDAO.findById(id);
 
 		if (computer.isPresent()) {
 			System.out.println(computer.get().toString());
@@ -123,7 +140,7 @@ public class ComputerManagement {
 		if (id == 0)
 			return;
 
-		if (ComputerDAO.getInstance().delete(id)) {
+		if (computerDAO.delete(id) == 1) {
 			System.out.println("Ordinateur supprimé"); // Suppression en BDD
 		} else {
 			System.out.println("Echec");
@@ -166,7 +183,7 @@ public class ComputerManagement {
 			while (!valid) {
 
 				id = UiUtils.askId("Id du fabricant :");
-				Optional<Company> company = CompanyDAO.getInstance().findById(id);
+				Optional<Company> company = companyDAO.findById(id);
 				if (!company.isPresent()) {
 					System.out.println("l'id : " + id + " n'est pas valide");
 				} else {					
@@ -187,7 +204,7 @@ public class ComputerManagement {
 	 */
 	public static void update() {
 		int idComputer = UiUtils.askId("Id de l'ordinateur pour lequel vous souhaité modifier:");
-		Optional<Computer> computer = ComputerDAO.getInstance().findById(idComputer);
+		Optional<Computer> computer = computerDAO.findById(idComputer);
 		if (!computer.isPresent()) {
 			System.out.println("L'ordinateur avec l'id " + idComputer + " n'éxiste pas");
 		} else {
@@ -215,7 +232,7 @@ public class ComputerManagement {
 			// Update du fabricant
 			if (UiUtils.askYesNo("Voulez vous modifier le fabricant :")) {
 				int idCompany = UiUtils.askId("Entrez l'id du fabricant :");
-				Optional<Company> company = CompanyDAO.getInstance().findById(idCompany);
+				Optional<Company> company = companyDAO.findById(idCompany);
 				if (company.isPresent()) {
 					computer.get().setCompany(company.get());
 				} else {
@@ -225,7 +242,7 @@ public class ComputerManagement {
 
 			// Validation
 			if (UiUtils.askYesNo("Voulez vous enregistrer les changements sur : " + computer.toString())) {
-				ComputerDAO.getInstance().update(computer.get());
+				computerDAO.update(computer.get());
 				System.out.println("Changements enregistrer");
 			} else {
 				System.out.println("Annulation");

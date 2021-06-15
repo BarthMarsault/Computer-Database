@@ -3,6 +3,9 @@ package com.excilys.cdb.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDAO;
 
@@ -11,9 +14,11 @@ import com.excilys.cdb.persistence.ComputerDAO;
  * @author excilys
  *
  */
+@Service
 public class PageComputer {
 	private int nbLine;	
 	private int currentLine;
+	@Autowired
 	private ComputerDAO computerDAO;
 	
 	private int nbLineTotal;
@@ -26,7 +31,7 @@ public class PageComputer {
 	private PageComputer() {
 		this.nbLine = 10;
 		this.currentLine = 0;
-		computerDAO = ComputerDAO.getInstance();
+		//computerDAO = ComputerDAO.getInstance();
 	}
 	
 	

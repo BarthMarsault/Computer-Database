@@ -1,12 +1,7 @@
 package com.excilys.cdb.dto;
 
-import java.time.LocalDate;
-
-import com.excilys.cdb.validator.ComputerValidator;
-
 public class ComputerDTO {
 	
-	private final int NAME_MIN_SIZE = 2;
 	
 	private int id;
 	private String name;
@@ -14,6 +9,10 @@ public class ComputerDTO {
 	private String discontinued;
 	private int idCompany;
 	private String nameCompany;
+	
+	public ComputerDTO() {
+		
+	}
 	
 	private ComputerDTO(ComputerDTOBuilder builder) {
 		id = builder.id;
@@ -23,12 +22,6 @@ public class ComputerDTO {
 		idCompany = builder.idCompany;
 		nameCompany = builder.nameCompany;
 	}
-	
-	
-	public boolean isValid() {
-		return ComputerValidator.getInstance().isValid(this);		
-	}
-	
 	
 	
 	public static class ComputerDTOBuilder {

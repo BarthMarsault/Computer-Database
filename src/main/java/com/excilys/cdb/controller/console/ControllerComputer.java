@@ -1,11 +1,25 @@
-package com.excilys.cdb.controller;
+package com.excilys.cdb.controller.console;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDAO;
 import com.excilys.cdb.service.PageComputer;
 import com.excilys.cdb.ui.ComputerManagement;
 
+@Controller
+@Scope
 public class ControllerComputer {
+	
+	static ComputerDAO computerDAO;
+	
+	@Autowired
+	public void initDAO(ComputerDAO computerDAO) {
+		ControllerComputer.computerDAO = computerDAO;
+	}
+	
 	private static PageComputer page = PageComputer.getPageComputer();
 	
 	public static void init() {
@@ -22,7 +36,7 @@ public class ControllerComputer {
 	
 	public static void createComputer() {
 		Computer computer = ComputerManagement.create();
-		ComputerDAO.getInstance().create(computer);
+		computerDAO.create(computer);
 		System.out.println(computer);
 		System.out.println("Ordinateur créé");
 	}

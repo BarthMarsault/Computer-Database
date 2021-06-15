@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
     
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,8 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+		    <a class="navbar-toggler" href="?requestId=${ computer.id }&lang=en"><img src="static/flags/flag_uk.png"/></a>
+			<a class="navbar-toggler" href="?requestId=${ computer.id }&lang=fr"><img src="static/flags/flag_fr.png"/></a>
         </div>
     </header>
     <section id="main">
@@ -26,26 +29,26 @@
                     <div class="label label-default pull-right">
                         id: ${computer.id}
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><fmt:message key="label.editComputer"/></h1>
 
-                    <form  id="addComputerForm" action="editComputer" method="POST">
-                        <input name="idValue" type="hidden" value="${ computer.id }" id="id"/>
+                    <form:form  id="addComputerForm" action="editComputer" method="POST" modelAttribute="computer">
+                        <form:input path="id" name="idValue" type="hidden" value="${ computer.id }" id="id"/>
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
-                                <input name="computerNameValue" type="text" class="form-control" id="computerName" value="${ computer.name }">
+                                <label for="computerName"><fmt:message key="label.computerName"/></label>
+                                <form:input path="name" name="computerNameValue" type="text" class="form-control" id="computerName" value="${ computer.name }"/>
                             </div>
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
-                                <input name="introducedValue" type="date" class="form-control" id="introduced" placeholder="Introduced date" value="${ computer.introduced }" >
+                                <label for="introduced"><fmt:message key="label.introducedDate"/></label>
+                                <form:input path="introduced" name="introducedValue" type="date" class="form-control" id="introduced" placeholder="Introduced date" value="${ computer.introduced }" />
                             </div>
                             <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
-                                <input name="discontinuedValue" type="date" class="form-control" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }" >
+                                <label for="discontinued"><fmt:message key="label.discontinuedDate"/></label>
+                                <form:input path="discontinued" name="discontinuedValue" type="date" class="form-control" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }" />
                             </div>
                             <div class="form-group">
-                                <label for="companyId">Company</label>
-                                <select name="companyIdValue" class="form-control" id="companyId" >
+                                <label for="companyId"><fmt:message key="label.company"/></label>
+                                <form:select path="idCompany" name="companyIdValue" class="form-control" id="companyId" >
                                     <option value="0">--</option>
                                     <c:forEach items="${companies}" var="company">
 									    <option value="<c:out value = "${company.id}" />" 
@@ -55,15 +58,15 @@
 									    		<c:out value = "${company.name}" />
 									    </option>
 									</c:forEach>
-                                </select>
+                                </form:select>
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Edit" class="btn btn-primary">
+                            <input type="submit" value="<fmt:message key="label.edit"/>" class="btn btn-primary">
                             or
-                            <a href="dashboard" class="btn btn-default">Cancel</a>
+                            <a href="dashboard" class="btn btn-default"><fmt:message key="label.cancel"/></a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

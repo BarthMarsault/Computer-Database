@@ -1,12 +1,16 @@
 package com.excilys.cdb.persistence;
 
 import java.sql.*;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.*;
@@ -14,16 +18,34 @@ import com.excilys.cdb.model.*;
 /**
  * ComputerDAO est une couche de persistance permettant la liaison entre la classe Computer et la base de données.
  * @author excilys
+ * @param <JdbcTemplate>
  *
  */
+@Repository
+@Scope
 public class ComputerDAO {
 	
-	private DB db = null;
+	
 	static String tableName = "computer";
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	private static ComputerDAO computerDAO = null;
-	ComputerMapper mapper;
-	public enum SortingRule { ASC, DESC };
+
+
+	private ComputerMapper mapper;
+	
+	private JdbcTemplate jdbcTemplate;
+	
+	
+	
+	
+	public ComputerDAO(ComputerMapper mapper, JdbcTemplate jdbcTemplate) {
+		super();
+		this.mapper = mapper;
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	
+
+	public enum SortingRule { ASC, DESC , NONE };
 	
 	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
 	private final String sqlGetCountComputerWithParam = "SELECT COUNT(*)" + 
@@ -35,7 +57,7 @@ public class ComputerDAO {
 			" OR C.discontinued LIKE ?" +
 			" OR Y.name LIKE ?";
 	
-	private final String sqlFindComputerByIdWithLimit = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
+	private final String sqlFindComputerById = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
 			" FROM " + tableName + " C" +
 			" LEFT JOIN company Y" +
 			" ON C.company_id = Y.id" +
@@ -62,17 +84,7 @@ public class ComputerDAO {
 			" (name, introduced, discontinued, company_id)" +
 			" VALUE (?,?,?,? )" ;
 	
-	private ComputerDAO() {
-		db = DB.getInstance();
-		mapper = ComputerMapper.getInstance();
-	}
-	
-	public static ComputerDAO getInstance() {
-		if(computerDAO == null) {
-			computerDAO = new ComputerDAO();
-		}
-		return computerDAO;
-	}
+
 	
 	
 	/**
@@ -80,46 +92,13 @@ public class ComputerDAO {
 	 * @param c Computer
 	 * @return Boolean - true si l'orinateur est créer, false sinon.
 	 */
-	public boolean create(Computer c) {
-		if(c.getId() > 0) {
-			if(c.alreadyExistInDB()) return false;
-		}
+	public int create(Computer c) {
 		
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlCreateComputer)){
-			
-			//Recupération des attributs
-			String name = c.getName();
-			LocalDate intr = c.getIntroduced();
-			LocalDate disc = c.getDiscontinued();
-			int idCompany = c.getCompany() != null ? c.getCompany().getId() : 0;
-			
-
-			
-			ps.setString(1, c.getName());	
-			
-			ps.setDate(2, intr != null ? Date.valueOf(intr) : null);
-			ps.setDate(3, disc != null ? Date.valueOf(disc) : null);			
-			
-			
-			if(idCompany > 0) {
-				ps.setInt(4, idCompany);
-			} else {
-				ps.setNull(4, java.sql.Types.INTEGER);
-			}
-				
-			
-			
-			ps.executeUpdate();
+		return jdbcTemplate.update(sqlCreateComputer,c.getName(),
+				c.getIntroduced(), c.getDiscontinued(),
+				c.getCompany() != null && c.getCompany().getId() > 0 ? c.getCompany().getId() : null);
 		
-			return true;
-			
-		}catch(SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();		
-		}
 		
-		return false;
 	}
 	
 	
@@ -129,7 +108,7 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public boolean delete(Computer computer) {
+	public int delete(Computer computer) {
 		return delete(computer.getId());
 	}
 	
@@ -138,26 +117,8 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public boolean delete(int id) {
-		if(id < 1) {
-			//logger.trace("Tentative de suppression d'un ordinateur sans id");
-			return false;
-		}
-		
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlDeleteComputer)){
-			
-			ps.setInt(1, id);
-			
-			//Execution
-			ps.executeUpdate();
-
-			return true;
-		}catch(SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		return false;
+	public int delete(int id) {
+		return jdbcTemplate.update(sqlDeleteComputer, id);
 	}
 	
 	/**
@@ -165,43 +126,11 @@ public class ComputerDAO {
 	 * @param computer
 	 * @return
 	 */
-	public boolean update(Computer computer) {
-		
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlUpdateComputer)){
-			
-			//Recupération des attributs
-			String name = computer.getName();
-			LocalDate intr = computer.getIntroduced();
-			LocalDate disc = computer.getDiscontinued();
-			
-			
-
-			
-			ps.setString(1, name);	
-			
-			ps.setDate(2, intr != null ? Date.valueOf(intr) : null);
-			ps.setDate(3, disc != null ? Date.valueOf(disc) : null);
-			
-			if(computer.getCompany() != null) {
-				int idCompany = computer.getCompany().getId();
-				ps.setInt(4, idCompany);
-			}				
-			else {
-				ps.setNull(4, java.sql.Types.INTEGER);
-			}
-				
-			
-			ps.setInt(5, computer.getId());
-			//Execution
-			ps.executeUpdate();
-
-			return true;
-		}catch(SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		return false;
+	public int update(Computer computer) {
+		return jdbcTemplate.update(sqlUpdateComputer, computer.getName(),
+				computer.getIntroduced(), computer.getDiscontinued(),
+				computer.getCompany() != null && computer.getCompany().getId() > 0 ? computer.getCompany().getId() : null,
+				computer.getId());
 	}
 	
 	
@@ -222,13 +151,12 @@ public class ComputerDAO {
 	
 	public List<Computer> FindWithParamOrderedWithLimit(String param,ComputerAttribute attribute, SortingRule sr, int limit, int offset){
 		List<Computer> computers = new ArrayList<>();
-		ResultSet rs;
 		String req = sqlFindWithParam;
 		
 		//Ajout du tri - SI NECESSAIRE !
-		if(attribute != null && sr != null) {
+		if(attribute != null && sr != SortingRule.NONE) {
 			req += " ORDER BY " + attribute.getAttribute();
-			if(sr == SortingRule.ASC || sr == null) {
+			if(sr == SortingRule.ASC || sr == null || sr == SortingRule.NONE) {
 				req += " ASC";
 			}else {
 				req += " DESC";
@@ -238,33 +166,24 @@ public class ComputerDAO {
 		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
 		if(limit >= 0) { req += " LIMIT ?";}
 		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
-				
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(req)){
-
-			ps.setString(1, "%" + param + "%");
-			ps.setString(2, "%" + param + "%");
-			ps.setString(3, "%" + param + "%");
-			ps.setString(4, "%" + param + "%");
-			
-			if(limit >= 0) { ps.setInt(5, limit);}
-			if(limit >= 0 && offset >= 0) { ps.setInt(6, offset);}
-			
-			rs = ps.executeQuery();
 		
-			
-			computers = mapper.resultSetToListComputer(rs);
-			
-			rs.close();			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
+	
+		
+		param = "%" + param + "%";
+		if(limit >= 0 && offset >= 0) {
+			computers = jdbcTemplate.query(req, mapper, param, param, param, param, limit, offset);
 		}
+		else if(limit >= 0) {
+			computers = jdbcTemplate.query(req, mapper, param, param, param, param, limit);
+		}
+		else {
+			computers = jdbcTemplate.query(req, mapper, param, param, param, param);
+		}
+		
 		
 		if(computers.size() == 0) {
-			logger.trace("Retour d'une liste de Computer vide");
+			logger.trace("Retour d'un liste de Computer vide");
 		}
-		
 		
 		return computers;
 	}
@@ -275,71 +194,11 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public Optional<Computer> findById(int id) {
-		Optional<Computer>computer = Optional.empty();
-		ResultSet rs;
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlFindComputerByIdWithLimit);){
-			
-			ps.setInt(1, id);
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				computer = mapper.resultSetToComputer(rs);
-			}
-			
-			rs.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		
-		if(!computer.isPresent()) {
-			logger.trace("Retour d'un Optional<Computer> vide");
-		}
-		return computer;
-		
-	}
-	
-	public List<Computer> findWithParam(String param){
-		return findWithParamWithLimit(param,-1,-1);
+	public Optional<Computer> findById(int id) {		
+		return Optional.ofNullable(jdbcTemplate.queryForObject(sqlFindComputerById, new Object[] { id }, mapper));
 	}
 	
 	
-	public List<Computer> findWithParamWithLimit(String param, int limit, int offset){
-		List<Computer> computers = new ArrayList<>();
-		ResultSet rs;
-		String req = sqlFindWithParam;
-		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
-		if(limit >= 0) { req += " LIMIT ?";}
-		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
-				
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(req)){
-			ps.setString(1, "%" + param + "%");
-			ps.setString(2, "%" + param + "%");
-			ps.setString(3, "%" + param + "%");
-			ps.setString(4, "%" + param + "%");
-			
-			if(limit >= 0) { ps.setInt(5, limit);}
-			if(limit >= 0 && offset >= 0) { ps.setInt(6, offset);}
-			rs = ps.executeQuery();
-		
-			
-			computers = mapper.resultSetToListComputer(rs);
-			
-			rs.close();			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			//e.printStackTrace();
-		}
-		
-		if(computers.size() == 0) {
-			logger.trace("Retour d'une liste de Computer vide");
-		}
-		
-		
-		return computers;
-	}
 	
 
 	
@@ -349,43 +208,17 @@ public class ComputerDAO {
 	 * @return int
 	 */
 	public int getCount() {
-		int nbComputer = 0;
-		
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlGetCountComputer);
-				ResultSet rs = ps.executeQuery();){
-			if(rs.next()) {
-				nbComputer = rs.getInt(1);
-			}
-			
-		}catch(SQLException e) {
-			logger.error(e.getMessage());
-		}
-		return nbComputer;
+		return jdbcTemplate.queryForObject(sqlGetCountComputer, Integer.class);
 	}
 	
-	public int getCount(String param) {
-		int nbComputer = 0;
-		
-		try (Connection conn = db.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sqlGetCountComputerWithParam)){
-			
-			ps.setString(1, "%" + param + "%");
-			ps.setString(2, "%" + param + "%");
-			ps.setString(3, "%" + param + "%");
-			ps.setString(4, "%" + param + "%");
-			
-			ResultSet rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				nbComputer = rs.getInt(1);
-			}
-			
-		}catch(SQLException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return nbComputer;
+	public int getCount(String param) {			
+		param = "%"+param+"%";
+		return jdbcTemplate.queryForObject(sqlGetCountComputerWithParam, Integer.class, param,param,param,param);
 	}
+
+
+	
+
+
 	
 }

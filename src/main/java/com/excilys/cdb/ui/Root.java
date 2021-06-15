@@ -2,7 +2,7 @@ package com.excilys.cdb.ui;
 
 import java.util.Scanner;
 
-import com.excilys.cdb.controller.ControllerCompany;
+import com.excilys.cdb.controller.console.ControllerCompany;
 
 public class Root {
 	

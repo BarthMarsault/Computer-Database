@@ -1,6 +1,5 @@
 package com.excilys.cdb.model;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import com.excilys.cdb.persistence.ComputerDAO;
@@ -60,24 +59,12 @@ public class Computer {
 			return this;
 		}
 		
+		
 		public Computer build() {
 			return new Computer(this);
 		}
 	}
-		
-		
-		
 	
-
-	
-	
-	
-	public boolean alreadyExistInDB() {
-		return this.equals(ComputerDAO.getInstance().findById(id));
-	}
-
-
-
 
 	public int getId() {
 		return id;
