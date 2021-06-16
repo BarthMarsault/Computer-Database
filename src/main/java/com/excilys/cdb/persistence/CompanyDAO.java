@@ -1,14 +1,18 @@
 package com.excilys.cdb.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.DataSource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 
 /**
  * CompanyDAO est une couche de persistance permettant la liaison entre la classe Company et la base de données.
@@ -36,59 +41,45 @@ public class CompanyDAO {
 	
 	private final String sqlFindCompanyById = "SELECT * FROM " + tableName + " WHERE id = ?";
 	
-	private final String sqlGetCompanies = "SELECT * FROM " + tableName;
-	
 	private final String sqlDeleteCompany = "DELETE FROM " + tableName + " WHERE  id = ?";
 	
 	private final String sqlDeleteComputer = "DELETE FROM computer WHERE company_id = ?";
 	
-
+	
+	private SessionFactory sessionFactory;
 	
 	
 	
-	public CompanyDAO(CompanyMapper mapper, JdbcTemplate jdbcTemplate) {
+	public CompanyDAO(CompanyMapper mapper, JdbcTemplate jdbcTemplate, SessionFactory sessionFactory) {
 		super();
 		this.mapper = mapper;
 		this.jdbcTemplate = jdbcTemplate;
+		this.sessionFactory = sessionFactory;
 	}
+	
+	
+	
 
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.
 	 * @return
 	 */
-	public List<Company> getAll(){
-		return getWithLimit(-1,-1);
-	}
-	
-	
-	public List<Company> getWithLimit(int limit, int offset){
-		List<Company> companies = new ArrayList<>();
-		
-		
-		String req = sqlGetCompanies;
-		
-		if(limit >= 0) { req += " LIMIT ?";}
-		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
-				
 
+	public List<Company> getAll(){
+		//return getWithLimit(-1,-1);
+		Session session = sessionFactory.openSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Company> cr = cb.createQuery(Company.class);
+		Root<Company> root = cr.from(Company.class);
+		cr.select(root);
 		
-		if(limit >= 0 && offset >= 0) {
-			companies = jdbcTemplate.query(req, mapper, limit, offset);
-		}
-		else if(limit >= 0) {
-			companies = jdbcTemplate.query(req, mapper, limit);
-		}
-		else {
-			companies = jdbcTemplate.query(req, mapper);
-		}
+		Query<Company> query = session.createQuery(cr);
+		List<Company> results = query.getResultList();
 		
-		if(companies.size() == 0) {
-			logger.trace("Retour d'un liste de Company vide");
-		}
-		
-		return companies;
+		return results;
 	}
+
 	
 	
 	/**
@@ -109,10 +100,23 @@ public class CompanyDAO {
 			return false;
 		}
 		
-		jdbcTemplate.update(sqlDeleteComputer,id);
-		jdbcTemplate.update(sqlDeleteCompany,id);
-		return true;
+//		jdbcTemplate.update(sqlDeleteComputer,id);
+//		jdbcTemplate.update(sqlDeleteCompany,id);
+//		return true;
 		
+		Session session = sessionFactory.openSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaDelete<Computer> crComputer = cb.createCriteriaDelete(Computer.class);
+		Root<Computer> rootComputer = crComputer.from(Computer.class);
+		crComputer.where(cb.equal(rootComputer.get("company_id"), id));
+		session.createQuery(crComputer);
+		
+		CriteriaDelete<Company> crCompany = cb.createCriteriaDelete(Company.class);
+		Root<Company> rootCompany = crCompany.from(Company.class);
+		crCompany.where(cb.equal(rootCompany.get("id"), id));
+		session.createQuery(crCompany).executeUpdate();
+		
+		return true;
 		
 	}
 

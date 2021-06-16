@@ -1,10 +1,21 @@
 package com.excilys.cdb.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="company")
 public class Company {
 		
+	@Id @GeneratedValue
+	@Column(name="id")
 	private int id;
+	
+	@Column(name="name")
 	private String name;
 	
+	public Company() {
+		
+	}
 	
 	public Company(int id, String name) {
 		super();

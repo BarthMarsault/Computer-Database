@@ -1,5 +1,9 @@
 package com.excilys.cdb.config;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,8 +24,8 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = {"com.excilys.cdb.persistence" ,
 			"com.excilys.cdb.service", "com.excilys.cdb.controller",
 			"com.excilys.cdb.mapper", "com.excilys.cdb.ui",
-			"com.excilys.cdb.servlet", "com.excilys.cdb.validator",
-			"com.excilys.cdb.config", "com.excilys.cdb.session"})
+			"com.excilys.cdb.validator", "com.excilys.cdb.config",
+			"com.excilys.cdb.session"})
 public class AppConfig implements WebMvcConfigurer {
 
 	@Bean
@@ -53,6 +57,23 @@ public class AppConfig implements WebMvcConfigurer {
 	    LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 	    localeChangeInterceptor.setParamName("lang");
 	    registry.addInterceptor(localeChangeInterceptor);
+	}
+	
+	@Bean
+	public SessionFactory getSessionFactory() {
+		// A SessionFactory is set up once for an application!
+		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+				.configure() // configures settings from hibernate.cfg.xml
+				.build();
+		try {
+			return new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+		}
+		catch (Exception e) {
+			// The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
+			// so destroy it manually.
+			StandardServiceRegistryBuilder.destroy( registry );
+		}
+		return null;
 	}
 	
 }
