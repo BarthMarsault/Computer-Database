@@ -104,7 +104,7 @@ public class DashboardController {
 	@PostMapping
 	public ModelAndView postDashboard(@RequestParam(required = true) Map<String,String> allParams) {	
 		if(allParams.get("selection") != null) {
-			deleteComputers(allParams.get("selection"));			
+			deleteComputers(allParams.get("selection"));
 		}
 		return dashboard(allParams);
 	}

@@ -84,10 +84,11 @@ public class ComputerMapper implements RowMapper<Computer>{
 		
 		String intr =  dIntr != null ? dIntr.toString() : null;
 		String disc = dDisc != null ? dDisc.toString() : null;
+
 		
 		computerDTO = Optional.ofNullable(new ComputerDTOBuilder().withId(c.getId()).withName(c.getName())
 				.withIntroduced(intr).withDiscontinued(disc)
-				.withIdCompany(c.getCompany().getId()).withNameCompany(c.getCompany().getName()).build());
+				.withCompany(c.getCompany()).build());
 		
 		return computerDTO;
 	}

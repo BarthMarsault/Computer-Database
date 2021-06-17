@@ -1,12 +1,14 @@
 package com.excilys.cdb.model;
 
+
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="company")
 public class Company {
 		
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	

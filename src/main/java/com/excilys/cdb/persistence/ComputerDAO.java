@@ -1,13 +1,24 @@
 package com.excilys.cdb.persistence;
 
-import java.sql.*;
+
 import java.util.*;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,76 +39,33 @@ public class ComputerDAO {
 	
 	static String tableName = "computer";
 	private static final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	
+	private SessionFactory sessionFactory;
+	
+	
 
 
-	private ComputerMapper mapper;
-	
-	private JdbcTemplate jdbcTemplate;
-	
-	
-	
-	
-	public ComputerDAO(ComputerMapper mapper, JdbcTemplate jdbcTemplate) {
+	public ComputerDAO(SessionFactory sessionFactory) {
 		super();
-		this.mapper = mapper;
-		this.jdbcTemplate = jdbcTemplate;
+		this.sessionFactory = sessionFactory;
 	}
 
-	
-
 	public enum SortingRule { ASC, DESC , NONE };
-	
-	private final String sqlGetCountComputer = "SELECT COUNT(*) FROM " + tableName;
-	private final String sqlGetCountComputerWithParam = "SELECT COUNT(*)" + 
-			" FROM " + tableName + " C" + 
-			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id" +
-			" WHERE C.name LIKE ?" +
-			" OR C.introduced LIKE ?" +
-			" OR C.discontinued LIKE ?" +
-			" OR Y.name LIKE ?";
-	
-	private final String sqlFindComputerById = "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
-			" FROM " + tableName + " C" +
-			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id" +
-			" WHERE C.id = ?";
-	
-	
-	private final String sqlFindWithParam= "SELECT C.id, C.name, C.introduced, C.discontinued, Y.id, Y.name" +
-		 	" FROM " + tableName + " C" +
-			" LEFT JOIN company Y" +
-			" ON C.company_id = Y.id" +
-			" WHERE C.name LIKE ?" +
-			" OR C.introduced LIKE ?" +
-			" OR C.discontinued LIKE ?" +
-			" OR Y.name LIKE ?";
-	
-	private final String sqlUpdateComputer = "UPDATE " + tableName + 
-			" SET name = ?, introduced = ?, discontinued = ?, company_id = ?" + 
-			" WHERE id = ?";
-	
-	private final String sqlDeleteComputer = "DELETE FROM " + tableName +
-			" WHERE  id = ?";
-	
-	private final String sqlCreateComputer = "INSERT INTO " + tableName +
-			" (name, introduced, discontinued, company_id)" +
-			" VALUE (?,?,?,? )" ;
-	
 
-	
-	
 	/**
 	 * Fonction de création d'un nouvel ordinateur en base de donnée.
 	 * @param c Computer
-	 * @return Boolean - true si l'orinateur est créer, false sinon.
+	 * @return int
 	 */
 	public int create(Computer c) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
 		
-		return jdbcTemplate.update(sqlCreateComputer,c.getName(),
-				c.getIntroduced(), c.getDiscontinued(),
-				c.getCompany() != null && c.getCompany().getId() > 0 ? c.getCompany().getId() : null);
+		session.save(c);
 		
+		session.getTransaction().commit();
+		
+		return 1;
 		
 	}
 	
@@ -117,8 +85,20 @@ public class ComputerDAO {
 	 * @param id
 	 * @return
 	 */
-	public int delete(int id) {
-		return jdbcTemplate.update(sqlDeleteComputer, id);
+	public int delete(int id) {		
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.getTransaction();
+		transaction.begin();
+		
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaDelete<Computer> crComputer = cb.createCriteriaDelete(Computer.class);
+		Root<Computer> rootComputer = crComputer.from(Computer.class);
+		crComputer.where(cb.equal(rootComputer.get("id"), id));
+		session.createQuery(crComputer).executeUpdate();
+		
+		transaction.commit();
+		
+		return 1;
 	}
 	
 	/**
@@ -127,10 +107,24 @@ public class ComputerDAO {
 	 * @return
 	 */
 	public int update(Computer computer) {
-		return jdbcTemplate.update(sqlUpdateComputer, computer.getName(),
-				computer.getIntroduced(), computer.getDiscontinued(),
-				computer.getCompany() != null && computer.getCompany().getId() > 0 ? computer.getCompany().getId() : null,
-				computer.getId());
+		Session session = sessionFactory.openSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaUpdate<Computer> criteriaUpdate = cb.createCriteriaUpdate(Computer.class);
+		Root<Computer> root = criteriaUpdate.from(Computer.class);
+		criteriaUpdate.set("name", computer.getName())
+					.set("introduced", computer.getIntroduced())
+					.set("discontinued", computer.getDiscontinued())
+					.set("company", computer.getCompany())
+					.where(cb.equal(root.get("id"), computer.getId()));
+		
+		Transaction transaction = session.getTransaction();
+		transaction.begin();
+		session.createQuery(criteriaUpdate).executeUpdate();
+		transaction.commit();
+		
+		
+		
+		return 1;
 	}
 	
 	
@@ -150,42 +144,53 @@ public class ComputerDAO {
 	
 	
 	public List<Computer> FindWithParamOrderedWithLimit(String param,ComputerAttribute attribute, SortingRule sr, int limit, int offset){
-		List<Computer> computers = new ArrayList<>();
-		String req = sqlFindWithParam;
+		param = "%" + param + "%";
 		
-		//Ajout du tri - SI NECESSAIRE !
-		if(attribute != null && sr != SortingRule.NONE) {
-			req += " ORDER BY " + attribute.getAttribute();
-			if(sr == SortingRule.ASC || sr == null || sr == SortingRule.NONE) {
-				req += " ASC";
+		Session session = sessionFactory.openSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		
+		CriteriaQuery<Computer> cr = cb.createQuery(Computer.class);
+		Root<Computer> rootComputer = cr.from(Computer.class);
+		rootComputer.fetch("company",JoinType.LEFT);
+		
+		
+		if(attribute != null && sr != SortingRule.NONE && !attribute.equals(ComputerAttribute.COMPANY)) {
+			if(sr.equals(SortingRule.ASC)) {
+				cr.orderBy(cb.asc(rootComputer.get(attribute.getAttribute())));
 			}else {
-				req += " DESC";
+				cr.orderBy(cb.desc(rootComputer.get(attribute.getAttribute())));
+			}
+		}else if(attribute != null && attribute.equals(ComputerAttribute.COMPANY) && sr != SortingRule.NONE) {
+			if(sr.equals(SortingRule.ASC)) {
+				cr.orderBy(cb.asc(rootComputer.get("company").get(attribute.getAttribute())));
+			}else {
+				cr.orderBy(cb.desc(rootComputer.get("company").get(attribute.getAttribute())));
 			}
 		}
 		
-		//Ajout des LIMIT et OFFSET - SI NECESSAIRE !
-		if(limit >= 0) { req += " LIMIT ?";}
-		if(limit >= 0 && offset >= 0) { req += " OFFSET ?";}
+		Predicate preName = cb.like(rootComputer.<String>get("name"), param);
+		Predicate preCompany = cb.like(rootComputer.<Company>get("company").<String>get("name"), param);
+		Predicate preForAll = cb.or(preName, preCompany);
 		
-	
 		
-		param = "%" + param + "%";
+		cr.select(rootComputer).where(preForAll).distinct(true);
+		
+		Query query;
+		
 		if(limit >= 0 && offset >= 0) {
-			computers = jdbcTemplate.query(req, mapper, param, param, param, param, limit, offset);
+			query = session.createQuery(cr).setFirstResult(offset).setMaxResults(limit);
 		}
 		else if(limit >= 0) {
-			computers = jdbcTemplate.query(req, mapper, param, param, param, param, limit);
+			query = session.createQuery(cr).setMaxResults(limit);
 		}
 		else {
-			computers = jdbcTemplate.query(req, mapper, param, param, param, param);
+			query = session.createQuery(cr);
 		}
-		
-		
-		if(computers.size() == 0) {
-			logger.trace("Retour d'un liste de Computer vide");
-		}
-		
-		return computers;
+
+		List<Computer> results = query.getResultList();
+
+		return results;
+
 	}
 	
 	
@@ -195,7 +200,15 @@ public class ComputerDAO {
 	 * @return
 	 */
 	public Optional<Computer> findById(int id) {		
-		return Optional.ofNullable(jdbcTemplate.queryForObject(sqlFindComputerById, new Object[] { id }, mapper));
+		Session session = sessionFactory.openSession();
+		EntityManager entityManager = sessionFactory.createEntityManager();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Computer> cr = cb.createQuery(Computer.class);
+		
+		Root<Computer> root = cr.from(Computer.class);
+		
+		cr.select(root).where(cb.equal(root.get("id"), id));
+		return Optional.ofNullable(entityManager.createQuery(cr).getSingleResult());
 	}
 	
 	
@@ -208,12 +221,22 @@ public class ComputerDAO {
 	 * @return int
 	 */
 	public int getCount() {
-		return jdbcTemplate.queryForObject(sqlGetCountComputer, Integer.class);
+		return getCount("");		
 	}
 	
 	public int getCount(String param) {			
 		param = "%"+param+"%";
-		return jdbcTemplate.queryForObject(sqlGetCountComputerWithParam, Integer.class, param,param,param,param);
+		
+		Session session = sessionFactory.openSession();
+		EntityManager entityManager = sessionFactory.createEntityManager();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+		
+		Root<Computer> root = cr.from(Computer.class);
+		
+		cr.select(cb.count(root)).where(cb.like(root.<String>get("name"), param));
+		
+		return Integer.parseInt(entityManager.createQuery(cr).getSingleResult().toString());
 	}
 
 

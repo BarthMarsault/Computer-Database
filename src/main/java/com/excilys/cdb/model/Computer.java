@@ -1,16 +1,28 @@
 package com.excilys.cdb.model;
 
+
 import java.time.LocalDate;
 
-import com.excilys.cdb.persistence.ComputerDAO;
+import javax.persistence.*;
 
+
+
+@Entity
+@Table(name="computer")
 public class Computer {
 	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
+	
+	@ManyToOne @JoinColumn(name="company_id", referencedColumnName = "id", nullable=true)
 	private Company company;
+	
+	private Computer() {
+		
+	}
 	
 	
 	private Computer(ComputerBuilder builder) {

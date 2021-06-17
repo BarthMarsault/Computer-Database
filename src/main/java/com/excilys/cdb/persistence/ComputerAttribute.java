@@ -1,10 +1,10 @@
 package com.excilys.cdb.persistence;
 
 public enum ComputerAttribute {
-	NAME("C.name"),
-	INTRODUCED("C.introduced"),
-	DISCONTINUED("C.discontinued"),
-	COMPANY("Y.name");
+	NAME("name"),
+	INTRODUCED("introduced"),
+	DISCONTINUED("discontinued"),
+	COMPANY("name");
 	
 	String attribute;
 	

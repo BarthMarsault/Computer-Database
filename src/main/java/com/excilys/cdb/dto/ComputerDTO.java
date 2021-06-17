@@ -1,5 +1,8 @@
 package com.excilys.cdb.dto;
 
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer.ComputerBuilder;
+
 public class ComputerDTO {
 	
 	
@@ -67,6 +70,17 @@ public class ComputerDTO {
 			return this;
 		}
 		
+		public ComputerDTOBuilder withCompany(Company company) {
+			if(company == null) {
+				return this;
+			}
+			
+			this.idCompany = company.getId();
+			this.nameCompany = company.getName();
+			
+			return this;
+		}
+	
 		public ComputerDTO build() {
 			return new ComputerDTO(this);
 		}
