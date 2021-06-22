@@ -24,6 +24,9 @@
 			<a class="navbar-toggler" href="?lang=en"><img src="static/flags/flag_uk.png"/></a>
 			<a class="navbar-toggler" href="?lang=fr"><img src="static/flags/flag_fr.png"/></a>        	
         </div>
+        <form th:action="@{/logout}" method="post">
+		    <input type="submit" value="Logout" />
+		</form>
     </header>
 
 	

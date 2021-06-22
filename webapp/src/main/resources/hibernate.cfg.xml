@@ -20,6 +20,7 @@
  
      <mapping class="com.excilys.core.Company" />
      <mapping class="com.excilys.core.Computer" />
+     <mapping class="com.excilys.core.User" />
 
    </session-factory>
 </hibernate-configuration>
