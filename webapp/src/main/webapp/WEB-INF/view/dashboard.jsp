@@ -23,10 +23,10 @@
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
 			<a class="navbar-toggler" href="?lang=en"><img src="static/flags/flag_uk.png"/></a>
 			<a class="navbar-toggler" href="?lang=fr"><img src="static/flags/flag_fr.png"/></a>        	
+        	<a class="pull-right" href="<c:url value="/logout" />"><span class="glyphicon glyphicon-log-in"></span> 
+						<fmt:message key="label.logout" /></a>
         </div>
-        <form th:action="@{/logout}" method="post">
-		    <input type="submit" value="Logout" />
-		</form>
+        
     </header>
 
 	
