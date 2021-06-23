@@ -38,19 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     }
     
     
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-////    	http.formLogin().loginPage("/login")
-////    		.usernameParameter("username")
-////    		.passwordParameter("password");
-//    	
-//    	http.authorizeRequests()
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin().permitAll()
-//            .and()
-//            .logout().permitAll();
-//    }
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -58,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         .mvcMatchers("/addComputer", "/editComputer").hasRole("admin")
         .mvcMatchers("/", "/dashboard").authenticated()
         .and().formLogin().defaultSuccessUrl("/dashboard", false)
-        .and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID");
+        .and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+        .and().csrf().disable();
 	}
 	
 }
