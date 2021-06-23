@@ -36,5 +36,9 @@ public class CompanyService {
 		return companyDAO.findById(id);
 	}
 	
+	public boolean addCompanyToDatabase(Company company) {
+		return companyDAO.create(company);
+	}
+	
 	
 }

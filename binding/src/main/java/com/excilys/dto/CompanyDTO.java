@@ -10,6 +10,10 @@ public class CompanyDTO {
 		this.name = builder.name;
 	}
 	
+	public CompanyDTO() {
+		
+	}
+	
 	
 	public static class CompanyDTOBuilder {
 		private int id = 0;

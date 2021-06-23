@@ -47,8 +47,25 @@ public class CompanyDAO {
 	}
 	
 	
+	public boolean create(Company c) {
+		try {
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			
+			session.save(c);
+			
+			session.getTransaction().commit();
+		} catch(Exception e) {
+			logger.error(e.getMessage());
+			return false;
+		}
+		
+		
+		return true;
+		
+	}
 	
-
+	
 
 	/**
 	 * Retourne la liste de toutes les "Company" présente en base de données.

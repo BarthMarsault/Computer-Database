@@ -33,6 +33,13 @@ public class CompanyMapper implements RowMapper<Company>{
 		return Optional.ofNullable(new CompanyDTOBuilder().withId(c.getId())
 				.withName(c.getName()).build());
 	}
+	
+	
+	public Optional<Company> companyDtoToCompany(CompanyDTO c) {
+		return Optional.ofNullable(new CompanyBuilder().withId(c.getId())
+				.withName(c.getName()).build());
+	}
+	
 
 	
 }
