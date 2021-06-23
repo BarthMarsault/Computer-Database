@@ -1,6 +1,7 @@
 package com.excilys.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,10 @@ public class CompanyService {
 	
 	public boolean deleteCompany(int id) {		
 		return companyDAO.delete(id);
+	}
+	
+	public Optional<Company> getById(int id){
+		return companyDAO.findById(id);
 	}
 	
 	

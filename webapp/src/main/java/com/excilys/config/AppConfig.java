@@ -28,6 +28,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @ComponentScan(basePackages = {"com.excilys.persistence" ,
 			"com.excilys.service", "com.excilys.controller.web",
+			"com.excilys.controller.api",
 			"com.excilys.mapper", "com.excilys.validator",
 			"com.excilys.session", "com.excilys.config"})
 public class AppConfig implements WebMvcConfigurer {

@@ -28,11 +28,15 @@ public class ComputerService {
 
 
 	public boolean addComputerToDatabase(Optional<Computer> computer) {
-		if(computer.isPresent()) {
+		if(computer.isPresent() ) {
 			return computerDAO.create(computer.get()) == 1;
 		}	
 			
 		return false;
+	}
+	
+	public List<Computer> getAll(){
+		return computerDAO.getAll();
 	}
 	
 	

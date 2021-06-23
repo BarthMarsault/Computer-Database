@@ -58,7 +58,7 @@ public class EditComputerController {
 		//ComputerMapper mapperComputer = ComputerMapper.getInstance();
 		Optional<ComputerDTO> computerDTO =  mapperComputer.computerToComputerDTO(computerService.getById(requestId));
 		
-		if(!computerDTO.isPresent()) {
+		if(computerDTO == null || !computerDTO.isPresent()) {
 			return new ModelAndView("redirect:/dashboard");
 		}
 		
