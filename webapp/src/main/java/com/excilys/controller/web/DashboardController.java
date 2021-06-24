@@ -78,11 +78,11 @@ public class DashboardController {
 		
 		ArrayList<Computer> computersModel = (ArrayList<Computer>) computerService.getComputersWithParamOrderedWithLimit(search,
 				orderByAttribute, sortingRule, nbComputerByPage, (currentPageNumber-1)*nbComputerByPage);
-
-		for(Computer computer : computersModel) {
-			computers.add(mapper.computerToComputerDTO(computer).get());
-		}
 		
+		computers = (ArrayList<ComputerDTO>) computersModel.stream()
+					.map(c -> mapper.computerToComputerDTO(c).get())
+					.collect(Collectors.toList());
+				
 				
 		
 		
@@ -145,24 +145,10 @@ public class DashboardController {
 	
 	
 	public void deleteComputers(String strComputerToDelete) {
-		
-		
-		
 		computerService.deleteComputer(Arrays.asList(strComputerToDelete.split(DELETE_COMPUTER_SEPARATOR))
 										.stream().map(s -> Integer.parseInt(s))
 										.collect(Collectors.toList()));
-		
-//		for(String idComputer : strComputerToDelete.split(",")) {
-//			int id = 0;
-//			
-//			try {
-//				id = Integer.parseInt(idComputer);
-//			}catch(Exception e) {
-//				
-//			}
-//			
-//			computerService.deleteComputer(id);
-//		}
+
 	}
 	
 	public ComputerAttribute getOrderByAttribute(String orderBy) {

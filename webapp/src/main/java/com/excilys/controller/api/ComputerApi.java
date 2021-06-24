@@ -1,7 +1,7 @@
 package com.excilys.controller.api;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.excilys.core.Computer;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.service.ComputerService;
@@ -34,13 +33,9 @@ public class ComputerApi {
 
 	@GetMapping("/computers")
 	List<ComputerDTO> all(){
-		List<ComputerDTO> computers =  new ArrayList<>();
-
-		for(Computer computer : computerService.getAll()) {
-			computers.add(mapper.computerToComputerDTO(computer).get());
-		}
-		
-		return computers;
+		return computerService.getAll().stream()
+				.map(c -> mapper.computerToComputerDTO(c).get())
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/computer/{id}")

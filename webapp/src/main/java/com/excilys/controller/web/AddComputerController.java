@@ -2,6 +2,7 @@ package com.excilys.controller.web;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +50,10 @@ public class AddComputerController {
 	public ModelAndView addComputer() {
 		ModelAndView response = new ModelAndView();
 		
-		ArrayList<CompanyDTO> companies = new ArrayList<>();
-		for(Company company : companyService.getCompanies()) {
-			companies.add(mapperCompany.companyToCompanyDTO(company).get());
-		}
+		ArrayList<CompanyDTO> companies = (ArrayList<CompanyDTO>) companyService.getCompanies()
+											.stream()
+											.map(c -> mapperCompany.companyToCompanyDTO(c).get())
+											.collect(Collectors.toList());
 		
 		
 		response.addObject("computer",new ComputerDTO());
