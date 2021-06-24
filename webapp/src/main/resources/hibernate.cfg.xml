@@ -12,7 +12,7 @@
      <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/computer-database-db</property>
      <property name="hibernate.connection.username">admincdb</property>
      <property name="hibernate.connection.password">qwerty1234</property>
-     <property name="hibernate.show_sql">true</property>
+     <property name="hibernate.show_sql">false</property>
      <property name="hibernate.connection.release_mode">auto</property>
      <property name="current_session_context_class">thread</property>
      <property name="hibernate.connection.autoReconnect">true</property>

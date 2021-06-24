@@ -38,22 +38,22 @@ public class ComputerApi {
 				.collect(Collectors.toList());
 	}
 	
-	@GetMapping("/computer/{id}")
+	@GetMapping("/computers/{id}")
 	ComputerDTO getById(@PathVariable Integer id) {
 		return mapper.computerToComputerDTO(computerService.getById(id)).get();
 	}
 	
-	@DeleteMapping("/computer/{id}")
+	@DeleteMapping("/computers/{id}")
 	void deleteComputer(@PathVariable Integer id) {
 		computerService.deleteComputer(id);
 	}
 	
-	@PostMapping("/computer")
+	@PostMapping("/computers")
 	boolean newComputer(@RequestBody ComputerDTO newComputer) {
 		return computerService.addComputerToDatabase(mapper.computerDtoToComputer(newComputer));		
 	}
 	
-	@PutMapping("/computer/{id}")
+	@PutMapping("/computers/{id}")
 	boolean replaceComputer(@RequestBody ComputerDTO newComputer, @PathVariable Integer id) {
 		newComputer.setId(id);
 		if(computerService.getById(id).isPresent()) {

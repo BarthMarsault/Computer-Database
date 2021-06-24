@@ -34,21 +34,20 @@ public class CompanyAPI {
 				.collect(Collectors.toList());
 	}
 	
-	@GetMapping("/company/{id}")
+	@GetMapping("/companies/{id}")
 	CompanyDTO getByUd(@PathVariable int id) {
 		return mapper.companyToCompanyDTO(companyService.getById(id).get()).get();
 	}
 	
-	@DeleteMapping("/company/{id}")
+	@DeleteMapping("/companies/{id}")
 	boolean deleteCompany(@PathVariable int id) {
 		return companyService.deleteCompany(id);
 	}
 	
-	@PostMapping("/company")
+	@PostMapping("/companies")
 	boolean newComputer(@RequestBody CompanyDTO newCompany) {
 		return companyService.addCompanyToDatabase(mapper.companyDtoToCompany(newCompany).get());
 	}
-	
 	
 	
 	
