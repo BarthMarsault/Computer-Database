@@ -16,6 +16,43 @@
   <!-- FIXME change it to the project's website -->
     
   <url>http://www.example.com</url>
+  
+  <dependencyManagement>
+   	<dependencies>
+  		
+  		<dependency>
+	      	<groupId>com.excilys</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+	    </dependency>
+	    
+	    <dependency>
+	      	<groupId>com.excilys</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+	    </dependency>
+	    
+	    <dependency>
+	      	<groupId>com.excilys</groupId>
+			<artifactId>persistence</artifactId>
+			<version>1.0-SNAPSHOT</version>
+	    </dependency>
+	    
+	    <dependency>
+	      	<groupId>com.excilys</groupId>
+			<artifactId>service</artifactId>
+			<version>1.0-SNAPSHOT</version>
+	    </dependency>
+	    
+	    <dependency>
+	      	<groupId>com.excilys</groupId>
+			<artifactId>webapp</artifactId>
+			<version>1.0-SNAPSHOT</version>
+	    </dependency>
+  	
+  	
+  	</dependencies>
+  </dependencyManagement>
     
   
   
