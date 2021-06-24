@@ -1,8 +1,10 @@
 package com.excilys.controller.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,6 +35,8 @@ public class DashboardController {
 	private ComputerService computerService;
 	private ComputerMapper mapper;
 	DashboardSession session;
+	
+	private final String DELETE_COMPUTER_SEPARATOR = ",";
 	
 
 	public DashboardController(ComputerService computerService, ComputerMapper mapper, DashboardSession session) {
@@ -141,17 +145,24 @@ public class DashboardController {
 	
 	
 	public void deleteComputers(String strComputerToDelete) {
-		for(String idComputer : strComputerToDelete.split(",")) {
-			int id = 0;
-			
-			try {
-				id = Integer.parseInt(idComputer);
-			}catch(Exception e) {
-				
-			}
-			
-			computerService.deleteComputer(id);
-		}
+		
+		
+		
+		computerService.deleteComputer(Arrays.asList(strComputerToDelete.split(DELETE_COMPUTER_SEPARATOR))
+										.stream().map(s -> Integer.parseInt(s))
+										.collect(Collectors.toList()));
+		
+//		for(String idComputer : strComputerToDelete.split(",")) {
+//			int id = 0;
+//			
+//			try {
+//				id = Integer.parseInt(idComputer);
+//			}catch(Exception e) {
+//				
+//			}
+//			
+//			computerService.deleteComputer(id);
+//		}
 	}
 	
 	public ComputerAttribute getOrderByAttribute(String orderBy) {

@@ -57,6 +57,10 @@ public class ComputerService {
 		return computerDAO.delete(id) == 1;
 	}
 	
+	public boolean deleteComputer(List<Integer> listIds) {
+		return computerDAO.delete(listIds);
+	}
+	
 	public int getCountComputer() {
 		return computerDAO.getCount();
 	}

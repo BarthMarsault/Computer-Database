@@ -99,6 +99,27 @@ public class ComputerDAO {
 		return 1;
 	}
 	
+	public boolean delete(List<Integer> listIds) {
+		try {
+			Session session = sessionFactory.openSession();
+			Transaction transaction = session.getTransaction();
+			transaction.begin();
+			
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			CriteriaDelete<Computer> crComputer = cb.createCriteriaDelete(Computer.class);
+			Root<Computer> rootComputer = crComputer.from(Computer.class);
+			crComputer.where(rootComputer.get("id").in(listIds));
+			session.createQuery(crComputer).executeUpdate();
+			
+			transaction.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Modification d'un computer en base de donnée
 	 * @param computer
