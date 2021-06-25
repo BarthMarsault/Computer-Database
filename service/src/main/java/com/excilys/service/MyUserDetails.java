@@ -1,4 +1,4 @@
-package com.excilys.config;
+package com.excilys.service;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.excilys.core.User;
+
 
 public class MyUserDetails implements UserDetails {
 	
